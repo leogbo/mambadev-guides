@@ -1,3 +1,4 @@
+
 # 🐍 Mamba Coding Guide
 
 Welcome to the **Mamba Coding Guide**, a collection of resources designed for developers who seek **high performance** and **excellence** in the world of technology. Inspired by the **Mamba Mentality** philosophy, this guide is dedicated to those who continuously strive to improve their skills and achieve exceptional results.
@@ -33,7 +34,7 @@ Below is a list of available guides, each focused on a specific area of software
 
 5. **Apex Development**
    - *Description*: Dive deep into the Apex language for development on the Salesforce platform.
-   - *Link*: [Apex Development](https://mambadev.io/apex) *(coming soon)*
+   - *Link*: [Apex Development](https://mambadev.io/apex)
 
 6. **Marketing Cloud**
    - *Description*: Strategies and techniques to harness the full potential of Salesforce Marketing Cloud.
@@ -44,4 +45,3 @@ Below is a list of available guides, each focused on a specific area of software
 Each section above links to a detailed guide on its respective topic. It is recommended to follow the presented order for a progressive understanding of the concepts. However, feel free to navigate according to your needs and interests.
 
 Remember: the journey to excellence is continuous. **Let’s go all in!**
-
