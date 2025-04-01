@@ -2,7 +2,7 @@
  * -----------------------------------------------------------------------------------------
  * Nome da Classe.......: Logger
  * Data.................: 2025-04-01
- * Autor................: Leo Mamba Garcia
+ * Autor................: MambaDev
  * 
  * Descrição:
  *     Classe responsável por registrar logs de execução, erros e dados de auditoria
