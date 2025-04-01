@@ -1,31 +1,45 @@
 # 🐍 Welcome to MambaDev Guides
 
-This is the official hub for all development guides powered by the **Mamba Mentality**. If you’re here, you're not just coding — you're executing with focus, discipline, and relentless drive.
+> *If you're here, you're not just coding — you're executing with precision, discipline, and purpose.*
 
-> **MambaDev is more than a name. It's a mindset.**
+This is the official hub for all development knowledge powered by the **Mamba Mentality**.  
+A place for devs who don’t ship sloppy. They ship legacy.
 
-Explore focused, high-performance guides on AI, automation, Salesforce development, intelligent agents, and more.
+> **MambaDev is not a toolset. It's a mindset.**
 
----
-
-## 📚 Available Guides
-
-| Guide | Description | Link |
-|-------|-------------|------|
-| **Prompting** | Learn how to craft powerful prompts to interact effectively with AI models. | [Prompting](./prompting/) |
-| **AI Automation** | Discover how to automate tasks using AI to increase your efficiency. | [Automation](./automation/) |
-| **Intelligent Agents** | Build and deploy smart agents that can work autonomously. | [Agents](./agents/) |
-| **Salesforce Integration** | Integrate systems with Salesforce like an expert. | [Salesforce](./salesforce/) |
-| **Apex Development** | Deep dive into Apex language for Salesforce. | [Apex](./apex/) |
-| **Marketing Cloud** | Strategies and advanced use of Salesforce Marketing Cloud. | [Marketing Cloud](./marketingcloud/) |
+Explore high-performance guides on AI, automation, Apex development, intelligent agents, and elite system architecture.
 
 ---
 
-## 🧭 What is the Mamba Mentality for Devs?
+## 📚 MambaDev Modules
 
-> Be better than you were yesterday. Apply focus. Execute with discipline. Obsess over details. Learn faster. Push boundaries.
+| 🧱 Guide | 🔍 Description | 🔗 Link |
+|---------|----------------|--------|
+| **Prompting** | Craft powerful prompts to guide AI with precision. | [Prompting](./prompting/) |
+| **AI Automation** | Automate workflows with intelligence and speed. | [Automation](./automation/) |
+| **Intelligent Agents** | Build agents that learn, act, and adapt autonomously. | [Agents](./agents/) |
+| **Salesforce Integration** | Connect and scale Salesforce like an enterprise architect. | [Salesforce](./salesforce/) |
+| **Apex Development** | Apex standards, logging, testing, and architecture — Mamba style. | [Apex](./apex/) |
+| **Marketing Cloud** | Automate campaigns, personalize at scale, and measure what matters. | [Marketing Cloud](./marketingcloud/) |
 
-This platform is built for those who don't just ship code — they shape the future.
+---
 
-**Let’s go. Mamba style.**
+## 🧭 What Is the Mamba Mentality for Developers?
 
+> Be better than yesterday.  
+> Apply focus.  
+> Execute with clarity.  
+> Obsess over details.  
+> Learn faster.  
+> Break limits.
+
+MambaDev exists for those who demand excellence — from their tools, their teams, and themselves.
+
+---
+
+## 🚀 Let’s Go. Mamba Style.
+
+This is where good devs become elite.  
+No excuses. Just execution.
+
+---
