@@ -2,6 +2,9 @@
   <img src="https://raw.githubusercontent.com/leogbo/mambadev-guides/main/static/img/github_banner_mambadev.png" alt="MambaDev Banner" width="100%" />
 </p>
 
+> 🧱 @status:core | This document defines official MambaDev coding fundamentals.  
+> Changes must be versioned and approved by architecture leads.  
+> Applied guides (e.g. `/apex/`) may evolve beyond this for future-proofing.
 
 # 🔍 Guia Rigoroso de Revisão Apex – v2025 (Mentalidade Mamba)
 
