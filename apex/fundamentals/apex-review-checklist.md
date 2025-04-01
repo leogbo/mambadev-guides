@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/leogbo/mambadev-guides/main/static/img/github_banner_mambadev.png" alt="MambaDev Banner" width="100%" />
+</p>
+
 
 # 🔍 Guia Rigoroso de Revisão Apex – v2025 (Mentalidade Mamba)
 
