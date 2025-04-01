@@ -155,6 +155,15 @@ public class LeadController {
 - [Testing Patterns](./testing-patterns.md)  
   How to test each layer in isolation and mock the rest.
 
+## 📎 Aligned Fundamentals
+
+These operational guides are built on:
+
+- [`MambaDev Coding Style`](../fundamentals/mambadev-coding-style.md)
+- [`Apex Style Guide`](../fundamentals/apex-style-guide.md)
+- [`Architecture Principles`](../fundamentals/architecture-principles.md)
+- [`Review Checklist`](../fundamentals/apex-review-checklist.md)
+
 ---
 
 > Code without layers is code without clarity.  
