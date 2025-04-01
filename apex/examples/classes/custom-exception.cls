@@ -1,13 +1,10 @@
 /**
  * @name        CustomException
  * @since       2025-04-01
- * @access      public
- * @author      MambaDev
+ * @access      public virtual
+ * @extends     Exception
  * @description
- *  Generic custom exception for structured error handling.
- *  Extend this class to create named exception types with semantic meaning.
- *
- *  Example:
- *      public class ValidationException extends CustomException {}
+ *  Base class for semantic exceptions in the MambaDev ecosystem.
+ *  Extend this class to define typed exception categories (e.g., validation, integration).
  */
-public class CustomException extends Exception {}
+public virtual class CustomException extends Exception {}
