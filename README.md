@@ -4,34 +4,37 @@
 
 # 🐍 MambaDev Guides
 
-Welcome to the **MambaDev Coding Guide**, a curated arsenal for developers who pursue **excellence, focus, and elite execution**.  
-Every guide in this repository is driven by the **Mamba Mentality** — relentless improvement, architectural clarity, and pride in every line of code.
+Welcome to the **MambaDev Knowledge Arsenal** — a high-performance guidebook for developers who operate with **clarity, discipline, and legacy in mind**.
+
+Every file in this repo is crafted with Mamba Mentality:  
+**Relentless improvement. No shortcuts. No noise. Just excellence.**
 
 > We don’t push code.  
-> We push limits.  
+> We push legacy.  
 > Brick by brick — until we become legendary.
 
 ---
 
 ## 📘 Purpose
 
-The `mambadev-guides` project exists to:
+This repository exists to:
 
-- Set elite standards in software and Apex development
-- Document reusable structures, scalable patterns, and decision frameworks
-- Enable developers to think **beyond syntax**, into **systems, discipline, and design**
+- Set **elite technical standards** in software, Apex, and AI-powered development
+- Share **modular**, **battle-tested**, and **auditable** implementation patterns
+- Transform codebases into **scalable ecosystems** — and developers into **system thinkers**
 
 ---
 
-## 🧱 Guide Structure
+## 📚 Module Index
 
-| Section             | Description                                                 |
-|---------------------|-------------------------------------------------------------|
-| **Concepts**         | Deep dives into core patterns and architectural mindsets   |
-| **Examples**         | Practical, anonymized, reusable implementations            |
-| **Best Practices**   | Mamba-approved engineering rules and checklists            |
-| **Pitfalls to Avoid**| Common anti-patterns and how to refactor them              |
-| **Resources**        | References to related modules and tooling                  |
+| Module                    | Description                                                                 |
+|---------------------------|-----------------------------------------------------------------------------|
+| **Apex**                  | Core Mamba Apex framework: logging, exception handling, validation          |
+| **Effective Prompting**   | How to ask, instruct, and extract brilliance from AI models                 |
+| **AI Automation**         | End-to-end use of agents and GPT for business flows *(coming soon)*         |
+| **Intelligent Agents**    | Multi-step autonomous behavior and decision trees *(coming soon)*          |
+| **Salesforce Integration**| API and architecture patterns for reliable external communication *(WIP)*  |
+| **Marketing Cloud**       | Modular email and campaign automation strategies *(coming soon)*           |
 
 ---
 
@@ -39,65 +42,61 @@ The `mambadev-guides` project exists to:
 
 ### 🧠 [Apex Guide](https://mambadev.io/apex) | MambaDev
 
-This guide brings the **Mamba Mentality** to Salesforce Apex development:
-- Architectural clarity
-- Logger discipline
-- Test-first mentality
-- Relentless code review mindset
+This guide brings the **Mamba Mentality** to Salesforce Apex development — with:
 
-🔗 Live module: [https://mambadev.io/apex](https://mambadev.io/apex)
+- ⚙️ Structured Logging
+- 🧱 Exception Architecture
+- ✅ Declarative Validation
+- 🧪 Mockable, Test-First Utilities
 
-> ⚠️ This module contains **no client-specific** or **sensitive data** — only clean, reusable, battle-tested code patterns.
+📍 Live module: [https://mambadev.io/apex](https://mambadev.io/apex)
 
----
-
-## 📚 Module Index
-
-| Module               | Description                                                                 |
-|----------------------|-----------------------------------------------------------------------------|
-| **Effective Prompting**   | Craft prompts that extract the best from AI models                        |
-| **AI Automation**         | Automate tasks with intelligence and intent (coming soon)                |
-| **Intelligent Agents**    | Build autonomous agents that act with purpose (coming soon)              |
-| **Salesforce Integration**| Integrate Salesforce with clarity and predictability (coming soon)       |
-| **Apex Development**      | Deep dive into Apex with logging, testing, structure — Mamba style       |
-| **Marketing Cloud**       | Maximize personalization and automation in SFMC (coming soon)            |
+> 🚫 100% clean. No client data. No org references. No compromise.
 
 ---
 
-## 🧭 How to Use This Guide
+## 📂 Repo Structure
 
-- Navigate by section above or sidebar if using a docs site
-- Follow modules progressively — or jump into what you need now
-- Use the **examples folder** for ready-to-copy class references
-- Apply the **checklists** before every pull request or deployment
+| Section               | Description                                                       |
+|------------------------|-------------------------------------------------------------------|
+| `apex/`               | Core Apex guide: Logger, ExceptionUtil, FlowExecutionLog, etc.    |
+| `marketing-cloud/`    | *(planned)* SFMC modular components, templates and content flows   |
+| `ai/`                 | *(coming soon)* Prompt design, GPT roles, RAG workflows            |
+| `agents/`             | *(planned)* Modular logic for intelligent multi-step AI agents    |
+| `integrations/`       | *(WIP)* Outbound and inbound Salesforce API patterns               |
 
 ---
 
-## ⚫ Mamba Mentality for Developers
+## 🧭 How to Use This Repo
+
+- Start with `apex/` for the core Mamba patterns
+- Use each guide as a reference, checklist, or review base
+- All code is designed to be copied, adapted, and deployed with confidence
+- Apply patterns progressively — or refactor boldly
+
+---
+
+## ⚫ Mamba Mentality for Devs
 
 > **Be better than you were yesterday.**  
-> Focus. Execute. Improve. Repeat.
+> Be faster. Be sharper. Be deliberate.
 
-MambaDev is for those who:
-
-- Care about the *why* behind their architecture
-- Commit to test coverage, clarity, and maintainability
-- Are here to shape the future — not just meet deadlines
+We are not just developers.  
+We are architects of future platforms.  
+We ship clarity.  
+We own our standards.  
+We document like our name is on the line — because it is.
 
 ---
 
-## 🧠 Let’s Build Legendary
+## 🧠 Let's Build Legendary
 
 This isn’t just documentation.  
-It’s a training ground.  
-It’s a mindset.  
-It’s for those who refuse to ship mediocrity.
-
-Join the movement.  
-Write code like it matters.  
-Because it does.
+It’s doctrine.  
+It’s a call to excellence.  
+For those who refuse to deliver mediocrity.
 
 **Deploying Excellence.**  
 **Elite Coding. Relentless Mentality.**
 
----
+Welcome to MambaDev.
