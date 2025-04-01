@@ -2,58 +2,72 @@
   <img src="https://raw.githubusercontent.com/leogbo/mambadev-guides/main/static/img/github_banner_mambadev.png" alt="MambaDev Banner" width="100%" />
 </p>
 
-# FlowExecutionLog__c - Estrutura e Finalidade de Campos
+# FlowExecutionLog__c – Field Structure & Purpose
 
-> Este documento define a estrutura atual do objeto `FlowExecutionLog__c`, com finalidade de logging persistente para:
-> - Rastreabilidade de execução de flows, Apex, REST e callouts
-> - Armazenamento de entradas/saídas (JSON)
-> - Diagnóstico por ambiente, trigger type e log level
-
----
-
-## Campos principais
-
-| Campo API Name             | Label                    | Tipo              | Descrição                                                                 |
-|---------------------------|--------------------------|-------------------|---------------------------------------------------------------------------|
-| `Class__c`                | Class                    | string (255)      | Nome da classe responsável pelo log                                       |
-| `Origin_Method__c`        | Origin Method            | string (255)      | Método de origem do log                                                   |
-| `Method__c`               | Method                   | string (255)      | (redundante com Origin_Method__c - considerar unificar)                   |
-| `Log_Level__c`            | Log Level                | string (255)      | Nível do log (DEBUG, INFO, WARNING, ERROR)                                |
-| `Log_Category__c`         | Log Category             | picklist (255)    | Agrupamento lógico (ex: Apex, Validation, Flow, Callout)                  |
-| `Status__c`               | Status                   | picklist (255)    | Resultado geral (Completed, Failed, Cancelled, etc.)                      |
-| `Trigger_Type__c`         | Trigger Type             | picklist (255)    | Tipo de invocação: REST, Batch, Queueable, Trigger, etc                   |
-| `Trigger_Record_ID__c`    | Trigger Record ID        | string (255)      | ID do registro relacionado (Account, UC, Lead, etc.)                      |
-| `Execution_Timestamp__c`  | Execution Timestamp      | datetime          | Timestamp da execução                                                     |
-| `Duration__c`             | Duration                 | double (14,4)     | Duração em segundos                                                       |
-| `Error_Message__c`        | Error Message            | textarea (32k)    | Mensagem principal de erro                                                |
-| `Stack_Trace__c`          | Stack Trace              | textarea (32k)    | Stack trace completo de exceção                                           |
-| `Serialized_Data__c`      | Serialized Data          | textarea (32k)    | JSON de entrada, payload ou contexto relevante                            |
-| `Debug_Information__c`    | Debug Information        | textarea (32k)    | JSON de resposta, saída ou trace complementar                             |
-| `ValidationErros__c`      | Validation Errors        | string (255)      | Lista de erros de validação internos                                      |
-| `Flow_Name__c`            | Flow Name                | string (255)      | Nome do flow (quando aplicável)                                           |
-| `Flow_Outcome__c`         | Flow Outcome             | string (255)      | Resultado esperado ou calculado                                           |
-| `Execution_ID__c`         | Execution ID             | string (255)      | ID de execução externo (flow interview, external call)                    |
-| `Execution_Order__c`      | Execution Order          | double (18,0)     | Sequência (para execuções paralelas ou múltiplas)                         |
-| `Related_Flow_Version__c` | Related Flow Version     | double (18,0)     | Versão do flow executado                                                  |
-| `Step_Name__c`            | Step Name                | string (255)      | Etapa do flow declarativo                                                 |
-| `Environment__c`          | Environment              | picklist (255)    | Ambiente de execução (Production, Sandbox, etc.)                          |
-| `FlowExecutionLink__c`    | Flow Execution Link      | string (1300, html)| Link direto para execução do flow                                         |
-| `User_ID__c`              | User ID                  | User lookup        | Usuário que iniciou a execução                                            |
-| `Integration_Ref__c`      | Integration Ref          | string (255)      | ID da transação externa, externalId, ou trace ref                         |
-| `Integration_Direction__c`| Integration Direction    | picklist (255)    | Direção da integração (Inbound, Outbound, Internal)                       |
-| `Is_Critical__c`          | Is Critical              | boolean            | Flag para identificar logs sensíveis mesmo sem erro                       |
+> This guide defines the structure and purpose of the `FlowExecutionLog__c` custom object.  
+> It is designed for persistent logging to ensure:
+> - Full traceability across Flows, Apex classes, REST APIs, and Callouts
+> - Storage of input/output data (JSON)
+> - Diagnostics by environment, trigger type, and log level
 
 ---
 
-## Considerações adicionais
+## Key Fields
 
-- Campos `Method__c` e `Origin_Method__c` podem ser unificados
-- `Execution_ID__c` + `Integration_Ref__c` permitem rastrear chamadas entre sistemas
-- `Integration_Direction__c` será essencial para dashboards de integrações externas
-- `Is_Critical__c` permite priorização no suporte e monitoramento por CDI
-- Todos os JSONs devem ser serializados com `JSON.serializePretty`
+| API Field Name             | Label                   | Type                | Description                                                                 |
+|---------------------------|-------------------------|---------------------|-----------------------------------------------------------------------------|
+| `Class__c`                | Class                   | String (255)        | Name of the class responsible for the log                                  |
+| `Origin_Method__c`        | Origin Method           | String (255)        | Method where execution originated                                          |
+| `Method__c`               | Method                  | String (255)        | Redundant with `Origin_Method__c` — consider merging                       |
+| `Log_Level__c`            | Log Level               | String (255)        | Logging level: DEBUG, INFO, WARNING, ERROR                                 |
+| `Log_Category__c`         | Log Category            | Picklist (255)      | Logical grouping: Apex, Flow, Validation, Callout, etc.                    |
+| `Status__c`               | Status                  | Picklist (255)      | Execution result: Completed, Failed, Cancelled, etc.                       |
+| `Trigger_Type__c`         | Trigger Type            | Picklist (255)      | Invocation type: REST, Batch, Queueable, Trigger, etc.                     |
+| `Trigger_Record_ID__c`    | Trigger Record ID       | String (255)        | Related record ID (Account, Contact, Lead, etc.)                           |
+| `Execution_Timestamp__c`  | Execution Timestamp     | Datetime            | Timestamp when execution occurred                                          |
+| `Duration__c`             | Duration                | Double (14,4)       | Duration in seconds                                                        |
+| `Error_Message__c`        | Error Message           | Long Text (32k)     | Main error message                                                         |
+| `Stack_Trace__c`          | Stack Trace             | Long Text (32k)     | Full exception trace                                                       |
+| `Serialized_Data__c`      | Serialized Data         | Long Text (32k)     | Input JSON, payload, or relevant context                                   |
+| `Debug_Information__c`    | Debug Information       | Long Text (32k)     | Output JSON or complementary debug data                                    |
+| `ValidationErros__c`      | Validation Errors       | String (255)        | List of internal validation errors                                         |
+| `Flow_Name__c`            | Flow Name               | String (255)        | Name of the Flow (if applicable)                                           |
+| `Flow_Outcome__c`         | Flow Outcome            | String (255)        | Expected or calculated outcome                                             |
+| `Execution_ID__c`         | Execution ID            | String (255)        | External execution identifier (e.g., Flow Interview ID, Callout ID)       |
+| `Execution_Order__c`      | Execution Order         | Double (18,0)       | Execution sequence for parallel/multiple flows                             |
+| `Related_Flow_Version__c` | Related Flow Version    | Double (18,0)       | Version of the executed flow                                               |
+| `Step_Name__c`            | Step Name               | String (255)        | Specific step in declarative flow                                          |
+| `Environment__c`          | Environment             | Picklist (255)      | Runtime environment (Production, Sandbox, etc.)                            |
+| `FlowExecutionLink__c`    | Flow Execution Link     | String (1300, HTML) | Direct link to the flow execution                                          |
+| `User_ID__c`              | User ID                 | User Lookup         | User who triggered the execution                                           |
+| `Integration_Ref__c`      | Integration Ref         | String (255)        | External transaction ID or trace reference                                 |
+| `Integration_Direction__c`| Integration Direction   | Picklist (255)      | Direction of integration: Inbound, Outbound, Internal                      |
+| `Is_Critical__c`          | Is Critical             | Checkbox            | Marks logs as critical even if no error occurred                           |
 
 ---
 
-> Estrutura pronta para suportar rastreabilidade empresarial de logs e integrações com auditoria e painéis avançados.
+## Additional Notes
 
+- Consider unifying `Method__c` and `Origin_Method__c`
+- Combination of `Execution_ID__c` + `Integration_Ref__c` enables cross-system traceability
+- `Integration_Direction__c` is essential for external integration dashboards
+- `Is_Critical__c` supports prioritization in support and monitoring operations
+- All JSON content must be serialized using `JSON.serializePretty()`
+
+---
+
+### 📚 Related Guides
+
+- [Flow Logging Strategy](./flow-logging-strategy.md)  
+  Overview of best practices for Flow and Apex logging in enterprise systems.
+
+- [Apex Error Handling Standard](./apex-error-handling.md)  
+  Unified exception handling across declarative and programmatic automation.
+
+- [Integration Trace Pattern](./integration-trace-pattern.md)  
+  How to track external calls, REST payloads, and responses using `Integration_Ref__c`.
+
+- [Flow Naming Convention](./flow-naming.md)  
+  Consistent naming strategy for Flows, Steps, and Versions.
+
+---
