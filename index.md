@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/leogbo/mambadev-guides/main/static/img/github_banner_mambadev.png" alt="MambaDev Banner" width="100%" />
+</p>
+
 # 🐍 Welcome to MambaDev Guides
 
 > *If you're here, you're not just coding — you're executing with precision, discipline, and purpose.*
