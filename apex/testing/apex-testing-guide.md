@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/leogbo/mambadev-guides/main/static/img/github_banner_mambadev.png" alt="MambaDev Banner" width="100%" />
+</p>
+
 # 🧪 Guia Oficial de Testes Apex (Mamba Style)
 
 > "Testar não é um passo final. É parte da excelência desde o início."
