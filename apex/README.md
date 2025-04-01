@@ -1,76 +1,100 @@
 # 🐍 Apex Guide | MambaDev
 
-> Precision. Performance. Purpose.  
+> *Precision. Performance. Purpose.*  
 > This is Apex — the MambaDev way.
 
 ---
 
 ## 📘 Purpose
 
-The Apex module exists to:
+This module is the official Apex playbook of MambaDev.  
+It exists to:
 
-- Set elite standards in Salesforce development
-- Document scalable patterns and modular architectures
-- Evolve developers from coders to system thinkers
+- Set elite, auditable standards in Salesforce development
+- Document modular, scalable architectural patterns
+- Transform developers into system thinkers and technical operators
 
 ---
 
-## 🧱 Structure
+## 📂 File System
 
-A curated arsenal of guides, examples, and frameworks for Apex excellence.
+Each section of this repo is modular and purpose-driven:
+
+| Folder           | Purpose                                               |
+|------------------|-------------------------------------------------------|
+| `fundamentals/`  | Core principles, naming, structure, code style        |
+| `testing/`       | Patterns, setup, and data strategies for tests        |
+| `examples/`      | Reusable code blocks and real-world references        |
+| `logging/`       | MambaLogger architecture and implementation           |
+| `sandbox/`       | Org configuration and environment setup               |
+| `integrations/`  | External systems, API patterns                        |
+| `comparison/`    | Before vs after, refactor clarity guides              |
+
+---
+
+## 🧱 Module Navigation
 
 ### 🧩 Fundamentals  
-Core principles and foundational mindset:
-- [Apex Style Guide](fundamentals/apex-style-guide.md)
-- [Review Checklist](fundamentals/apex-review-checklist.md)
-- [Mamba Garcia Coding Style](fundamentals/mamba-garcia-coding-style.md)
-- [Architecture Principles](fundamentals/architecture-principles.md)
+Core patterns and architecture standards:
+- [`Apex Style Guide`](fundamentals/apex-style-guide.md)
+- [`Review Checklist`](fundamentals/apex-review-checklist.md)
+- [`Architecture Principles`](fundamentals/architecture-principles.md)
+- [`Coding Style: Mamba Edition`](fundamentals/mambadev-coding-style.md)
 
-### 🧪 Testing & Examples  
-Reusable templates built for clarity and confidence:
-- [Test Data Setup Class](examples/test-data-setup.cls)
-- [Flow Execution Log Setup](examples/flow-execution-log.md)
-- [Apex Testing Guide](testing/apex-testing-guide.md)
+### 🧪 Testing  
+Patterns and data structures that make tests bulletproof:
+- [`Apex Testing Guide`](testing/apex-testing-guide.md)
+- [`Test Data Setup`](testing/data/test-data-setup.md)
+
+### 📦 Examples  
+Code that you can clone, paste, and run:
+- [`Feature Manager`](examples/classes/feature-manager.cls)
+- [`Flow Execution Log`](examples/flow-execution-log.md)
 
 ### 🔌 Integrations  
-Interfaces that expand your reach:
-- [REST API Guide](integrations/rest-api-guide.md)
+Apex meets the external world:
+- [`REST API Guide`](integrations/rest-api-guide.md)
 
-### 🛠️ Environment  
-Operational excellence from sandbox to prod:
-- [Sandbox Init Guide](sandbox/sandbox-init-guide.md)
+### 🧱 Logging Architecture  
+End-to-end error visibility with MambaLogger:
+- [`Logger Guide`](logging/logger-implementation.md)
+- [`Logger Class`](examples/classes/logger.cls)
+- [`Logger Mock`](examples/classes/logger-mock.cls)
+- [`Async Logger Job`](examples/classes/async-logger-job.cls)
+- [`ILogger Interface`](examples/classes/ilogger.cls)
+
+### 🧪 Sandbox & Onboarding  
+Foundation for scalable configuration:
+- [`Sandbox Init Guide`](sandbox/sandbox-init-guide.md)
 
 ### 🧠 Comparisons  
-Decisions backed by clarity, not opinion:
-- [Apex Feature Comparison](comparisons/apex-feature-comparison.md)
-
-### 🔍 Extras  
-Patterns that push boundaries:
-- [Logger Implementation](extras/logger-implementation.md)
+Refactoring logic, side-by-side:
+- [`Feature Comparison`](comparison/apex-feature-comparison.md)
 
 ---
 
-## 🌐 Live Module
+## 🌐 Public Module
 
-Access the public version of this module:  
-[`https://mambadev.io/apex`](https://mambadev.io/apex)
+Access this module live:  
+👉 [`https://mambadev.io/apex`](https://mambadev.io/apex)
 
 ---
 
-## 🔒 Open-Source Discipline
+## 🔒 Discipline First
 
-No client-specific code.  
-No sensitive logic.  
-Only battle-tested patterns and philosophies.
+- ✅ No client-specific code  
+- ✅ No org-bound IDs or sensitive logic  
+- ✅ Fully reusable and auditable patterns
 
 ---
 
 ## ⚫ Mamba Mentality
 
-We don’t just write code.  
-We build legacy.  
-Every line, a brick. Every guide, a blueprint.  
-Until excellence becomes instinct.
+We don’t just ship code.  
+We ship legacy.  
+Every class is a contract.  
+Every guide is a doctrine.  
+Every PR is a permanent statement of excellence.
 
 ---
 
