@@ -1,55 +1,107 @@
-# ConfigSystem__ Guide
+# ConfigSystem__c – Environment Configuration Object
 
-## Overview
-`ConfigSystem__` is a **Custom Setting** used to store and manage global configuration parameters for the Salesforce org. It provides a flexible and centralized way to control environment-specific behaviors, logging, testing flags, timeout values, and other adjustable system parameters. This object is the single source of truth for environment configuration in all deployments.
-
-## Fields
-Below is the list of key fields and their purpose:
-
-| Field API Name              | Type     | Description                                                                 |
-|----------------------------|----------|-----------------------------------------------------------------------------|
-| `Ambiente__c`              | Text     | Indicates the environment type: `production`, `sandbox`, or others.        |
-| `Log_Level__c`             | Text     | Sets the log level: `info`, `error`, `warn`.                              |
-| `Log_Ativo__c`             | Checkbox | Enables or disables log output.                                            |
-| `Habilita_Mock__c`         | Checkbox | Activates mock behavior for test scenarios.                                |
-| `Modo_Teste_Ativo__c`      | Checkbox | Indicates whether test mode is active.                                     |
-| `Timeout_Callout__c`       | Decimal  | Default callout timeout for external integrations.                         |
-| `Max_Debug_Length__c`      | Decimal  | Character limit for debug logs.                                            |
-| `Desativar_Flows__c`       | Checkbox | If true, disables execution of certain Flows for performance or testing.   |
-
-## Usage
-This custom setting is loaded once via the `EnvironmentUtils` class and cached internally to ensure performance. Any update to the values in this setting will immediately affect behavior across the application where `EnvironmentUtils` is referenced.
-
-### Key Use Cases
-- Identify the current org environment for conditional logic.
-- Adjust system logging dynamically.
-- Toggle mocks and testing features programmatically.
-- Control performance-related parameters like timeouts and flow disabling.
-
-## Best Practices
-- Only one record of this Custom Setting should exist (Organization-level).
-- Validate user profiles have read/write access when appropriate.
-- Always reload cached values after updates to reflect the new configuration immediately.
-- Handle all updates via the `EnvironmentUtils` class to ensure consistency.
-
-## Example
-Example usage from Apex:
 ```apex
-if (EnvironmentUtils.isProduction()) {
-    // Execute production-specific logic
-}
-
-if (EnvironmentUtils.isMockEnabled()) {
-    // Inject mock responses
-}
-
-Decimal timeout = EnvironmentUtils.getTimeoutCallout();
+/**
+ * @name        ConfigSystem__c
+ * @type        CustomSetting
+ * @since       2025-04-01
+ * @access      system/internal
+ * @description
+ *  Centralized configuration object that governs global environment flags, logging behavior,
+ *  test toggles, integration timeouts, and system diagnostics parameters across the org.
+ *
+ *  This object supports:
+ *   - Central environment definition (Production/Sandbox)
+ *   - Feature toggles (Mocks, Logs, Flows)
+ *   - Runtime tuning (Timeouts, Debug limits)
+ *   - Flexible test mode behavior
+ *
+ *  Used by: EnvironmentUtils, Logger, Integration Services, Flow Conditions
+ */
 ```
 
-## Related
-- `EnvironmentUtils`: Main Apex class that manages this setting.
-- `FlowExecutionLog__c`: Another complementary custom object for managing logs and runtime diagnostics.
+---
+
+## 🎯 Purpose
+
+`ConfigSystem__c` is the **central system configuration layer** for MambaDev architecture.  
+It abstracts critical flags and environment states into a single, queryable Custom Setting — providing the backbone for:
+
+- ✅ Dynamic behavior in different orgs (prod/sandbox/scratch)
+- ✅ Toggle-based activation of logs, mocks, and test modes
+- ✅ Unified source for timeouts and debug limits
+- ✅ Performance and operational control at runtime
 
 ---
-© MambaDev — The Elite Developer Squad
 
+## 🧱 Field Reference
+
+| Field API Name            | Label                 | Type      | Description                                                                 |
+|--------------------------|-----------------------|-----------|-----------------------------------------------------------------------------|
+| `Environment__c`         | Environment           | Text      | Logical environment: `production`, `sandbox`, `scratch`, etc.              |
+| `Log_Level__c`           | Log Level             | Text      | Logging level: `info`, `warn`, `error`                                     |
+| `Is_Log_Enabled__c`      | Log Enabled           | Checkbox  | Enables or disables logging globally                                       |
+| `Is_Mock_Enabled__c`     | Mock Mode             | Checkbox  | Activates mocks for testing/integration                                    |
+| `Is_Test_Mode__c`        | Test Mode             | Checkbox  | Declares whether test-specific flows and data should execute               |
+| `Callout_Timeout__c`     | Timeout (Seconds)     | Decimal   | Timeout value in seconds for HTTP callouts                                 |
+| `Max_Debug_Length__c`    | Max Debug Length      | Decimal   | Character length for truncating long debug messages                        |
+| `Disable_Flows__c`       | Disable Flows         | Checkbox  | When true, skips non-critical Flow logic (performance bypass)              |
+
+> Note: Fields may be aliased from legacy names (e.g., `Ambiente__c` → `Environment__c`) for clarity.
+
+---
+
+## 🔍 Usage Patterns
+
+### ✅ Org-Aware Logic
+```apex
+if (EnvironmentUtils.isProduction()) {
+    // Run critical workflows or integrations
+}
+```
+
+### ✅ Mock Behavior Toggle
+```apex
+if (EnvironmentUtils.isMockEnabled()) {
+    response = MockHelper.getFakeResponse();
+}
+```
+
+### ✅ Dynamic Timeout
+```apex
+HttpRequest req = new HttpRequest();
+req.setTimeout(EnvironmentUtils.getTimeoutCallout() * 1000);
+```
+
+---
+
+## 🧠 Best Practices
+
+- Use **one record** per org (Org-Wide default custom setting)
+- Enforce read access to ensure Apex classes function in all contexts
+- **Never hardcode** environment-specific logic — rely on these fields
+- Apply updates only via `EnvironmentUtils.update*()` methods to persist and refresh cache
+- Ensure integration and Flow logic checks `isTestMode()` or `isMockEnabled()` when applicable
+
+---
+
+## ⚙️ Related Classes
+
+- [`EnvironmentUtils`](./environment-utils.md) – Apex class that interfaces with this object
+- [`Logger`](./structured-logging.md) – Structured log writer that respects environment log toggles
+- [`FlowExecutionLog__c`](./flowexecutionlog.md) – Diagnostic runtime trace that complements this config
+
+---
+
+## 📎 Aligned Fundamentals
+
+- [`MambaDev Coding Style`](../fundamentals/mambadev-coding-style.md)  
+- [`Apex Style Guide`](../fundamentals/apex-style-guide.md)  
+- [`Architecture Principles`](../fundamentals/architecture-principles.md)  
+- [`Review Checklist`](../fundamentals/apex-review-checklist.md)  
+
+---
+
+> "Environment behavior is a contract. In MambaDev, the contract is explicit, versioned, and observed."
+
+© MambaDev — The Elite Developer Squad
