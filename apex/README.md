@@ -15,37 +15,61 @@ This module defines the **official Apex architecture playbook** of MambaDev.
 
 It exists to:
 
-- 🧠 Set elite, auditable standards for Salesforce development
-- 🧱 Document modular, scalable architectural patterns
-- 🐍 Train developers to think like architects and operate like SEALs
+- 🧠 Set elite, auditable standards for Salesforce development  
+- 🧱 Document modular, scalable architectural patterns  
+- 🐍 Train developers to think like architects and operate like SEALs  
 
 ---
 
-## 📂 Current Structure
+## 📂 Guide Index
 
-Each guide in this module is handcrafted for clarity, reusability, and operational excellence.
+Every file in this folder is handcrafted to be:
 
-| Guide                           | Purpose                                                         |
-|----------------------------------|-----------------------------------------------------------------|
-| `validation-patterns.md`        | Declarative validation using guard clauses and semantic errors |
-| `exception-handling.md`         | Semantic try/catch patterns with custom exceptions             |
-| `structured-logging.md`         | Logging architecture using `Logger` and `FlowExecutionLog__c`  |
-| `flow-execution-log.md`         | Object reference for persistent structured logs                |
-| `exceptionutil.md`              | Utility for fast, clear validation with `AppValidationException`|
+- 🔍 Clear in purpose  
+- 🔄 Reusable across orgs  
+- 🧠 Architecturally sound  
+- 🧪 Fully testable  
+
+| Guide                           | Purpose                                                                 |
+|----------------------------------|-------------------------------------------------------------------------|
+| [`validation-patterns.md`](./validation-patterns.md)        | Declarative guard clauses + semantic validation errors                |
+| [`exception-handling.md`](./exception-handling.md)          | Try/catch strategy with custom exceptions and logging integration     |
+| [`structured-logging.md`](./structured-logging.md)          | Logging architecture using `Logger` and `FlowExecutionLog__c`         |
+| [`flow-execution-log.md`](./flow-execution-log.md)          | Persistent log object schema and tracking model                        |
+| [`exceptionutil.md`](./exceptionutil.md)                    | Declarative validation utility with consistent exception strategy     |
+| [`testing-patterns.md`](./testing-patterns.md)              | Isolation, mocking, coverage and test design principles                |
+| [`layered-architecture.md`](./layered-architecture.md)      | Clean separation of concerns across controller, service and domain    |
+| [`naming-standards.md`](./naming-standards.md)              | Unified naming conventions for Apex classes, methods, fields & tests  |
+
+---
+
+## 🧱 Aligned Fundamentals
+
+This module is **built on top of the official MambaDev Fundamentals**, located at [`../fundamentals`](../fundamentals/):
+
+- [`MambaDev Coding Style`](../fundamentals/mambadev-coding-style.md)
+- [`Apex Style Guide`](../fundamentals/apex-style-guide.md)
+- [`Architecture Principles`](../fundamentals/architecture-principles.md)
+- [`Review Checklist`](../fundamentals/apex-review-checklist.md)
+
+> All new MambaDev code must align with these fundamentals.  
+> Legacy code should converge progressively.
 
 ---
 
 ## 🔁 MambaDev Logging Stack
 
-All logs flow through the `Logger` abstraction into `FlowExecutionLog__c`, capturing:
+All execution paths — Apex, Flow, REST, async — log into `FlowExecutionLog__c` using the `Logger` class.
 
-- Class + Method
-- Input/Output Payloads (JSON)
-- Stack Trace (if any)
-- Flow Step, Trigger Type, and Execution Metadata
+Captured details include:
 
-Refer to:
+- Class + Method  
+- Input/Output JSON  
+- Exception Stack (if present)  
+- Trigger Type, Flow Step, Environment  
+- Integration direction & identifiers  
 
+📎 See:
 - [`structured-logging.md`](./structured-logging.md)
 - [`flow-execution-log.md`](./flow-execution-log.md)
 
@@ -53,25 +77,29 @@ Refer to:
 
 ## ✅ Rules of the Game
 
-- No client-specific logic  
-- No org-bound IDs or hardcoded metadata  
-- No sensitive data  
-- All code must be modular, auditable, and reusable across orgs
+- ❌ No client-specific code  
+- ❌ No org-bound IDs or metadata  
+- ❌ No sensitive fields or logic  
+- ✅ Everything must be **reusable, testable, and auditable**
 
 ---
 
 ## 🌐 Access the Public Module
 
-👉 [`https://mambadev.io/apex`](https://mambadev.io/apex)
+📍 [`https://mambadev.io/apex`](https://mambadev.io/apex)
+
+This is a **clean public module** — open source for devs who don’t just ship code, but shape systems.
 
 ---
 
-## 🐍 Mamba Mentality
+## ⚫ Mamba Mentality
 
 We don’t build for today.  
-We build for every dev who comes after us.  
-Every class is a contract.  
-Every exception has meaning.  
-Every log is an artifact of truth.
+We build for the developer who inherits this tomorrow.  
+We leave behind clarity, precision, and structure.
+
+> Every class is a contract.  
+> Every exception has meaning.  
+> Every log is a traceable artifact of intent.
 
 **Welcome to the elite. Now execute.**
