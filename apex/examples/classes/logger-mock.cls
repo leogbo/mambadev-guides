@@ -1,13 +1,14 @@
 /**
- * @since 2025-03-28
- * @author Leo Mamba Garcia
- *
- * LoggerMock
- *
- * Mock implementation of ILogger for use in unit tests.
- * Prevents actual log persistence and captures outputs locally.
+ * @name        LoggerMock
+ * @since       2025-04-01
+ * @author      MambaDev
+ * @description
+ *  Mock implementation of ILogger used in unit tests.
+ *  Captures logs in-memory without persisting anything to the database.
+ *  Enables validation of logging behavior in isolation.
  */
 public class LoggerMock implements ILogger {
+
     public List<String> capturedMessages = new List<String>();
     private Map<String, Object> context = new Map<String, Object>();
 
@@ -46,21 +47,21 @@ public class LoggerMock implements ILogger {
         return this;
     }
 
-    @TestVisible public void success(String message, String serializedData) {
-        capturedMessages.add('[SUCCESS] ' + message + ' | ' + serializedData);
+    @TestVisible public void success(String message, String data) {
+        capturedMessages.add('[SUCCESS] ' + message + ' | ' + data);
     }
 
-    @TestVisible public void info(String message, String serializedData) {
-        capturedMessages.add('[INFO] ' + message + ' | ' + serializedData);
+    @TestVisible public void info(String message, String data) {
+        capturedMessages.add('[INFO] ' + message + ' | ' + data);
     }
 
-    @TestVisible public void warn(String message, String serializedData) {
-        capturedMessages.add('[WARN] ' + message + ' | ' + serializedData);
+    @TestVisible public void warn(String message, String data) {
+        capturedMessages.add('[WARN] ' + message + ' | ' + data);
     }
 
-    @TestVisible public void error(String message, Exception ex, String serializedData) {
+    @TestVisible public void error(String message, Exception ex, String data) {
         String msg = message + (ex != null ? ' | ' + ex.getMessage() : '');
-        capturedMessages.add('[ERROR] ' + msg + ' | ' + serializedData);
+        capturedMessages.add('[ERROR] ' + msg + ' | ' + data);
     }
 
     @TestVisible public void logRaw(String message) {
