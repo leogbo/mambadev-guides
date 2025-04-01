@@ -4,40 +4,48 @@
 
 <!-- _sidebar.md -->
 
-- 🐍 [Welcome](index.md)
+- 🏠 [Home](/README.md)
 
-- 🧠 Fundamentals
-  - [Apex Style Guide](apex/fundamentals/apex-style-guide.md)
-  - [Review Checklist](apex/fundamentals/apex-review-checklist.md)
-  - [Architecture Principles](apex/fundamentals/architecture-principles.md)
-  - [MambaDev Coding Style](apex/fundamentals/mambadev-coding-style.md)
+- 🧱 Fundamentals
+  - [MambaDev Coding Style](/fundamentals/mambadev-coding-style.md)
+  - [Apex Style Guide](/fundamentals/apex-style-guide.md)
+  - [Architecture Principles](/fundamentals/architecture-principles.md)
+  - [Apex Review Checklist](/fundamentals/apex-review-checklist.md)
 
-- 🧪 Testing
-  - [Apex Testing Guide](apex/testing/apex-testing-guide.md)
-  - [Test Data Setup](apex/testing/data/test-data-setup.md)
+- 🐍 Apex Guide
+  - [📘 Overview](/apex/README.md)
+  - [📚 Table of Contents](/apex/TOC.md)
 
-- 🧱 Logger System
-  - [Logger Guide](apex/logging/logger-implementation.md)
-  - [Logger.cls](apex/examples/classes/logger.cls)
-  - [LoggerMock.cls](apex/examples/classes/logger-mock.cls)
-  - [AsyncLoggerJob.cls](apex/examples/classes/async-logger-job.cls)
-  - [ILogger.cls](apex/examples/classes/ilogger.cls)
+  - 🧱 Core Architecture
+    - [Layered Architecture](/apex/layered-architecture.md)
+    - [Naming Standards](/apex/naming-standards.md)
 
-- 🔌 Integrations
-  - [REST API Guide](apex/integrations/rest-api-guide.md)
+  - 🧪 Testing & Validation
+    - [Validation Patterns](/apex/validation-patterns.md)
+    - [ExceptionUtil Guide](/apex/exceptionutil.md)
+    - [Testing Patterns](/apex/testing-patterns.md)
 
-- 🛠️ Sandbox & Onboarding
-  - [Sandbox Init Guide](apex/sandbox/sandbox-init-guide.md)
+  - 🔁 Error & Logging Strategy
+    - [Exception Handling](/apex/exception-handling.md)
+    - [Structured Logging](/apex/structured-logging.md)
+    - [FlowExecutionLog__c Schema](/apex/flow-execution-log.md)
 
-- 🧠 Refactor & Comparison
-  - [Feature Comparison](apex/comparison/apex-feature-comparison.md)
+  - 📦 Utilities
+    - [Logger (section link)](/apex/structured-logging.md#🧱-the-logging-stack)
+    - [LoggerMock (section link)](/apex/structured-logging.md#🧪-testing-with-loggermock)
 
-- 🧰 Examples
-  - [Feature Manager Class](apex/examples/classes/feature-manager.cls)
-  - [Flow Execution Log Setup](apex/examples/flow-execution-log.md)
-
-- 🧬 Modules (Coming Soon)
-  - [Prompting](prompting/)
-  - [AI Automation](automation/)
-  - [Agents](agents/)
-  - [Marketing Cloud](marketingcloud/)
+  - 🧬 Class Reference
+    - [AppAuthenticationException](/apex/examples/classes/app-authentication-exception.cls)
+    - [AppConfigurationException](/apex/examples/classes/app-configuration-exception.cls)
+    - [AppIntegrationException](/apex/examples/classes/app-integration-exception.cls)
+    - [AppValidationException](/apex/examples/classes/app-validation-exception.cls)
+    - [AsyncLoggerJob](/apex/examples/classes/async-logger-job.cls)
+    - [AutoConvertLeads](/apex/examples/classes/auto-convert-leads.cls)
+    - [CustomException](/apex/examples/classes/custom-exception.cls)
+    - [ExceptionUtil](/apex/examples/classes/exception-util.cls)
+    - [ILogger Interface](/apex/examples/classes/ilogger.cls)
+    - [Logger](/apex/examples/classes/logger.cls)
+    - [LoggerMock](/apex/examples/classes/logger-mock.cls)
+    - [RecordHelper](/apex/examples/classes/record-helper.cls)
+    - [RestServiceHelper](/apex/examples/classes/rest-service-helper.cls)
+    - [TestHelper](/apex/examples/classes/test-helper.cls)
