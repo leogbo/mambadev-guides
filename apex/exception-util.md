@@ -141,6 +141,15 @@ You may extend `ExceptionUtil` to support:
 - [Logger Class](./structured-logging.md)  
   Use alongside `ExceptionUtil` to capture validation failures cleanly.
 
+## 📎 Aligned Fundamentals
+
+These operational guides are built on:
+
+- [`MambaDev Coding Style`](../fundamentals/mambadev-coding-style.md)
+- [`Apex Style Guide`](../fundamentals/apex-style-guide.md)
+- [`Architecture Principles`](../fundamentals/architecture-principles.md)
+- [`Review Checklist`](../fundamentals/apex-review-checklist.md)
+
 ---
 
 > MambaDev doesn't throw exceptions to stop the code.  
