@@ -87,7 +87,7 @@ req.setTimeout(EnvironmentUtils.getTimeoutCallout() * 1000);
 
 ## ⚙️ Related Classes
 
-- [`EnvironmentUtils`](.examples/classes/environment-utils.cls) – Apex class that interfaces with this object
+- [`EnvironmentUtils`](examples/classes/environment-utils.cls) – Apex class that interfaces with this object
 - [`Logger`](./structured-logging.md) – Structured log writer that respects environment log toggles
 - [`FlowExecutionLog__c`](./flowexecutionlog.md) – Diagnostic runtime trace that complements this config
 
