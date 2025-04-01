@@ -1,242 +1,235 @@
+# 🧠 Apex Architecture | MambaDev
 
-# 🧠 **Leo Mamba Garcia | Arquitetura Apex Mamba**
-
-> *“Ou o código tem padrão, ou tem bug disfarçado.”*  
+> *"Either your code has a standard — or it hides a bug."*  
 > — Leo Mamba Garcia
 
 ---
 
-## 🎯 **Propósito**
+## 🎯 Purpose
 
-Este guia é o **manifesto de excelência** para a construção de código Apex na sua organização. Ele é **irrefutável** e deve ser aplicado com disciplina mamba. Cada linha de código deve ser rastreável, testável e de máxima performance.
-
----
-
-## ✅ **Pilares do Código Mamba**
-
-| Pilar                  | Significado                                                                 |
-|------------------------|------------------------------------------------------------------------------|
-| **Rastreável**          | Toda execução importante é logada com contexto completo utilizando `Logger`. |
-| **Testável**            | Nenhum `if` ou método escapa de cobertura com assertivas **explícitas**.     |
-| **Conciso**             | Linhas em excesso são ruído. Sem gordura. Sem blocos vazios.                 |
-| **Defensivo**           | Código nunca assume que algo existe: valida `null`, listas vazias, picklists |
-| **Modular**             | Métodos com **responsabilidade única** e no máximo ~30 linhas.                |
-| **Visível**             | Tudo que é executável em teste recebe `@TestVisible`                         |
+This guide is the **non-negotiable standard** for building Apex inside any elite org. It's not a suggestion — it's a system.  
+Every line of code must be **traceable**, **testable**, and **performance-oriented**.
 
 ---
 
-## 🏷️ **Assinatura Padrão**
+## ✅ Mamba Code Pillars
+
+| Pillar        | Definition                                                                 |
+|---------------|------------------------------------------------------------------------------|
+| **Traceable** | Every execution is logged with full context using `Logger`.                 |
+| **Testable**  | No `if`, no method escapes **explicit** test coverage.                      |
+| **Concise**   | No excess lines. No fat. No empty blocks.                                   |
+| **Defensive** | Never assume: validate `null`, empty lists, picklists, anything nullable.   |
+| **Modular**   | Single-responsibility methods, ideally under 30 lines.                      |
+| **Visible**   | All critical logic is exposed to tests via `@TestVisible`.                  |
+
+---
+
+## 🏷️ Standard Signature
+
+Use this in **every class or handler** for authorship traceability:
 
 ```apex
 /**
- * @since 2025-03-28
- * @author Leo Mamba Garcia
+ * @since {{DateTime}}
+ * @author {{Your Name}} inspired by MambaDev
  */
 ```
 
 ---
 
-## 🔒 **Convenções Fixas**
+## 🔒 Fixed Conventions
 
 ```apex
-@TestVisible private static final String CLASS_NAME = 'MinhaClasse';
+@TestVisible private static final String CLASS_NAME = 'SomeClass';
 @TestVisible private static final String CATEGORY = 'Domain';
 @TestVisible private static final String TRIGGER_TYPE = 'Apex'; // Apex | REST | Flow | Queueable
 ```
 
 ---
 
-## 🧱 **Exemplo de Classe Utilitária Padrão**
+## 🧱 Utility Class Extract
+
+See full code at [`examples/feature-manager.cls`](../examples/feature-manager.cls)
 
 ```apex
-public class SomeFeatureManager {
+@TestVisible
+public static Boolean isFeatureEnabled() {
+    if (cache != null) return cache;
 
-    @TestVisible private static final String CLASS_NAME = 'SomeFeatureManager';
-    @TestVisible private static final String CATEGORY = 'Feature';
-    @TestVisible private static Boolean cache;
-
-    /**
-     * Valida se a feature está ativa para a org atual.
-     */
-    @TestVisible
-    public static Boolean isFeatureEnabled() {
-        if (cache != null) return cache;
-
-        try {
-            cache = [SELECT Feature_Ativa__c FROM ConfiguracaoSistema__c LIMIT 1].Feature_Ativa__c;
-        } catch (Exception e) {
-            cache = false;
-        }
-
-        return cache;
+    try {
+        cache = [SELECT Feature_Ativa__c FROM ConfiguracaoSistema__c ORDER BY CreatedDate DESC LIMIT 1].Feature_Ativa__c;
+    } catch (Exception e) {
+        cache = false;
     }
+
+    return cache;
 }
 ```
 
 ---
 
-## 🪵 **Exemplo de Log Estruturado**
+## 🪵 Structured Logging Extract
+
+See complete logger setup in [`examples/logger-usage.cls`](../examples/logger-usage.cls)
 
 ```apex
 Logger logger = new Logger()
     .setClass(CLASS_NAME)
-    .setMethod('executarProcesso')
+    .setMethod('executeProcess')
     .setCategory(CATEGORY);
 
-logger.info('Iniciando processo...', JSON.serializePretty(inputData));
+logger.info('Starting process...', JSON.serializePretty(inputData));
 
-// Em caso de exceção:
-logger.error('Falha ao executar processo', ex, JSON.serializePretty(inputData));
+// On failure:
+logger.error('Process failed', ex, JSON.serializePretty(inputData));
 ```
 
 ---
 
-## 🧪 **Estilo de Teste**
+## 🧪 Testing Style
 
-### ✅ **Nome claro e estilo `Given-When-Then`:**
+### ✅ Given-When-Then Pattern
 
 ```apex
 @IsTest
-static void deve_ativar_feature_quando_configuracao_estiver_ativa() {
+static void should_enable_feature_when_config_is_active() {
     // Arrange
-    ConfiguracaoSistema__c conf = new ConfiguracaoSistema__c(
+    insert new ConfiguracaoSistema__c(
         SetupOwnerId = UserInfo.getOrganizationId(),
         Feature_Ativa__c = true
     );
-    insert conf;
 
     // Act
-    Boolean resultado = SomeFeatureManager.isFeatureEnabled();
+    Boolean result = SomeFeatureManager.isFeatureEnabled();
 
     // Assert
-    System.assertEquals(true, resultado, 'Feature deveria estar ativa');
+    System.assertEquals(true, result, 'Feature should be active');
 }
 ```
 
 ---
 
-## 🔁 **Validação de Lists**
+## 🔁 List Validation
 
-### ❌ **Evite:**
+### ❌ Don't:
 ```apex
-if (!lista.isEmpty()) {
-    SObject item = lista[0];
+if (!list.isEmpty()) {
+    SObject item = list[0];
 }
 ```
 
-### ✅ **Prefira:**
+### ✅ Do:
 ```apex
-if (lista != null && !lista.isEmpty()) {
-    SObject item = lista[0];
+if (list != null && !list.isEmpty()) {
+    SObject item = list[0];
 }
 ```
 
 ---
 
-## 🧼 **Layout Visual**
+## 🧼 Visual Layout Rules
 
-- **❌ Proibido** blocos vazios entre `if`, `else`, `try`, `catch`.
-- **✅** Sempre use **indentação consistente** de 4 espaços.
-- **✅** Evite comentários inúteis como `// TODO` ou `// Verifica se...`.
-
----
-
-## ⚖️ **Tamanho Ideal de Método**
-
-| Tipo de Método     | Limite Aproximado |
-|--------------------|-------------------|
-| Utilitário / lógica| **30 linhas**     |
-| Wrappers / DTO     | **sem limite**    |
-| `@Test`            | **máximo foco por teste** |
+- ❌ No empty logic blocks after `if`, `else`, `try`, `catch`
+- ✅ Consistent 4-space indentation
+- ✅ No placeholder comments like `// TODO`
 
 ---
 
-## 📋 **Nome de Métodos**
+## ⚖️ Method Size Guidelines
 
-| Contexto        | Padrão                         |
-|------------------|-------------------------------|
-| Métodos públicos | `executarAcao`, `getDados`    |
-| Métodos de teste | `deve_fazer_algo_quando_XYZ`  |
-| Métodos privados | `buildWrapper`, `validarEntrada` |
+| Type               | Max Length     |
+|--------------------|----------------|
+| Utility / Logic    | ~30 lines      |
+| DTO / Wrapper      | No limit       |
+| `@IsTest` Methods  | One test = one case |
 
 ---
 
-## 🔐 **Segurança em Produção**
+## 📋 Method Naming Patterns
 
-Toda execução perigosa deve ser bloqueada em produção:
+| Context           | Convention                     |
+|-------------------|--------------------------------|
+| Public Methods    | `executeAction`, `getRecords`  |
+| Test Methods      | `should_do_X_when_Y`           |
+| Private Methods   | `buildWrapper`, `validateInput`|
+
+---
+
+## 🔐 Production Safety
+
+Prevent critical execution in production environments:
 
 ```apex
 if (![SELECT IsSandbox FROM Organization LIMIT 1].IsSandbox) {
-    logger.warn('Execução bloqueada em produção', null);
+    logger.warn('Execution blocked in production');
     return;
 }
 ```
 
 ---
 
-## 🚨 **Anti-padrões Mamba (Proibido!)**
+## 🚫 Mamba Anti-Patterns (Never Allowed)
 
-- `System.debug()` fora de `@IsTest`.
-- `SELECT ... LIMIT 1` sem `ORDER BY`.
-- `new Map<Id, SObject>([SELECT ...])` sem defensiva.
-- Métodos grandes, com lógica aninhada e sem segmentação.
-- `assertEquals(true, resultado)` sem mensagem explicativa.
-- `@TestVisible` em método nunca testado.
-
----
-
-## ✅ **Checklist Mamba**
-
-> Aplique este checklist em todo PR, revisão de código ou push para produção.
-
-### 🧩 **Organização & Estrutura**
-- [ ] Classe possui `docstring` no topo com descrição e exemplos.
-- [ ] Assinatura obrigatória: `@since` e `@author Leo Mamba Garcia`.
-
-### 🔎 **Visibilidade & Testabilidade**
-- [ ] Todos os métodos com lógica possuem `@TestVisible`.
-- [ ] Cada `@TestVisible` é testado por método específico.
-- [ ] Métodos com mais de 30 linhas foram modularizados (exceto DTOs).
-- [ ] Nenhum método utilitário está acoplado em lógica de teste.
-
-### 🪵 **Logging**
-- [ ] `Logger` é usado apenas para exceções, auditoria ou rastreamento real.
-- [ ] `System.debug()` aparece **apenas** em `@IsTest`.
-- [ ] Logs importantes usam `JSON.serializePretty(...)`.
-
-### 🔐 **Código Defensivo**
-- [ ] Todas as listas são validadas com `!= null && !isEmpty()`.
-- [ ] Todos os SObjects opcionais são validados antes do uso.
-- [ ] `LIMIT 1` só é usado com `ORDER BY` ou contexto de teste.
-- [ ] Nenhum campo é assumido sem `String.isNotBlank()` ou equivalentes.
-
-### 🧪 **Testes Mamba**
-- [ ] `@TestSetup` configura tudo uma vez só.
-- [ ] Nenhum dado é criado dentro dos métodos de teste.
-- [ ] Todos os dados são consultados com `SELECT` em tempo real.
-- [ ] Cada `System.assert*()` tem uma **mensagem explícita** com o valor esperado.
-- [ ] Cada teste cobre **1 cenário isolado e bem nomeado**.
-
-### 💅 **Estilo e Padrão**
-- [ ] Sem linhas vazias desnecessárias.
-- [ ] Sem `// TODO`, `// DEBUG`, `// Verifica se...`.
-- [ ] Identação consistente (4 espaços).
-- [ ] Nomes de métodos descritivos (ex: `deve_retornar_algo_quando_XYZ`).
+- `System.debug()` outside test classes
+- `LIMIT 1` without `ORDER BY`
+- Unsafe map loading: `new Map<Id, SObject>([SELECT ...])` without validation
+- Bloated, nested, unsegmented methods
+- `assertEquals(true, result)` without error message
+- `@TestVisible` with no test coverage
 
 ---
 
-## 🚀 **Entregando Código Mamba**
+## ✅ Mamba Checklist
 
-### **Se tudo acima estiver aplicado**, você está pronto para o **merge**.
+> Apply this rigorously in every PR and deployment. No shortcuts.
 
-🧠🖤  
-**Leo Mamba Garcia**  
-_Estilo não é vaidade. É rastreabilidade em tempo real._  
-#ChecklistMamba #QualidadeBlindada #TestaOuRefatora
+### 🧱 Structure & Signature
+- [ ] Includes docstring with purpose
+- [ ] Has signature: `@since`, `@author`
+
+### 🔍 Visibility & Testing
+- [ ] Logic methods are `@TestVisible`
+- [ ] Each `@TestVisible` has a direct test
+- [ ] Methods over 30 lines are modularized
+- [ ] Utility logic is not coupled in test methods
+
+### 🪵 Logging
+- [ ] Uses `Logger`, not `System.debug()`
+- [ ] Pretty JSON formatting on logged objects
+
+### 🔐 Defensive Code
+- [ ] Lists checked for `null` and `!isEmpty()`
+- [ ] Queries with `LIMIT 1` always ordered
+- [ ] Optional fields validated with `String.isNotBlank()`
+
+### 🧪 Test Quality
+- [ ] Test data handled in `@TestSetup`
+- [ ] No DML inside individual test methods
+- [ ] Every `System.assert*()` includes message
+- [ ] Each test = one isolated scenario
+
+### 💅 Style
+- [ ] No empty lines between control blocks
+- [ ] No leftover comments (`// TODO`, `// DEBUG`)
+- [ ] Indentation is always 4 spaces
+- [ ] Test methods are clearly named (`should_return_X_when_Y`)
+
+---
+
+## 🚀 Ready to Ship
+
+If everything is ✅, it's ready for merge.  
+**No mystery. No luck. Just control.**
 
 ---
 
 🧠🖤  
 **Leo Mamba Garcia**  
-_Estilo não é vaidade. É previsibilidade em código de guerra._  
-#MambaSemSurpresa #TestaOuNãoEntrega #LoggingComAlma
+_Style isn’t vanity. It’s traceability under pressure._  
+#MambaStandard #TestOrRefactor #EliteCodeOnly
+```
+
+---
+
+Let me know the next one to Mamba-fy and I’ll keep the same discipline.
