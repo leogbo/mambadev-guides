@@ -45,4 +45,33 @@
 
 ---
 
+## 🧬 Class Reference – `/examples/classes/`
+
+> These are live examples of MambaDev-compliant Apex classes.  
+> All follow strict naming, exception, logging, and architecture conventions.
+
+| Class                                 | Purpose                                                              |
+|--------------------------------------|----------------------------------------------------------------------|
+| [`app-authentication-exception.cls`](./examples/classes/app-authentication-exception.cls) | Semantic exception for access violations                  |
+| [`app-configuration-exception.cls`](./examples/classes/app-configuration-exception.cls)   | Thrown when expected config/metadata is missing             |
+| [`app-integration-exception.cls`](./examples/classes/app-integration-exception.cls)       | Encapsulates errors from external systems                   |
+| [`app-validation-exception.cls`](./examples/classes/app-validation-exception.cls)         | Used when validation/business rules fail                    |
+| [`async-logger-job.cls`](./examples/classes/async-logger-job.cls)                         | Queueable job to persist logs without blocking main thread  |
+| [`authentication-exception.cls`](./examples/classes/authentication-exception.cls)         | Legacy naming — consider replacing with `app-authentication-exception` |
+| [`auto-convert-leads.cls`](./examples/classes/auto-convert-leads.cls)                     | Batch Apex for converting leads via `InvocableMethod`       |
+| [`configuration-exception.cls`](./examples/classes/configuration-exception.cls)           | Legacy naming — replace with `app-configuration-exception`  |
+| [`custom-exception.cls`](./examples/classes/custom-exception.cls)                         | Base virtual exception to extend                            |
+| [`exception-util.cls`](./examples/classes/exception-util.cls)                             | Guard clause helper — `throwIfNull`, `require`, `fail`      |
+| [`ilogger.cls`](./examples/classes/ilogger.cls)                                           | Interface for `Logger` and `LoggerMock`                     |
+| [`logger-mock.cls`](./examples/classes/logger-mock.cls)                                   | In-memory mock of logger used in unit tests                 |
+| [`logger.cls`](./examples/classes/logger.cls)                                             | Structured logger with support for async + context metadata |
+| [`record-helper.cls`](./examples/classes/record-helper.cls)                               | Lightweight utility to dynamically query records by Id      |
+| [`rest-service-helper.cls`](./examples/classes/rest-service-helper.cls)                   | Abstraction for REST response handling and token validation |
+| [`test-helper.cls`](./examples/classes/test-helper.cls)                                   | Utility for random data, ID generation, and test assertions |
+
+> 📎 All classes are compatible with MambaDev guides in `/apex/` and can be used as examples or templates.
+
+---
+
 > Every layer. Every pattern. Every detail — is designed for scale.
+
