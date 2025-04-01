@@ -7,6 +7,8 @@
 > *Precision. Performance. Purpose.*  
 > This is Apex — the MambaDev way.
 
+📖 [Browse the full Table of Contents](./TOC.md)
+
 ---
 
 ## 📘 Purpose
