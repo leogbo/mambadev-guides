@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/leogbo/mambadev-guides/main/static/img/github_banner_mambadev.png" alt="MambaDev Banner" width="100%" />
+</p>
+
 # FlowExecutionLog__c - Estrutura e Finalidade de Campos
 
 > Este documento define a estrutura atual do objeto `FlowExecutionLog__c`, com finalidade de logging persistente para:
