@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/leogbo/mambadev-guides/main/static/img/github_banner_mambadev.png" alt="MambaDev Banner" width="100%" />
+</p>
+
 # 🔁 Guia de Comparações Apex – v2025 (Mentalidade Mamba)
 
 📎 **Shortlink oficial:** [bit.ly/ComparacaoApex](https://bit.ly/ComparacaoApex)
