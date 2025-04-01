@@ -1,5 +1,5 @@
 /**
- * @name        IntegrationException
+ * @name        AppIntegrationException
  * @since       2025-04-01
  * @access      public
  * @extends     CustomException
@@ -7,4 +7,4 @@
  *  Thrown when an error occurs while calling or receiving data from external systems.
  *  Use to wrap callout failures, timeouts, or contract mismatches.
  */
-public class IntegrationException extends CustomException {}
+public class AppIntegrationException extends CustomException {}
