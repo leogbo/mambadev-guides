@@ -1,40 +1,56 @@
 /**
- * @name        Logger
- * @since       2025-04-01
- * @author      MambaDev
- * @description
- *  Structured logging utility for Apex execution.
- *  Enables traceability across classes, methods, categories, trigger types,
- *  payloads, and stack traces. Logs are persisted to FlowExecutionLog__c
- *  with full support for synchronous and asynchronous operation.
- *
- *  Recommended for tracking business logic, errors, and integration diagnostics.
+ * -----------------------------------------------------------------------------------------
+ * Nome da Classe.......: Logger
+ * Data.................: 2025-04-01
+ * Autor................: Leo Mamba Garcia
+ * 
+ * Descrição:
+ *     Classe responsável por registrar logs de execução, erros e dados de auditoria
+ *     com rastreabilidade completa. A classe também oferece controle sobre o armazenamento
+ *     de logs em produção ou testes. Além disso, fornece métodos estáticos (helper) para 
+ *     facilitar o registro de logs sem precisar instanciar a classe.
+ * 
+ * Observações:
+ *     - Permite criar logs com níveis INFO, WARN, ERROR e SUCCESS.
+ *     - Suporta gravação síncrona (INSERT) ou assíncrona (QUEUEABLE).
+ *     - Os dados são armazenados em FlowExecutionLog__c, mas você pode trocar para outro objeto.
+ *     - Possui métodos estáticos para log simplificado e métodos de instância para 
+ *       configurações avançadas.
+ * -----------------------------------------------------------------------------------------
  */
 public class Logger {
 
+    // -------------------------------------------------------------------------------------
+    // Enum para níveis de Log
+    // -------------------------------------------------------------------------------------
     public enum LogLevel { INFO, WARN, ERROR, SUCCESS }
 
-    @TestVisible public static String environment       = Label.ENVIRONMENT;
-    @TestVisible public static String logLevelDefault   = 'INFO';
-    @TestVisible public static Integer MAX_DEBUG_LENGTH = 3000;
-    @TestVisible public static String className;
-    @TestVisible public static String triggerType;
-    @TestVisible public static String logCategory;
-    @TestVisible public static Boolean isEnabled        = true;
+    // -------------------------------------------------------------------------------------
+    // Propriedades estáticas (globais) para configuração
+    // -------------------------------------------------------------------------------------
+    @TestVisible public static String  environment       = Label.ENVIRONMENT;
+    @TestVisible public static String  logLevelDefault   = 'INFO';
+    @TestVisible public static Integer MAX_DEBUG_LENGTH  = 3000;
+    @TestVisible public static String  className;
+    @TestVisible public static String  triggerType;
+    @TestVisible public static String  logCategory;
+    @TestVisible public static Boolean isEnabled         = true;
 
-    private String methodName;
-    private String triggerRecordId;
-    private String stackTrace;
-    private String serializedData;
-    private String instanceEnvironment;
-    private String instanceClassName;
-    private String instanceTriggerType;
-    private String instanceLogCategory;
+    // -------------------------------------------------------------------------------------
+    // Propriedades de instância para permitir configurações específicas (Fluent API)
+    // -------------------------------------------------------------------------------------
+    private String  methodName;
+    private String  triggerRecordId;
+    private String  stackTrace;
+    private String  serializedData;
+    private String  instanceEnvironment;
+    private String  instanceClassName;
+    private String  instanceTriggerType;
+    private String  instanceLogCategory;
     private Boolean async = false;
 
     /**
-     * @description
-     *  Initializes logger with static context from class variables.
+     * Construtor padrão, inicializa a instância com valores das propriedades estáticas.
      */
     public Logger() {
         this.instanceClassName   = Logger.className;
@@ -43,81 +59,84 @@ public class Logger {
         this.instanceEnvironment = Logger.environment;
     }
 
-    @TestVisible public Logger setMethod(String methodName) {
+    // ----------------------------
+    //   FLUENT SETTERS
+    // ----------------------------
+    @TestVisible
+    public Logger setMethod(String methodName) {
         this.methodName = methodName;
         return this;
     }
 
-    @TestVisible public Logger setRecordId(String recordId) {
+    @TestVisible
+    public Logger setRecordId(String recordId) {
         this.triggerRecordId = recordId;
         return this;
     }
 
-    @TestVisible public Logger setCategory(String category) {
+    @TestVisible
+    public Logger setCategory(String category) {
         this.instanceLogCategory = category;
         return this;
     }
 
-    @TestVisible public Logger setTriggerType(String triggerType) {
+    @TestVisible
+    public Logger setTriggerType(String triggerType) {
         this.instanceTriggerType = triggerType;
         return this;
     }
 
-    @TestVisible public Logger setEnvironment(String environment) {
+    @TestVisible
+    public Logger setEnvironment(String environment) {
         this.instanceEnvironment = environment;
         return this;
     }
 
-    @TestVisible public Logger setClass(String className) {
+    @TestVisible
+    public Logger setClass(String className) {
         this.instanceClassName = className;
         return this;
     }
 
-    @TestVisible public Logger setAsync(Boolean value) {
+    @TestVisible
+    public Logger setAsync(Boolean value) {
         this.async = value;
         return this;
     }
 
-    /**
-     * @description
-     *  Logs a SUCCESS message with optional data.
-     */
-    @TestVisible public void success(String message, String data) {
-        log(LogLevel.SUCCESS, message, null, data);
+    // ------------------------------------------------------------------------
+    //   INSTANCE METHODS (renamed to avoid conflicts with static methods)
+    // ------------------------------------------------------------------------
+    @TestVisible
+    public void logSuccess(String message, String data) {
+        logInternal(LogLevel.SUCCESS, message, null, data);
     }
 
-    /**
-     * @description
-     *  Logs an INFO message with optional data.
-     */
-    @TestVisible public void info(String message, String data) {
-        log(LogLevel.INFO, message, null, data);
+    @TestVisible
+    public void logInfo(String message, String data) {
+        logInternal(LogLevel.INFO, message, null, data);
     }
 
-    /**
-     * @description
-     *  Logs a WARN message with optional data.
-     */
-    @TestVisible public void warn(String message, String data) {
-        log(LogLevel.WARN, message, null, data);
+    @TestVisible
+    public void logWarn(String message, String data) {
+        logInternal(LogLevel.WARN, message, null, data);
     }
 
-    /**
-     * @description
-     *  Logs an ERROR message with optional exception stack trace.
-     */
-    @TestVisible public void error(String message, Exception ex, String data) {
+    @TestVisible
+    public void logError(String message, Exception ex, String data) {
         String stack = (ex != null) ? ex.getStackTraceString() : null;
-        log(LogLevel.ERROR, message, stack, data);
+        logInternal(LogLevel.ERROR, message, stack, data);
     }
 
-    /**
-     * @description
-     *  Core logging implementation with persistence.
-     *  Supports async or sync logging depending on `setAsync`.
-     */
-    @TestVisible private void log(LogLevel level, String message, String stack, String data) {
-        if (!isEnabled && !Test.isRunningTest()) return;
+    // ------------------------------------------------------------------------
+    //         MÉTODO PRINCIPAL DE LOG (INSTANCIAL)
+    // ------------------------------------------------------------------------
+    @TestVisible
+    private void logInternal(LogLevel level, String message, String stack, String data) {
+        // Se logs desabilitados e não está em teste, sai
+        if (!isEnabled && !Test.isRunningTest()) {
+            return;
+        }
 
         FlowExecutionLog__c logEntry = new FlowExecutionLog__c(
             Log_Level__c           = level.name(),
@@ -142,18 +161,69 @@ public class Logger {
     }
 
     /**
-     * @description
-     *  Truncates string to safe maximum length.
+     * Auxiliar para truncar strings longas.
      */
-    @TestVisible private String safeLeft(String value, Integer max) {
+    @TestVisible
+    private String safeLeft(String value, Integer max) {
         return (value == null) ? null : value.left(max);
     }
 
-    /**
-     * @description
-     *  Factory method for Logger based on a trigger record.
-     */
-    @TestVisible public static Logger fromTrigger(SObject record) {
+    // -------------------------------------------------------------------------------------
+    // STATIC HELPER METHODS (for quick usage)
+    //
+    //   You can call:
+    //       Logger.logInfo('message');
+    //       Logger.logWarn('warning');
+    //       Logger.logError('error', exceptionObj, 'some data');
+    //       Logger.logSuccess('it worked!');
+    //
+    //   No need to create a new Logger() if you just want quick logs.
+    // -------------------------------------------------------------------------------------
+
+    // --- INFO
+    public static void info(String message) {
+        info(message, null);
+    }
+    public static void info(String message, String data) {
+        Logger logger = new Logger();
+        logger.logInfo(message, data);
+    }
+
+    // --- WARN
+    public static void warn(String message) {
+        warn(message, null);
+    }
+    public static void warn(String message, String data) {
+        Logger logger = new Logger();
+        logger.logWarn(message, data);
+    }
+
+    // --- ERROR
+    public static void error(String message) {
+        error(message, null, null);
+    }
+    public static void error(String message, Exception ex) {
+        error(message, ex, null);
+    }
+    public static void error(String message, Exception ex, String data) {
+        Logger logger = new Logger();
+        logger.logError(message, ex, data);
+    }
+
+    // --- SUCCESS
+    public static void success(String message) {
+        success(message, null);
+    }
+    public static void success(String message, String data) {
+        Logger logger = new Logger();
+        logger.logSuccess(message, data);
+    }
+
+    // -------------------------------------------------------------------------------------
+    //       Método utilitário para criar Logger com recordId a partir de SObject
+    // -------------------------------------------------------------------------------------
+    @TestVisible
+    public static Logger fromTrigger(SObject record) {
         Logger logger = new Logger();
         if (record != null && record.Id != null) {
             logger.setRecordId(record.Id);
