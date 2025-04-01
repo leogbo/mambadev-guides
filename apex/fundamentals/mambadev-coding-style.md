@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/leogbo/mambadev-guides/main/static/img/github_banner_mambadev.png" alt="MambaDev Banner" width="100%" />
+</p>
+
 # 🧠 Apex Architecture | MambaDev
 
 > *"Either your code has a standard — or it hides a bug."*  
