@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/leogbo/mambadev-guides/main/static/img/github_banner_mambadev.png" alt="MambaDev Banner" width="100%" />
+</p>
+
 # 🧱 Guia Oficial Mamba Apex - Revisado (2025)
 
 > **"Excelência não é uma opção. É o único caminho." – Mamba Mentality**
