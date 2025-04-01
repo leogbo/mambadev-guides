@@ -4,6 +4,27 @@
 
 # FlowExecutionLog__c – Field Structure & Purpose
 
+```apex
+/**
+ * @name        FlowExecutionLog__c
+ * @type        CustomObject
+ * @since       2025-04-01
+ * @author      MambaDev
+ * @description
+ *  Persistent logging object for all execution layers:
+ *  - Flows
+ *  - Apex logic
+ *  - REST APIs
+ *  - Integrations & callouts
+ *
+ *  Captures structured information including input/output JSON,
+ *  trigger context, errors, categories, environments, and timing.
+ *  Used by the `Logger` class and compatible with async logging via `LoggerQueueable`.
+ *
+ *  Designed for enterprise traceability, observability, and diagnostics.
+ */
+```
+
 > This guide defines the structure and purpose of the `FlowExecutionLog__c` custom object.  
 > It is designed for persistent logging to ensure:
 > - Full traceability across Flows, Apex classes, REST APIs, and Callouts
