@@ -144,6 +144,15 @@ Key fields include:
 - [Validation Patterns](./validation-patterns.md)  
   Examples of validations that integrate with logger.
 
+## 📎 Aligned Fundamentals
+
+These operational guides are built on:
+
+- [`MambaDev Coding Style`](../fundamentals/mambadev-coding-style.md)
+- [`Apex Style Guide`](../fundamentals/apex-style-guide.md)
+- [`Architecture Principles`](../fundamentals/architecture-principles.md)
+- [`Review Checklist`](../fundamentals/apex-review-checklist.md)
+
 ---
 
 > MambaDev doesn't log noise.  
