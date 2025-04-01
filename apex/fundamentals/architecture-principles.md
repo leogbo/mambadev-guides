@@ -2,10 +2,9 @@
   <img src="https://raw.githubusercontent.com/leogbo/mambadev-guides/main/static/img/github_banner_mambadev.png" alt="MambaDev Banner" width="100%" />
 </p>
 
-🔥 Perfeito. Vamos entrar agora em **modo Mamba Clean Architecture** para Apex:  
-Uma abordagem extremamente disciplinada para garantir **modularidade, rastreabilidade, testabilidade e manutenção a longo prazo**.
-
----
+> 🧱 @status:core | This document defines official MambaDev coding fundamentals.  
+> Changes must be versioned and approved by architecture leads.  
+> Applied guides (e.g. `/apex/`) may evolve beyond this for future-proofing.
 
 # 🧱 Mamba Modular Architecture para Apex
 
