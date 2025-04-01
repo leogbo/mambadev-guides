@@ -1,125 +1,160 @@
 /**
- * @name        EnvironmentUtils
- * @since       2025-04-01
- * @access      global
- * @author      MambaDev
- * @description
- *  Apex utility class for reading and updating environment-level configuration stored in the
- *  org-wide Custom Setting `ConfigSystem__c`. Acts as a cache layer and access point for global flags.
- *
- *  Responsibilities:
- *   - Read environment, logging, mocking, test mode, flow toggle, and timeout values
- *   - Update values dynamically while maintaining in-memory cache
- *   - Support org-aware logic through helper methods (e.g., `isProduction()`)
+ * -----------------------------------------------------------------------------------------
+ * Nome da Classe.......: Logger
+ * Data.................: 2025-04-01
+ * Autor................: Leo Mamba Garcia
+ * 
+ * Descrição:
+ *     Classe responsável por registrar logs de execução, erros e dados de auditoria
+ *     com rastreabilidade completa. A classe também oferece controle sobre o armazenamento
+ *     de logs em produção ou testes. Além disso, fornece métodos estáticos (helper) para 
+ *     facilitar o registro de logs sem precisar instanciar a classe.
+ * 
+ * Observações:
+ *     - Permite criar logs com níveis INFO, WARN, ERROR e SUCCESS.
+ *     - Suporta gravação síncrona (INSERT) ou assíncrona (QUEUEABLE).
+ *     - Os dados são armazenados em FlowExecutionLog__c, mas você pode trocar para outro objeto.
+ *     - Possui métodos estáticos para log simplificado e métodos de instância para 
+ *       configurações avançadas.
+ * -----------------------------------------------------------------------------------------
  */
-public class EnvironmentUtils {
+public class Logger {
 
-    // 🔒 Internal cache (loaded at class init or after update)
-    @TestVisible private static String environment;
-    @TestVisible private static String logLevel;
-    @TestVisible private static Boolean isLogEnabled;
-    @TestVisible private static Boolean isMockEnabled;
-    @TestVisible private static Boolean isTestMode;
-    @TestVisible private static Decimal timeoutCallout;
-    @TestVisible private static Decimal maxDebugLength;
-    @TestVisible private static Boolean disableFlows;
+    public enum LogLevel { INFO, WARN, ERROR, SUCCESS }
 
-    static {
-        load();
+    @TestVisible public static String  environment       = (EnvironmentUtils.getRaw() != null) ? EnvironmentUtils.getRaw() : 'sandbox';
+    @TestVisible public static String  logLevelDefault   = (EnvironmentUtils.getLogLevel() != null) ? EnvironmentUtils.getLogLevel() : 'INFO';
+    @TestVisible public static Integer maxDebugLength  = (EnvironmentUtils.getMaxDebugLength() != null ) ? (Integer)EnvironmentUtils.getMaxDebugLength() : 3000;
+    @TestVisible public static String  className;
+    @TestVisible public static String  triggerType;
+    @TestVisible public static String  logCategory;
+    @TestVisible public static Boolean isEnabled = true;
+
+    private String  methodName;
+    private String  triggerRecordId;
+    private String  stackTrace;
+    private String  serializedData;
+    private String  instanceEnvironment;
+    private String  instanceClassName;
+    private String  instanceTriggerType;
+    private String  instanceLogCategory;
+    private Boolean async = false;
+
+    public Logger() {
+        this.instanceClassName   = String.isBlank(Logger.className)   ? 'Logger'     : Logger.className;
+        this.instanceTriggerType = String.isBlank(Logger.triggerType) ? 'TestContext': Logger.triggerType;
+        this.instanceLogCategory = String.isBlank(Logger.logCategory) ? 'General'    : Logger.logCategory;
+        this.instanceEnvironment = String.isBlank(Logger.environment) ? 'Sandbox'    : Logger.environment;
     }
 
-    @TestVisible
-    private static void load() {
-        try {
-            ConfigSystem__c config = [
-                SELECT Environment__c, Log_Level__c, Is_Log_Enabled__c, Is_Mock_Enabled__c,
-                       Is_Test_Mode__c, Callout_Timeout__c, Max_Debug_Length__c, Disable_Flows__c
-                  FROM ConfigSystem__c
-                 ORDER BY CreatedDate DESC LIMIT 1
-            ];
+    public Logger setMethod(String methodName) {
+        this.methodName = methodName;
+        return this;
+    }
 
-            environment = String.isNotBlank(config.Environment__c) ? config.Environment__c.trim().toLowerCase() : null;
-            logLevel = String.isNotBlank(config.Log_Level__c) ? config.Log_Level__c.trim().toLowerCase() : null;
-            isLogEnabled = config.Is_Log_Enabled__c;
-            isMockEnabled = config.Is_Mock_Enabled__c;
-            isTestMode = config.Is_Test_Mode__c;
-            timeoutCallout = config.Callout_Timeout__c;
-            maxDebugLength = config.Max_Debug_Length__c;
-            disableFlows = config.Disable_Flows__c;
-        } catch (Exception ex) {
-            System.debug('⚠️ Failed to load ConfigSystem__c: ' + ex.getMessage());
+    public Logger setRecordId(String recordId) {
+        this.triggerRecordId = recordId;
+        return this;
+    }
+
+    public Logger setCategory(String category) {
+        this.instanceLogCategory = category;
+        return this;
+    }
+
+    public Logger setTriggerType(String triggerType) {
+        this.instanceTriggerType = triggerType;
+        return this;
+    }
+
+    public Logger setEnvironment(String environment) {
+        this.instanceEnvironment = environment;
+        return this;
+    }
+
+    public Logger setClass(String className) {
+        this.instanceClassName = className;
+        return this;
+    }
+
+    public Logger setAsync(Boolean value) {
+        this.async = value;
+        return this;
+    }
+
+    @TestVisible 
+    private void logInternal(LogLevel level, String message, String stack, String data) {
+        if (!isEnabled && !Test.isRunningTest()) return;
+
+        FlowExecutionLog__c logEntry = new FlowExecutionLog__c(
+            Log_Level__c           = level.name(),
+            Class__c               = safeLeft(instanceClassName, 255),
+            Origin_Method__c       = safeLeft(methodName, 255),
+            Trigger_Record_ID__c   = triggerRecordId,
+            Error_Message__c       = safeLeft(message, 255),
+            Debug_Information__c   = safeLeft(data, maxDebugLength),
+            Stack_Trace__c         = safeLeft(stack, 30000),
+            Serialized_Data__c     = safeLeft(data, 30000),
+            Trigger_Type__c        = instanceTriggerType,
+            Log_Category__c        = instanceLogCategory,
+            Environment__c         = instanceEnvironment,
+            Execution_Timestamp__c = System.now()
+        );
+
+        if (async) {
+            System.enqueueJob(new LoggerQueueable(logEntry));
+        } else {
+            insert logEntry;
         }
     }
 
-    // 🔍 Read Accessors
-    public static Boolean isProduction()        { return 'production'.equalsIgnoreCase(environment); }
-    public static Boolean isSandbox()           { return 'sandbox'.equalsIgnoreCase(environment); }
-    public static Boolean isKnownEnvironment()  { return isProduction() || isSandbox(); }
-    public static String  getEnvironment()      { return environment; }
-    public static String  getLogLevel()         { return logLevel; }
-    public static Boolean isLogActive()         { return isLogEnabled; }
-    public static Boolean isMockEnabled()       { return isMockEnabled; }
-    public static Boolean isTestMode()          { return isTestMode; }
-    public static Decimal getTimeoutCallout()   { return timeoutCallout; }
-    public static Decimal getMaxDebugLength()   { return maxDebugLength; }
-    public static Boolean areFlowsDisabled()    { return disableFlows; }
-
-    // ⚙️ Updaters
-    @TestVisible public static void updateEnvironment(String newValue) {
-        updateField('Environment__c', newValue);
-        environment = newValue?.toLowerCase();
+    @TestVisible 
+    private static String safeLeft(String value, Integer max) {
+        return (value == null) ? null : value.left(max);
     }
 
-    @TestVisible public static void updateLogLevel(String newValue) {
-        updateField('Log_Level__c', newValue);
-        logLevel = newValue?.toLowerCase();
+    public void info(String message) {
+        info(message, null);
     }
 
-    @TestVisible public static void updateLogEnabled(Boolean newValue) {
-        updateField('Is_Log_Enabled__c', newValue);
-        isLogEnabled = newValue;
+    public void info(String message, String data) {
+        this.logInternal(LogLevel.INFO, message, null, data);
     }
 
-    @TestVisible public static void updateMockEnabled(Boolean newValue) {
-        updateField('Is_Mock_Enabled__c', newValue);
-        isMockEnabled = newValue;
+    public void warn(String message) {
+        warn(message, null);
     }
 
-    @TestVisible public static void updateTestMode(Boolean newValue) {
-        updateField('Is_Test_Mode__c', newValue);
-        isTestMode = newValue;
+    public void warn(String message, String data) {
+        this.logInternal(LogLevel.WARN, message, null, data);
     }
 
-    @TestVisible public static void updateTimeoutCallout(Decimal newValue) {
-        updateField('Callout_Timeout__c', newValue);
-        timeoutCallout = newValue;
+    public void error(String message) {
+        error(message, null, null);
     }
 
-    @TestVisible public static void updateMaxDebugLength(Decimal newValue) {
-        updateField('Max_Debug_Length__c', newValue);
-        maxDebugLength = newValue;
+    public void error(String message, Exception ex) {
+        error(message, ex, null);
     }
 
-    @TestVisible public static void updateDisableFlows(Boolean newValue) {
-        updateField('Disable_Flows__c', newValue);
-        disableFlows = newValue;
+    public void error(String message, Exception ex, String data) {
+        String stack = (ex != null) ? ex.getStackTraceString() : null;
+        this.logInternal(LogLevel.ERROR, message, stack, data);
     }
 
-    @TestVisible private static void updateField(String fieldName, Object newValue) {
-        try {
-            ConfigSystem__c config = [
-                SELECT Id, Environment__c, Log_Level__c, Is_Log_Enabled__c, Is_Mock_Enabled__c,
-                       Is_Test_Mode__c, Callout_Timeout__c, Max_Debug_Length__c, Disable_Flows__c
-                  FROM ConfigSystem__c
-                 ORDER BY CreatedDate DESC LIMIT 1
-            ];
-            if (config == null) {
-                config = new ConfigSystem__c(SetupOwnerId = UserInfo.getOrganizationId());
-            }
-            config.put(fieldName, newValue);
-            update config;
-        } catch (Exception ex) {
-            System.debug('⚠️ Failed to update ConfigSystem__c.' + fieldName + ': ' + ex.getMessage());
+    public void success(String message) {
+        success(message, null);
+    }
+
+    public void success(String message, String data) {
+        this.logInternal(LogLevel.SUCCESS, message, null, data);
+    }
+
+    public static Logger fromTrigger(SObject record) {
+        Logger logger = new Logger();
+        if (record != null && record.Id != null) {
+            logger.setRecordId(record.Id);
         }
+        return logger;
     }
 }
