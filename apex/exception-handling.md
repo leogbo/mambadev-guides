@@ -113,6 +113,15 @@ catch (Exception ex) {
 - [ExceptionUtil](./exceptionutil.md)  
   Utility for asserting conditions and throwing exceptions consistently.
 
+## 📎 Aligned Fundamentals
+
+These operational guides are built on:
+
+- [`MambaDev Coding Style`](../fundamentals/mambadev-coding-style.md)
+- [`Apex Style Guide`](../fundamentals/apex-style-guide.md)
+- [`Architecture Principles`](../fundamentals/architecture-principles.md)
+- [`Review Checklist`](../fundamentals/apex-review-checklist.md)
+
 ---
 
 > MambaDev handles exceptions with clarity, not just catching errors — but revealing truth.
