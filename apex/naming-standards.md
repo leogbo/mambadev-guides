@@ -123,6 +123,15 @@ private class LeadConversionServiceTest {
 - [Validation Patterns](./validation-patterns.md)  
   Use naming that reveals rule logic and scope.
 
+## 📎 Aligned Fundamentals
+
+These operational guides are built on:
+
+- [`MambaDev Coding Style`](../fundamentals/mambadev-coding-style.md)
+- [`Apex Style Guide`](../fundamentals/apex-style-guide.md)
+- [`Architecture Principles`](../fundamentals/architecture-principles.md)
+- [`Review Checklist`](../fundamentals/apex-review-checklist.md)
+
 ---
 
 > MambaDev doesn’t name things to be clever.  
