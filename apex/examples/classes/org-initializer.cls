@@ -4,82 +4,88 @@
  * @access      public
  * @author      MambaDev
  * @description
- *  Prepares the org environment for tests and automated execution.
- *  Ensures system config is loaded, test data is prepared, and sandbox safety is respected.
+ *  Initializes the org for test execution or sandbox configuration.
+ *  This includes structured system configuration, test data population,
+ *  and safety checks to avoid execution in production environments.
  */
 public class OrgInitializer {
 
     private static final String CLASS_NAME = 'OrgInitializer';
     private static final String CATEGORY   = 'Setup';
-    private static final String TRIGGER    = 'Manual';
 
     /**
-     * Initializes system configuration via ConfiguracaoSistema__c.
+     * Applies system-wide configuration via SystemConfig__c.
+     *
+     * @param environment        The environment name (e.g., 'sandbox')
+     * @param logLevel           Desired log level (INFO, DEBUG, etc.)
+     * @param logEnabled         Whether logging is active
+     * @param enableMock         Whether mocks are enabled
+     * @param testModeEnabled    Whether test mode is active
+     * @param calloutTimeout     Timeout for callouts in milliseconds
+     * @param disableFlows       Whether flows should be disabled
      */
-    @TestVisible
-    public static void setupConfigSystem(
-        String ambiente,
+    public static void setupSystemConfig(
+        String environment,
         String logLevel,
-        Boolean logAtivo,
-        Boolean habilitaMock,
-        Boolean modoTesteAtivo,
-        Decimal timeoutCallout,
-        Boolean desativarFlows
+        Boolean logEnabled,
+        Boolean enableMock,
+        Boolean testModeEnabled,
+        Decimal calloutTimeout,
+        Boolean disableFlows
     ) {
         Logger logger = new Logger()
             .setClass(CLASS_NAME)
-            .setMethod('setupConfigSystem')
+            .setMethod('setupSystemConfig')
             .setCategory(CATEGORY);
 
         Map<String, Object> configData = new Map<String, Object>{
-            'ambiente' => ambiente,
-            'logLevel' => logLevel,
-            'logAtivo' => logAtivo,
-            'habilitaMock' => habilitaMock,
-            'modoTesteAtivo' => modoTesteAtivo,
-            'timeoutCallout' => timeoutCallout,
-            'desativarFlows' => desativarFlows
+            'environment'       => environment,
+            'logLevel'          => logLevel,
+            'logEnabled'        => logEnabled,
+            'enableMock'        => enableMock,
+            'testModeEnabled'   => testModeEnabled,
+            'calloutTimeout'    => calloutTimeout,
+            'disableFlows'      => disableFlows
         };
 
         try {
-            logger.info('Starting system configuration', JSON.serializePretty(configData));
+            logger.info('Initializing system configuration', JSON.serializePretty(configData));
 
-            delete [SELECT Id FROM ConfiguracaoSistema__c];
+            delete [SELECT Id FROM SystemConfig__c];
 
-            ConfiguracaoSistema__c config = new ConfiguracaoSistema__c(
+            SystemConfig__c config = new SystemConfig__c(
                 SetupOwnerId        = UserInfo.getOrganizationId(),
-                Ambiente__c         = ambiente,
-                Log_Level__c        = logLevel,
-                Log_Ativo__c        = logAtivo,
-                Habilita_Mock__c    = habilitaMock,
-                Modo_Teste_Ativo__c = modoTesteAtivo,
-                Timeout_Callout__c  = timeoutCallout,
-                Desativar_Flows__c  = desativarFlows
+                Environment__c      = environment,
+                LogLevel__c         = logLevel,
+                LogEnabled__c       = logEnabled,
+                EnableMock__c       = enableMock,
+                TestModeEnabled__c  = testModeEnabled,
+                CalloutTimeout__c   = calloutTimeout,
+                DisableFlows__c     = disableFlows
             );
 
             insert config;
 
-            logger.success('System config completed successfully', JSON.serializePretty(config));
+            logger.success('System configuration completed', JSON.serializePretty(config));
 
         } catch (Exception ex) {
-            logger.error('Failed to configure system', ex, JSON.serializePretty(configData));
+            logger.error('System configuration failed', ex, JSON.serializePretty(configData));
         }
     }
 
     /**
-     * Prepares test data and validates setup success.
+     * Populates the org with necessary test data.
      */
-    @TestVisible
     public static void setupTestData() {
         Logger logger = new Logger()
             .setClass(CLASS_NAME)
             .setMethod('setupTestData')
             .setCategory(CATEGORY);
 
-        logger.info('Preparing test data using TestDataSetup', null);
+        logger.info('Preparing test data environment', null);
 
         try {
-            setupConfigSystem(
+            setupSystemConfig(
                 'sandbox',
                 'INFO',
                 true,
@@ -92,25 +98,23 @@ public class OrgInitializer {
             TestDataSetup.setupCompleteEnvironment();
             validateTestData();
 
-            logger.success('Test data successfully prepared', null);
+            logger.success('Test data environment successfully configured', null);
         } catch (Exception ex) {
-            logger.error('Error while setting up test data', ex, null);
+            logger.error('Test data setup failed', ex, null);
         }
     }
 
     /**
-     * Validates that critical test data exists.
+     * Ensures test data was properly created.
      */
-    @TestVisible
     public static void validateTestData() {
-        List<Account> contas = [SELECT Id FROM Account LIMIT 1];
-        ExceptionUtil.require(!contas.isEmpty(), 'Test data missing: no Account records found.');
+        List<Account> accounts = [SELECT Id FROM Account LIMIT 1];
+        ExceptionUtil.require(!accounts.isEmpty(), 'Missing test data: no Account records found.');
     }
 
     /**
-     * Configures the org safely (sandbox-only) and prepares test data.
+     * Orchestrates full org configuration (safe for sandbox only).
      */
-    @TestVisible
     public static void configureOrg() {
         Logger logger = new Logger()
             .setClass(CLASS_NAME)
@@ -120,23 +124,22 @@ public class OrgInitializer {
         try {
             Boolean isSandbox = [SELECT IsSandbox FROM Organization LIMIT 1].IsSandbox;
             if (!Test.isRunningTest() && !isSandbox) {
-                logger.warn('Execution in production environment is blocked.', null);
+                logger.warn('Blocked: attempted execution in production environment.', null);
                 return;
             }
 
-            logger.info('Configuring sandbox org environment', null);
+            logger.info('Executing full org initialization (sandbox)', null);
             setupTestData();
-            logger.success('Org setup completed', null);
+            logger.success('Org initialization completed', null);
 
         } catch (Exception ex) {
-            logger.error('Failed to configure org', ex, null);
+            logger.error('Org initialization failed', ex, null);
         }
     }
 
     /**
-     * Entry point for full org initialization.
+     * Entrypoint method to initialize the org setup pipeline.
      */
-    @TestVisible
     public static void run() {
         configureOrg();
     }
