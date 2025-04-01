@@ -1,36 +1,78 @@
 # 🐍 Apex Guide | MambaDev
 
-This guide represents the Mamba Mentality applied to Apex development — relentless refinement, architectural clarity, and elite execution inside the Salesforce platform.
+> Precision. Performance. Purpose.  
+> This is Apex — the MambaDev way.
+
+---
 
 ## 📘 Purpose
 
 The Apex module exists to:
-- Elevate development standards in the Salesforce ecosystem
-- Document reusable structures, handler patterns, and performance techniques
-- Enable developers to think beyond syntax and into systems thinking
+
+- Set elite standards in Salesforce development
+- Document scalable patterns and modular architectures
+- Evolve developers from coders to system thinkers
+
+---
 
 ## 🧱 Structure
 
-| Section | Description |
-|---------|-------------|
-| Concepts | Deep dives into core Apex patterns |
-| Examples | Anonymized, tactical demonstrations |
-| Best Practices | Mamba-approved engineering rules |
-| Pitfalls to Avoid | Antipatterns and recovery techniques |
-| Resources | Related content across MambaDev modules |
+A curated arsenal of guides, examples, and frameworks for Apex excellence.
 
-## 🔗 Live Module
+### 🧩 Fundamentals  
+Core principles and foundational mindset:
+- [Apex Style Guide](fundamentals/apex-style-guide.md)
+- [Review Checklist](fundamentals/apex-review-checklist.md)
+- [Mamba Garcia Coding Style](fundamentals/mamba-garcia-coding-style.md)
+- [Architecture Principles](fundamentals/architecture-principles.md)
 
-Access the full guide here:  
-👉 [`https://mambadev.io/apex`](https://mambadev.io/apex)
+### 🧪 Testing & Examples  
+Reusable templates built for clarity and confidence:
+- [Test Data Setup Class](examples/test-data-setup.cls)
+- [Flow Execution Log Setup](examples/flow-execution-log.md)
+- [Apex Testing Guide](testing/apex-testing-guide.md)
 
-## ⚠️ Policy
+### 🔌 Integrations  
+Interfaces that expand your reach:
+- [REST API Guide](integrations/rest-api-guide.md)
 
-This module includes **no client-specific** or **sensitive code**.  
-All examples are generically modeled to teach performance, not expose data.
+### 🛠️ Environment  
+Operational excellence from sandbox to prod:
+- [Sandbox Init Guide](sandbox/sandbox-init-guide.md)
 
-## 🧠 Mamba Mentality
+### 🧠 Comparisons  
+Decisions backed by clarity, not opinion:
+- [Apex Feature Comparison](comparisons/apex-feature-comparison.md)
 
-We don’t push code.  
-We push limits.  
-Brick by brick — until we become legendary.
+### 🔍 Extras  
+Patterns that push boundaries:
+- [Logger Implementation](extras/logger-implementation.md)
+
+---
+
+## 🌐 Live Module
+
+Access the public version of this module:  
+[`https://mambadev.io/apex`](https://mambadev.io/apex)
+
+---
+
+## 🔒 Open-Source Discipline
+
+No client-specific code.  
+No sensitive logic.  
+Only battle-tested patterns and philosophies.
+
+---
+
+## ⚫ Mamba Mentality
+
+We don’t just write code.  
+We build legacy.  
+Every line, a brick. Every guide, a blueprint.  
+Until excellence becomes instinct.
+
+---
+
+**Welcome to the elite.**  
+Now execute.
