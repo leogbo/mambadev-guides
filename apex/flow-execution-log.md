@@ -105,6 +105,15 @@ It captures runtime data in a structured and persistent format — enabling diag
 - [Validation Patterns](./validation-patterns.md)  
   Clean patterns for input validation that plug directly into Logger.
 
+## 📎 Aligned Fundamentals
+
+These operational guides are built on:
+
+- [`MambaDev Coding Style`](../fundamentals/mambadev-coding-style.md)
+- [`Apex Style Guide`](../fundamentals/apex-style-guide.md)
+- [`Architecture Principles`](../fundamentals/architecture-principles.md)
+- [`Review Checklist`](../fundamentals/apex-review-checklist.md)
+
 ---
 
 > In MambaDev, we don’t debug by guesswork.  
