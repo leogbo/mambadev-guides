@@ -5,6 +5,13 @@
 
 ---
 
+## 🔗 Official Shortlink
+
+Access this guide at:  
+👉 [https://mambadev.io/coding-style](https://mambadev.io/coding-style)
+
+---
+
 ## 🎯 Purpose
 
 This guide is the **non-negotiable standard** for building Apex inside any elite org. It's not a suggestion — it's a system.  
@@ -43,7 +50,7 @@ Use this in **every class or handler** for authorship traceability:
 ```apex
 @TestVisible private static final String CLASS_NAME = 'SomeClass';
 @TestVisible private static final String CATEGORY = 'Domain';
-@TestVisible private static final String TRIGGER_TYPE = 'Apex'; // Apex | REST | Flow | Queueable
+@TestVisible private static final String EXECUTION_TYPE = 'Apex'; // Apex | REST | Flow | Queueable
 ```
 
 ---
@@ -58,7 +65,7 @@ public static Boolean isFeatureEnabled() {
     if (cache != null) return cache;
 
     try {
-        cache = [SELECT Feature_Ativa__c FROM ConfiguracaoSistema__c ORDER BY CreatedDate DESC LIMIT 1].Feature_Ativa__c;
+        cache = [SELECT IsActive__c FROM AppConfiguration__c ORDER BY CreatedDate DESC LIMIT 1].IsActive__c;
     } catch (Exception e) {
         cache = false;
     }
@@ -95,9 +102,9 @@ logger.error('Process failed', ex, JSON.serializePretty(inputData));
 @IsTest
 static void should_enable_feature_when_config_is_active() {
     // Arrange
-    insert new ConfiguracaoSistema__c(
-        SetupOwnerId = UserInfo.getOrganizationId(),
-        Feature_Ativa__c = true
+    insert new AppConfiguration__c(
+        OwnerId = UserInfo.getOrganizationId(),
+        IsActive__c = true
     );
 
     // Act
@@ -228,8 +235,3 @@ If everything is ✅, it's ready for merge.
 **Leo Mamba Garcia**  
 _Style isn’t vanity. It’s traceability under pressure._  
 #MambaStandard #TestOrRefactor #EliteCodeOnly
-```
-
----
-
-Let me know the next one to Mamba-fy and I’ll keep the same discipline.
