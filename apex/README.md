@@ -2,7 +2,7 @@
   <img src="https://raw.githubusercontent.com/leogbo/mambadev-guides/main/static/img/github_banner_mambadev.png" alt="MambaDev Banner" width="100%" />
 </p>
 
-# 🐍 Apex Guide | MambaDev
+# 🐍 MambaDev Apex Guide
 
 > *Precision. Performance. Purpose.*  
 > This is Apex — the MambaDev way.
@@ -11,96 +11,67 @@
 
 ## 📘 Purpose
 
-This module is the official Apex playbook of MambaDev.  
+This module defines the **official Apex architecture playbook** of MambaDev.
+
 It exists to:
 
-- Set elite, auditable standards in Salesforce development
-- Document modular, scalable architectural patterns
-- Transform developers into system thinkers and technical operators
+- 🧠 Set elite, auditable standards for Salesforce development
+- 🧱 Document modular, scalable architectural patterns
+- 🐍 Train developers to think like architects and operate like SEALs
 
 ---
 
-## 📂 File System
+## 📂 Current Structure
 
-Each section of this repo is modular and purpose-driven:
+Each guide in this module is handcrafted for clarity, reusability, and operational excellence.
 
-| Folder           | Purpose                                               |
-|------------------|-------------------------------------------------------|
-| `fundamentals/`  | Core principles, naming, structure, code style        |
-| `testing/`       | Patterns, setup, and data strategies for tests        |
-| `examples/`      | Reusable code blocks and real-world references        |
-| `logging/`       | MambaLogger architecture and implementation           |
-| `sandbox/`       | Org configuration and environment setup               |
-| `integrations/`  | External systems, API patterns                        |
-| `comparison/`    | Before vs after, refactor clarity guides              |
+| Guide                           | Purpose                                                         |
+|----------------------------------|-----------------------------------------------------------------|
+| `validation-patterns.md`        | Declarative validation using guard clauses and semantic errors |
+| `exception-handling.md`         | Semantic try/catch patterns with custom exceptions             |
+| `structured-logging.md`         | Logging architecture using `Logger` and `FlowExecutionLog__c`  |
+| `flow-execution-log.md`         | Object reference for persistent structured logs                |
+| `exceptionutil.md`              | Utility for fast, clear validation with `AppValidationException`|
 
 ---
 
-## 🧱 Module Navigation
+## 🔁 MambaDev Logging Stack
 
-### 🧩 Fundamentals  
-Core patterns and architecture standards:
-- [`Apex Style Guide`](fundamentals/apex-style-guide.md)
-- [`Review Checklist`](fundamentals/apex-review-checklist.md)
-- [`Architecture Principles`](fundamentals/architecture-principles.md)
-- [`Coding Style: Mamba Edition`](fundamentals/mambadev-coding-style.md)
+All logs flow through the `Logger` abstraction into `FlowExecutionLog__c`, capturing:
 
-### 🧪 Testing  
-Patterns and data structures that make tests bulletproof:
-- [`Apex Testing Guide`](testing/apex-testing-guide.md)
-- [`Test Data Setup`](testing/data/test-data-setup.md)
+- Class + Method
+- Input/Output Payloads (JSON)
+- Stack Trace (if any)
+- Flow Step, Trigger Type, and Execution Metadata
 
-### 📦 Examples  
-Code that you can clone, paste, and run:
-- [`Feature Manager`](examples/classes/feature-manager.cls)
-- [`Flow Execution Log`](examples/flow-execution-log.md)
+Refer to:
 
-### 🔌 Integrations  
-Apex meets the external world:
-- [`REST API Guide`](integrations/rest-api-guide.md)
-
-### 🧱 Logging Architecture  
-End-to-end error visibility with MambaLogger:
-- [`Logger Guide`](logging/logger-implementation.md)
-- [`Logger Class`](examples/classes/logger.cls)
-- [`Logger Mock`](examples/classes/logger-mock.cls)
-- [`Async Logger Job`](examples/classes/async-logger-job.cls)
-- [`ILogger Interface`](examples/classes/ilogger.cls)
-
-### 🧪 Sandbox & Onboarding  
-Foundation for scalable configuration:
-- [`Sandbox Init Guide`](sandbox/sandbox-init-guide.md)
-
-### 🧠 Comparisons  
-Refactoring logic, side-by-side:
-- [`Feature Comparison`](comparison/apex-feature-comparison.md)
+- [`structured-logging.md`](./structured-logging.md)
+- [`flow-execution-log.md`](./flow-execution-log.md)
 
 ---
 
-## 🌐 Public Module
+## ✅ Rules of the Game
 
-Access this module live:  
+- No client-specific logic  
+- No org-bound IDs or hardcoded metadata  
+- No sensitive data  
+- All code must be modular, auditable, and reusable across orgs
+
+---
+
+## 🌐 Access the Public Module
+
 👉 [`https://mambadev.io/apex`](https://mambadev.io/apex)
 
 ---
 
-## 🔒 Discipline First
+## 🐍 Mamba Mentality
 
-- ✅ No client-specific code  
-- ✅ No org-bound IDs or sensitive logic  
-- ✅ Fully reusable and auditable patterns
-
----
-
-## ⚫ Mamba Mentality
-
-We don’t just ship code.  
-We ship legacy.  
+We don’t build for today.  
+We build for every dev who comes after us.  
 Every class is a contract.  
-Every guide is a doctrine.  
-Every PR is a permanent statement of excellence.
+Every exception has meaning.  
+Every log is an artifact of truth.
 
----
-
-**Welcome to the elite.**  
-Now execute.
+**Welcome to the elite. Now execute.**
