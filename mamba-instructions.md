@@ -3,9 +3,20 @@
 📎 **Official Shortlink:** [bit.ly/GuiaApexMamba](https://bit.ly/GuiaApexMamba)  
 🔗 **Applicable MambaDev Links:**
 
-https://mambadev.io/42iHzvK | https://mambadev.io/3FScojm | https://mambadev.io/3YgDDdx  
-https://mambadev.io/41WCcDA | https://mambadev.io/428yTrz | https://mambadev.io/4ceNlTD  
-https://mambadev.io/41XGoTz | https://mambadev.io/4jjcWx9
+https://mambadev.io/equivalence-checklist
+https://mambadev.io/apex-core-guide
+https://mambadev.io/content-progress-analysis
+https://mambadev.io/guides-readme
+https://mambadev.io/logger-implementation
+https://mambadev.io/apex-review-checklist
+https://mambadev.io/testing-patterns
+https://mambadev.io/apex-testing-guide
+https://mambadev.io/sandbox-init-guide
+https://mambadev.io/apex-feature-comparison
+https://mambadev.io/rest-api-guide
+https://mambadev.io/layered-architecture
+https://mambadev.io/style
+
 
 > **"Excellence is not optional. It’s the baseline."** – Mamba Mentality 🧠🔥
 
