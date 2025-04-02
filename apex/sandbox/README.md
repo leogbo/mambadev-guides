@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/leogbo/mambadev-guides/main/static/img/github_banner_mambadev.png" alt="MambaDev Banner" width="100%" />
+</p>
+
 # Sandbox Guide Folder
 
 This folder contains operational guides for managing **sandbox initialization**, environment setup, and post-refresh automation inside Salesforce environments.
