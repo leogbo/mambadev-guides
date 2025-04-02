@@ -33,4 +33,4 @@ This folder centralizes the material needed to:
 For usage examples and enforcement rules, see:
 
 - [`review-checklist.md`](../fundamentals/review-checklist.md)  
-- [`testing-patterns.md`](../testing/testing-patterns.md)
+- [`testing-patterns.md`](../../testing-patterns.md)
