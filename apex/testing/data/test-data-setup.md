@@ -108,6 +108,10 @@ Deleta tudo, em ordem reversa e segura. Útil para testes end-to-end ou de isola
 // @isTest
 public class TestDataSetup {
 
+    @TestVisible public static String  environment       = (EnvironmentUtils.getRaw() != null) ? EnvironmentUtils.getRaw() : 'sandbox';
+    @TestVisible public static String  logLevelDefault   = (EnvironmentUtils.getLogLevel() != null) ? EnvironmentUtils.getLogLevel() : 'INFO';
+    @TestVisible public static Integer maxDebugLength    = (EnvironmentUtils.getMaxDebugLength() != null ) ? (Integer)EnvironmentUtils.getMaxDebugLength() : 3000;
+    
     private static final String MOCK_DOMINIO = 'https://mock-dominio.com';
     private static final String MOCK_URL     = 'https://mock-token.com/oauth';
 
@@ -122,6 +126,7 @@ public class TestDataSetup {
         if (Test.isRunningTest()) {
             testLabels.put(labelName, value);
         } else {
+            System.debug('ERROR | Override de Label não permitido em produção.');
             throw new TestSetupException('Override de Label não permitido em produção.');
         }
     }
@@ -138,6 +143,7 @@ public class TestDataSetup {
             List<Integracao__c> existentes = [SELECT Id FROM Integracao__c LIMIT 1];
 
             if (!existentes.isEmpty()) {
+                System.debug('INFO | Registro Integracao__c existente: '+JSON.serializePretty(existentes[0]));
                 return existentes[0];
             }
 
@@ -151,7 +157,46 @@ public class TestDataSetup {
             );
 
             insert integracao;
+            System.debug('INFO | Integracao__c created: '+JSON.serializePretty(integracao));
             return integracao;
+
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+
+    @TestVisible
+    public static ConfiguracaoSistema__c setupConfiguracaoSistema() {
+
+        try {
+            List<ConfiguracaoSistema__c> existentes = [
+                SELECT Id 
+                FROM ConfiguracaoSistema__c 
+                LIMIT 1
+            ];
+
+            if (existentes.isEmpty()) {
+                System.debug('WARNING | Nenhum registro ConfiguracaoSistema__c encontrado. Retornando null.');
+                return new ConfiguracaoSistema__c();
+            }
+
+            ConfiguracaoSistema__c config = existentes[0];
+
+            config.Ambiente__c             = 'sandbox';
+            config.Desativar_Flows__c      = false;
+            config.Habilita_Log_JSON__c    = true;
+            config.Habilita_Mock__c        = true;
+            config.Log_Ativo__c            = true;
+            config.Log_Level__c            = 'INFO';
+            config.Max_Debug_Length__c     = 3000;
+            config.Notificar_Erros__c      = false;
+            config.Modo_Teste_Ativo__c     = false;
+            config.Timeout_Callout__c      = 120000;
+            config.Endpoint_GCP__c         = 'https://mock-endpoint.test/api';
+
+            update config;
+            System.debug('INFO | ConfiguracaoSistema__c updated: '+JSON.serializePretty(config));
+            return config;
 
         } catch (Exception ex) {
             throw ex;
@@ -164,6 +209,7 @@ public class TestDataSetup {
         Map<String, SObject> createdRecords = new Map<String, SObject>();
 
         try {
+            ConfiguracaoSistema__c config = setupConfiguracaoSistema();
             User user = UserTestDataSetup.createUser();
             Configuracoes__c responsavel = ResponsavelTestDataSetup.createResponsavel(user.Id);
             Integracao__c integracao = createIntegracao();
@@ -210,6 +256,7 @@ public class TestDataSetup {
             
             Case caseRecord = CaseTestDataSetup.createCase(uc.Id);
 
+            createdRecords.put('ConfigSystem', config);
             createdRecords.put('User', user);
             createdRecords.put('Responsavel', responsavel);
             createdRecords.put('Integracao', integracao);
@@ -245,9 +292,12 @@ public class TestDataSetup {
             createdRecords.put('FaturaUsina', faturaUsina);
             createdRecords.put('Geracoes', geracoes[0]);
 
+            System.debug('INFO | Setup Complete Environment Created Records:');
+            System.debug(JSON.serializePretty(createdRecords));
             return createdRecords;
 
         } catch (Exception ex) {
+            System.debug('ERROR | Setup Complete Environment - ' + ex.getMessage() + ' | ' + ex.getLineNumber());
             throw ex;
         }
     }
@@ -345,4 +395,3 @@ public class TestDataSetup {
         }
     }
 }
-
