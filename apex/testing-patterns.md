@@ -5,34 +5,34 @@
 # 🧪 Testing Patterns – MambaDev
 
 > This guide defines the testing standards and patterns for Apex development in MambaDev.  
-> It prioritizes **clarity, isolation, consistency**, and **semantic verification** over raw coverage numbers.
+> It prioritizes **clarity, isolation, consistency**, and **semantic validation** — not raw coverage numbers.
 
 ---
 
 ## 🎯 Purpose
 
-A Mamba test is:
+A Mamba test must be:
 
-- ✅ Focused — it tests one thing only
-- ✅ Deterministic — it fails only if logic is wrong
-- ✅ Declarative — you understand what it's testing in seconds
-- ✅ Self-contained — it sets up exactly what it needs
-- ✅ Semantic — it asserts meaning, not just values
+- ✅ Focused — it verifies **one behavior** only  
+- ✅ Deterministic — fails only if logic is broken  
+- ✅ Declarative — the intent is obvious  
+- ✅ Self-contained — no external dependencies  
+- ✅ Semantic — asserts **meaning**, not just values
 
 ---
 
 ## 🧱 Core Testing Stack
 
-| Class              | Purpose                                             |
-|--------------------|-----------------------------------------------------|
-| `TestHelper`       | Utility for generating fake data and random values  |
-| `LoggerMock`       | In-memory logger used to intercept logs in tests    |
-| `ExceptionUtil`    | Enables one-line validation assertions               |
-| `TestDataSetup`    | *(optional)* Factory-style setup for reusable test data |
+| Component         | Role                                                |
+|-------------------|-----------------------------------------------------|
+| `TestHelper`      | Utility for generating fake/random values           |
+| `LoggerMock`      | In-memory logger used to intercept logs in tests    |
+| `ExceptionUtil`   | One-line validation and failure assertions           |
+| `*TestDataSetup`  | Factory-style data setup to ensure integrity         |
 
 ---
 
-## 🧪 Structure of a Mamba Test Class
+## 📐 Test Class Structure (Standard)
 
 ```apex
 @IsTest
@@ -41,15 +41,14 @@ private class MyServiceTest {
     @IsTest
     static void test_shouldCreateRecordSuccessfully() {
         // Arrange
-        Account acc = new Account(Name = 'Test');
-        insert acc;
+        Account acc = AccountTestDataSetup.createAccount();
 
         // Act
         MyService.run(acc.Id);
 
         // Assert
         List<CustomObject__c> results = [SELECT Id FROM CustomObject__c WHERE Account__c = :acc.Id];
-        System.assertEquals(1, results.size(), 'Should have created one custom record');
+        System.assertEquals(1, results.size(), 'Should have created one record');
     }
 }
 ```
@@ -65,25 +64,28 @@ LoggerMock mock = new LoggerMock()
 
 mock.info('Test message', 'payload');
 
-System.assert(mock.capturedMessages.contains('[INFO] Test message | payload'));
+System.assert(mock.getCaptured().contains('[INFO] Test message | payload'));
 ```
+
+> Use `LoggerMock` to avoid DML during tests. Never use real `Logger`.
 
 ---
 
-## ⚠️ Avoid Anti-Patterns
+## ⚠️ Anti-Patterns to Avoid
 
-| Anti-Pattern                          | Refactor Tip                                                |
-|--------------------------------------|-------------------------------------------------------------|
-| `System.debug()` in tests            | Use assertions instead. Logs are not validations.           |
-| Tests that insert 10+ records        | Test only the records you need. Use batches only for batch tests. |
-| Using real `Logger` in tests         | Use `LoggerMock` to avoid polluting logs.                   |
-| No assertions                        | Every test must prove something. At least one `System.assert`. |
+| Anti-pattern                   | Why it's bad                                           | Fix                                       |
+|-------------------------------|--------------------------------------------------------|-------------------------------------------|
+| `System.debug()` in tests     | Logs ≠ validations                                     | Use `System.assert(...)`                  |
+| Inserting 10+ records         | Adds noise and slowness                                | Only create what's needed                 |
+| Direct `new` + `insert`       | Bypasses setup logic and causes integrity issues       | Use `*TestDataSetup` classes              |
+| Using real `Logger`           | Causes real DML and pollutes log tables                | Use `LoggerMock`                          |
+| No assertions                 | Test does not prove anything                           | Always assert at least one expected result |
 
 ---
 
 ## ✅ Recommended Patterns
 
-### 1. Assert That Exception Is Thrown
+### 1. Assert Exception is Thrown
 
 ```apex
 try {
@@ -96,13 +98,14 @@ try {
 
 ---
 
-### 2. Assert That Log Was Captured
+### 2. Assert Log is Captured
 
 ```apex
 LoggerMock mock = new LoggerMock().withClass('TestCase');
+
 mock.error('Failure occurred', new Exception('Boom'), null);
 
-System.assert(mock.capturedMessages[0].contains('Failure occurred'));
+System.assert(mock.getCaptured()[0].contains('Failure occurred'));
 ```
 
 ---
@@ -110,29 +113,63 @@ System.assert(mock.capturedMessages[0].contains('Failure occurred'));
 ### 3. Validate Results by Query
 
 ```apex
-insert new Account(Name = 'Apex Test');
+Account acc = AccountTestDataSetup.createAccount();
 
-List<Account> results = [SELECT Id FROM Account WHERE Name = 'Apex Test'];
+List<Account> results = [SELECT Id FROM Account WHERE Id = :acc.Id];
 System.assertEquals(1, results.size());
 ```
 
 ---
 
-## 📏 Naming Standards for Test Classes
+## 🧼 TestDataSetup Rule
 
-| Type                     | Convention               |
-|--------------------------|--------------------------|
-| Unit test class          | `ClassNameTest`          |
-| Integration test class   | `ClassNameIntegrationTest` |
-| Data factory (if used)   | `TestDataSetup`          |
-| Mocks                    | `LoggerMock`, `ServiceMock`, etc. |
+> 🧱 **All records must be created using their respective `*TestDataSetup.cls` factory classes.**
+
+This ensures:
+
+- Referential integrity  
+- Business rule compliance  
+- Isolation from production logic  
+- Predictable, reusable test environments
+
+```apex
+// ❌ Don't do this:
+insert new Opportunity(Name = 'Deal');
+
+// ✅ Do this:
+Opportunity opp = OpportunityTestDataSetup.createOpportunity();
+```
 
 ---
 
-## 🧠 Test Coverage Philosophy
+## ⚠️ Exception – System.debug() in Setup
 
-> 100% coverage is not the goal.  
-> 100% clarity is.
+```md
+System.debug() is **prohibited everywhere**, except inside `*TestDataSetup.cls` classes.
+
+These classes are used for high-volume setup and must **avoid Logger or DML side effects**.
+Use `System.debug()` only to support trace during local testing or data factory diagnostics.
+```
+
+---
+
+## 📏 Naming Conventions
+
+| Type                     | Pattern                      |
+|--------------------------|------------------------------|
+| Unit test class          | `ClassNameTest`              |
+| Integration test class   | `ClassNameIntegrationTest`   |
+| Shared setup utility     | `TestDataSetup`              |
+| Mocks                    | `LoggerMock`, `EmailServiceMock` |
+
+> Test names should describe **behavior and expectation**.
+
+---
+
+## 🧠 Coverage Philosophy
+
+> ✅ **100% clarity.**  
+> ❌ 100% coverage obsession.
 
 Instead of asking:
 > “Did we test every line?”
@@ -145,24 +182,25 @@ Ask:
 ## 📚 Related Guides
 
 - [ExceptionUtil](./exceptionutil.md)  
-  Validates and throws cleanly inside tests and services.
+  Enables concise exception assertions.
 
-- [LoggerMock](./structured-logging.md#🧪-testing-with-loggermock)  
-  Avoid polluting real logs and test exactly what was captured.
+- [Structured Logging](./structured-logging.md#🧪-testing-with-loggermock)  
+  Avoid log pollution — mock and assert logs cleanly.
 
 - [Validation Patterns](./validation-patterns.md)  
-  Combine declarative validation with semantic testing.
+  Declarative rules tested semantically.
+
+---
 
 ## 📎 Aligned Fundamentals
 
-These operational guides are built on:
-
-- [`MambaDev Coding Style`](../fundamentals/mambadev-coding-style.md)
-- [`Apex Style Guide`](../fundamentals/apex-style-guide.md)
-- [`Architecture Principles`](../fundamentals/architecture-principles.md)
+- [`MambaDev Coding Style`](../fundamentals/mambadev-coding-style.md)  
+- [`Apex Style Guide`](../fundamentals/apex-style-guide.md)  
+- [`Architecture Principles`](../fundamentals/architecture-principles.md)  
 - [`Review Checklist`](../fundamentals/apex-review-checklist.md)
 
 ---
 
 > A Mamba test is not just a check.  
-> It’s a contract — proving the system works as intended.
+> **It's a contract. A guarantee. A shield.**  
+> And it never fails for the wrong reason. 🧠🔥
