@@ -4,8 +4,8 @@ This folder contains guides focused on **unit testing patterns**, **test data ma
 
 ## Included Guides
 
-- `testing-patterns.md`: Defines structure, philosophy, and best practices for Apex tests.
-- `test-data-setup.md`: Explains how to create isolated, reusable and robust test data factories.
+- `testing-patterns.md`(https://mambadev.io/testing-patterns): Defines structure, philosophy, and best practices for Apex tests.
+- `apex-testing-guide.md`(https://mambadev.io/apex-testing-guide): Explains how to create isolated, reusable and robust test data factories.
 
 ## Purpose
 
