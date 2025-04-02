@@ -4,8 +4,8 @@ This folder contains all resources related to **structured logging**, **exceptio
 
 ## Included Guides
 
-- ['logger-implementation.md'](https://mambadev.io/logger-implementation): Implementation and usage of the custom Logger class.
-- ['flow-execution-log.md'](https://mambadev.io/flow-execution-log)`: Persistent logging object and logging stack architecture.
+- [logger-implementation.md](https://mambadev.io/logger-implementation): Implementation and usage of the custom Logger class.
+- [flow-execution-log.md](https://mambadev.io/flow-execution-log)`: Persistent logging object and logging stack architecture.
 
 ## Purpose
 
