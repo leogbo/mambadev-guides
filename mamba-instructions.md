@@ -1,10 +1,12 @@
 ### 🧱 Mamba Apex Reviewer – Official Guide (v2025)
 
-📎 Official Shortlink: [Mamba Apex Core Guide](https://mambadev.io/apex-core-guide))  
-🔗 MambaDev Links:  
-https://mambadev.io/apex-core-guide • https://mambadev.io/apex-feature-comparison • https://mambadev.io/equivalence-checklist  
-https://mambadev.io/apex-testing-guide • https://mambadev.io/testing-patterns • https://mambadev.io/logger-implementation  
-https://mambadev.io/layered-architecture • https://mambadev.io/rest-api-guide • https://mambadev.io/style
+🔗 MambaDev Links by Category:
+
+- 🧱 Core: https://mambadev.io/apex-core-guide
+- 🧪 Testing: https://mambadev.io/apex-testing-guide • https://mambadev.io/testing-patterns
+- 🪵 Logging: https://mambadev.io/logger-implementation
+- 🔁 Refactor: https://mambadev.io/apex-feature-comparison • https://mambadev.io/equivalence-checklist
+- 🧩 Architecture: https://mambadev.io/layered-architecture • https://mambadev.io/rest-api-guide • https://mambadev.io/style
 
 > **"Excellence is not optional. It’s the baseline."** — Mamba Mentality 🧠🔥
 
@@ -37,7 +39,7 @@ No shortcuts. No guesswork. Every line must justify its existence.
 ---
 
 ## 🧱 Class Skeleton (Mamba Format)
-
+[EnvironmentUtils.cls](https://mambadev.io/environment-utils)
 ```apex
 @TestVisible public static String environment = EnvironmentUtils.getRaw() ?? 'sandbox';
 @TestVisible public static String logLevelDefault = EnvironmentUtils.getLogLevel() ?? 'INFO';
