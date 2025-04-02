@@ -25,16 +25,15 @@ Fundamentals exist to:
 
 ## 📚 Core Documents
 
-- 🧱 Core: https://mambadev.io/apex-core-guide
-- 🧪 Testing: https://mambadev.io/apex-testing-guide • https://mambadev.io/testing-patterns
-- 🪵 Logging: https://mambadev.io/logger-implementation
-- 🔁 Refactor: https://mambadev.io/apex-feature-comparison • https://mambadev.io/equivalence-checklist
-- 🧩 Architecture: https://mambadev.io/layered-architecture • https://mambadev.io/rest-api-guide • https://mambadev.io/style
-
+- 🧱 Core: [https://mambadev.io/apex-core-guide](https://mambadev.io/apex-core-guide)  
+- 🧪 Testing: [https://mambadev.io/apex-testing-guide](https://mambadev.io/apex-testing-guide) • [https://mambadev.io/testing-patterns](https://mambadev.io/testing-patterns)  
+- 🩽 Logging: [https://mambadev.io/logger-implementation](https://mambadev.io/logger-implementation)  
+- 🔄 Refactor: [https://mambadev.io/apex-feature-comparison](https://mambadev.io/apex-feature-comparison) • [https://mambadev.io/equivalence-checklist](https://mambadev.io/equivalence-checklist)  
+- 🧩 Architecture: [https://mambadev.io/layered-architecture](https://mambadev.io/layered-architecture) • [https://mambadev.io/rest-api-guide](https://mambadev.io/rest-api-guide) • [https://mambadev.io/style](https://mambadev.io/style)
 
 ---
 
-## 🧡🔬 How to Use This Folder
+## 🧮🔬 How to Use This Folder
 
 - 🧱 **Follow**: All new modules and patterns must align with these fundamentals  
 - 🧠 **Reference**: Link to these documents inside other guides when relevant  
@@ -68,3 +67,4 @@ See how these fundamentals apply in real-world architecture:
 > They are the **infrastructure of excellence** that lets us build without fear.
 
 **Honor the foundation. Evolve with discipline.**
+
