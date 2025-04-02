@@ -36,7 +36,7 @@ This guide defines the **standard for structured, traceable, and persistent logg
   - Serialized input/output
   - Record ID or user context
   - Exceptions and stack traces
-  - Persisted logs via `FlowExecutionLog__c`
+  - Persisted logs via [FlowExecutionLog__c](https://mambadev.io/flow-execution-log)
 
 ---
 
@@ -44,11 +44,11 @@ This guide defines the **standard for structured, traceable, and persistent logg
 
 | Component             | Purpose                                                   |
 |----------------------|-----------------------------------------------------------|
-| `Logger`             | Fluent interface logger class                             |
-| `FlowExecutionLog__c`| Persistent log storage                                    |
-| `LoggerQueueable`    | Async log insertion                                       |
-| `ILogger`            | Interface for Logger and mocks                            |
-| `LoggerMock`         | Prevents actual persistence in tests                      |
+| [Logger](https://mambadev.io/logger)             | Fluent interface logger class                             |
+| [FlowExecutionLog__c](https://mambadev.io/flow-execution-log)| Persistent log storage                                    |
+| [LoggerQueueable](https://mambadev.io/logger-queueable)    | Async log insertion                                       |
+| [ILogger](https://mambadev.io/ilogger)            | Interface for Logger and mocks                            |
+| [LoggerMock](https://mambadev.io/logger-mock)         | Prevents actual persistence in tests                      |
 
 ---
 
