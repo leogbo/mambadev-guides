@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/leogbo/mambadev-guides/main/static/img/github_banner_mambadev.png" alt="MambaDev Banner" width="100%" />
+</p>
+
 # 📂 Comparison Guide Folder
 
 This folder contains advanced guides related to **Apex code comparison**, **refactoring discipline**, and **functional equivalence validation** – all core practices in the MambaDev engineering culture.
