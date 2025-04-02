@@ -111,7 +111,7 @@ Account acc = (Account) RecordHelper.getById(Account.SObjectType, id, 'Id');
 | 📎 Shortlinks                    | All links use `mambadev.io` format           |
 | 🔐 Structured Logging            | Must use `Logger`, never `System.debug()`    |
 | 🧪 Semantic Tests                | Must assert behavior, not just paths         |
-| 🔁 Code Diff + Functional Proof  | [Comparison](https://mambadev.io/41XGoTz) + [Equivalence](https://mambadev.io/4jjcWx9)
+| 🔁 Code Diff + Functional Proof  | [Comparison](https://mambadev.io/41XGoTz) + [Equivalence](https://mambadev.io/equivalence-checklist)
 
 ---
 
