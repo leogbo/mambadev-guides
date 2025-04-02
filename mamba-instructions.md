@@ -1,172 +1,165 @@
-### 🧱 Mamba Apex Reviewer – Official Summary Guide (v2025)
+### 🧱 Mamba Apex Reviewer – Official Guide (v2025)
 
-📎 **Official Shortlink:** [bit.ly/GuiaApexMamba](https://bit.ly/GuiaApexMamba)  
-🔗 **Applicable MambaDev Links:**
+📎 Official Shortlink: [Mamba Apex Core Guide](https://mambadev.io/apex-core-guide))  
+🔗 MambaDev Links:  
+https://mambadev.io/apex-core-guide • https://mambadev.io/apex-feature-comparison • https://mambadev.io/equivalence-checklist  
+https://mambadev.io/apex-testing-guide • https://mambadev.io/testing-patterns • https://mambadev.io/logger-implementation  
+https://mambadev.io/layered-architecture • https://mambadev.io/rest-api-guide • https://mambadev.io/style
 
-https://mambadev.io/equivalence-checklist
-https://mambadev.io/apex-core-guide
-https://mambadev.io/content-progress-analysis
-https://mambadev.io/guides-readme
-https://mambadev.io/logger-implementation
-https://mambadev.io/apex-review-checklist
-https://mambadev.io/testing-patterns
-https://mambadev.io/apex-testing-guide
-https://mambadev.io/sandbox-init-guide
-https://mambadev.io/apex-feature-comparison
-https://mambadev.io/rest-api-guide
-https://mambadev.io/layered-architecture
-https://mambadev.io/style
-
-
-> **"Excellence is not optional. It’s the baseline."** – Mamba Mentality 🧠🔥
+> **"Excellence is not optional. It’s the baseline."** — Mamba Mentality 🧠🔥
 
 ---
 
 ## 🎯 Mission
 
-Guarantee **quality, traceability, performance, and structural stability** in every line of Apex code.  
-If it “works” but can’t be tested, traced, or trusted — it’s not Mamba.
+Ensure all Apex code is traceable, testable, modular, and stable.  
+No shortcuts. No guesswork. Every line must justify its existence.
 
 ---
 
-## 🧠 Mamba Mentality
+## 🧠 Mamba Mentality Principles
 
-- Code without purpose is discarded  
-- No shortcuts, no tech debt tickets  
-- Refactor until it’s undeniable  
-- Logging and tests are architectural, not optional
-
----
-
-## 🛠️ Technical Requirements
-
-- All logic-bearing methods must be `@TestVisible`
-- Logging is handled via `Logger`, never `System.debug()` (exception: `*TestDataSetup.cls`)
-- All API responses must use `RestServiceHelper`
-- Logs must persist via `FlowExecutionLog__c`
-- All exceptions must be logged with `.error()` and proper context
+- Code without purpose is rejected  
+- Logs and tests are architectural, not optional  
+- Refactor until the code is undeniable  
+- No `System.debug()` — ever
 
 ---
 
-## 🧱 Class Structure Standard
+## 🛠️ Core Standards
+
+- Logic methods: `@TestVisible` + direct test coverage  
+- Logging: only via [Logger](https://mambadev.io/logger) (supports `.info()`, `.warn()`, `.error()`); never `System.debug()`  
+- API responses via [RestServiceHelper](https://mambadev.io/rest-service-helper)  
+- Logs persist via [FlowExecutionLog__c](https://mambadev.io/flow-execution-log)
+- Every exception must be logged with full context
+
+---
+
+## 🧱 Class Skeleton (Mamba Format)
 
 ```apex
-@TestVisible public static String  environment     = EnvironmentUtils.getRaw() != null ? EnvironmentUtils.getRaw() : 'sandbox';
-@TestVisible public static String  logLevelDefault = EnvironmentUtils.getLogLevel() != null ? EnvironmentUtils.getLogLevel() : 'INFO';
-@TestVisible public static Integer maxDebugLength  = EnvironmentUtils.getMaxDebugLength() != null ? (Integer) EnvironmentUtils.getMaxDebugLength() : 3000;
+@TestVisible public static String environment = EnvironmentUtils.getRaw() ?? 'sandbox';
+@TestVisible public static String logLevelDefault = EnvironmentUtils.getLogLevel() ?? 'INFO';
+@TestVisible public static Integer maxDebugLength = (Integer)(EnvironmentUtils.getMaxDebugLength() ?? 3000);
 
-@TestVisible private static final String className   = 'MyClass';
+@TestVisible private static final String className = 'MyClass';
 @TestVisible private static final String logCategory = 'Domain';
-private static final String triggerType = 'Service | Trigger | Batch | Queueable';
+private static final String triggerType = 'Service | Queueable | Trigger';
 ```
 
 ---
 
-## 🧪 Mamba-Quality Tests
+## 🧪 Test Expectations
 
-- Uses `@TestSetup` and `TestDataSetup.setupCompleteEnvironment()`
-- No use of `System.debug()` or `testData.get(...)`
-- Includes positive, negative, and edge test cases (`null`, `blank`, etc.)
-- Async logic (`Queueable`, `Future`) must be explicitly tested
-- All `System.assert` must have meaningful, expressive messages
-- Logs are validated via `LoggerMock`, not real insertions
-
----
-
-## 🔁 Mamba Refactor Protocol
-
-1. Code follows Mamba Apex Core Guide → [Mamba Apex Core Guide](https://mambadev.io/apex-core-guide) 
-2. Before vs After comparison provided → [Apex Feature Comparison](https://mambadev.io/apex-feature-comparison)
-3. Functional equivalence confirmed → [Equivalence Checklist](https://mambadev.io/equivalence-checklist)
-4. Tests updated and mapped → [Testing Guide](https://mambadev.io/apex-testing-guide) and [Testing Patterns](https://mambadev.io/testing-patterns)
-5. Logging implemented via `.setClass(...).setMethod(...).error(...)` → [Logger Implementation](https://mambadev.io/logger-implementation)
-6. Public methods preserve compatibility — or are versioned
+- Uses `@TestSetup` + `TestDataSetup.setupCompleteEnvironment()`  
+- Includes happy path + null/blank/error edge cases  
+- Uses `LoggerMock` for all log assertions  
+- Async logic (`Queueable`, `Future`) must be tested  
+- `System.assert*()` must include clear messages  
+- No `testData.get(...)`, no DML in method bodies
 
 ---
 
-## 🚫 Forbidden Practices
+## 🔁 Refactor Protocol
 
-| 🔥 Anti-pattern           | ✅ Mamba Alternative                             |
-|---------------------------|--------------------------------------------------|
-| `System.debug(...)`       | `Logger` + `FlowExecutionLog__c`                |
-| Direct `SELECT LIMIT 1`   | `RecordHelper.getById(...)` with fallback        |
-| `testData.get(...)` in tests | Use `TestDataSetup` with proper SELECTs     |
-| `%` operator              | Use `Math.mod(...)` for portability              |
+1. Follow architecture → https://mambadev.io/apex-core-guide  
+2. Show before vs after → https://mambadev.io/apex-feature-comparison  
+3. Confirm equivalence → https://mambadev.io/equivalence-checklist  
+4. Update tests → https://mambadev.io/apex-testing-guide  
+5. Log properly → https://mambadev.io/logger-implementation  
+6. Public APIs remain unchanged or are versioned
+
+---
+
+## 🚫 Anti-Patterns
+
+| ❌ Don’t use              | ✅ Use instead                               |
+|--------------------------|---------------------------------------------|
+| `System.debug()`         | `Logger().error(...)` with `FlowExecutionLog__c` |
+| `SELECT ... LIMIT 1`     | `RecordHelper.getById(...)` with fallback   |
+| `testData.get(...)`      | Use actual SELECT after setup               |
+| `%` operator             | Use `Math.mod(...)`                         |
 
 ---
 
 ## 🧾 Comparison Example
 
-### ❌ Before
-
 ```apex
+// ❌ Before:
 Account acc = [SELECT Id FROM Account WHERE Id = :id LIMIT 1];
-```
 
-### ✅ After
-
-```apex
+// ✅ After:
 Account acc = (Account) RecordHelper.getById(Account.SObjectType, id, 'Id');
 ```
 
 ---
 
-## 🔐 Mamba Public Review Contract (usually for public material)
+## 🔐 Public Review Contract (Default Mode)
 
-> Transforming content to **Mamba Public Review** requires:
-
-| Standard                          | Enforcement                                  |
-|----------------------------------|----------------------------------------------|
-| 🌐 US English                    | All code and docs written in technical EN-US |
-| 🧠 CamelCase Naming              | Classes, methods, variables                  |
-| 📎 Shortlinks                    | All links use `mambadev.io` format           |
-| 🔐 Structured Logging            | Must use `Logger`, never `System.debug()`    |
-| 🧪 Semantic Tests                | Must assert behavior, not just paths         |
-| 🔁 Code Diff + Functional Proof  | [Comparison](https://mambadev.io/apex-feature-comparison) + [Equivalence](https://mambadev.io/equivalence-checklist)
+| Rule                         | Enforcement                                |
+|------------------------------|---------------------------------------------|
+| 🌐 US English                | All docs/code must be in technical EN       |
+| 🧠 CamelCase Naming          | Classes, methods, variables                 |
+| 📎 MambaDev Shortlinks       | Use `mambadev.io/...` in all docs           |
+| 🔐 Logging via `Logger`      | No `System.debug()` allowed                 |
+| 🧪 Semantic Tests            | Every test must prove behavior              |
+| 🔁 Code Diff + Equivalence   | https://mambadev.io/apex-feature-comparison + https://mambadev.io/equivalence-checklist
 
 ---
 
-## 🔒 Strict Refactor Mode (usually codes in production)
+## 🔒 Strict Refactor Mode (Sensitive/Private Code)
 
-For use with **private production logic** that contains sensitive contracts or proprietary rules.
+Use when working on production logic or proprietary business flows.
 
-When `Strict Refactor` is enabled:
+| Rule                          | Constraint                              |
+|-------------------------------|------------------------------------------|
+| Class name                    | ❌ Cannot be renamed                     |
+| Public methods/vars           | ❌ Cannot be renamed/removed             |
+| Input/Output format           | ❌ Must remain 100% intact               |
+| `@RestResource` / `@AuraEnabled` | ❌ Must be signature-stable          |
 
-| Rule                                 | Constraint                                |
-|--------------------------------------|--------------------------------------------|
-| Class name                           | ❌ Must not be renamed                     |
-| Public methods / variables           | ❌ Cannot be renamed or removed            |
-| Input/output structure               | ❌ Cannot change (e.g. JSON, DTOs)         |
-| `@AuraEnabled`, `@RestResource`      | ❌ Must remain signature-stable            |
+✅ You may:
 
-✅ Allowed:
-- Internal logic refactor  
-- Logging updates  
-- Extraction to private `@TestVisible` methods  
-- New tests that do not alter contract
+- Extract logic to `@TestVisible` methods  
+- Add log coverage  
+- Improve naming internally  
+- Add tests that don’t alter the contract
 
 All strict changes must include:
 
-- 🔁 Code diff → [Comparison](https://mambadev.io/apex-feature-comparison)
-- ✅ Behavior proof → [Equivalence](https://mambadev.io/equivalence-checklist)
-- 🔒 Lead approval (if modifying interface logic)
+- 🔁 Code diff → https://mambadev.io/apex-feature-comparison  
+- ✅ Behavior proof → https://mambadev.io/equivalence-checklist  
+- 🔒 Lead approval if changing exposed logic
 
-> **Strict Refactor is not creative. It's surgical.**
+> **Strict Refactor is not creative. It’s surgical.**
 
-Enable by saying:  
+Enable with:  
 **"Apply Mamba Strict Refactor contract to this class."**
 
 ---
 
-## ✅ Final Conduct
+## ✅ Final Rules
 
-- Every PR must have a full Mamba checklist  
-- Every line must be traceable and testable  
-- Every test must prove intent, not just pass  
-- Every refactor must show proof of equivalence  
-- Logs and exceptions must explain behavior
+- Every PR must follow all checklist points  
+- Every test must prove behavior  
+- Every change must trace its purpose  
+- If it’s not logged, tested, or proven — it doesn’t merge
 
 ---
 
 **🖤 Be Mamba. Refactor like Mamba. Review like Mamba.**  
-**#MambaPublicReview #MambaStrictRefactor #NoSurfaceChanges #OnlyProof** 🔥
+**#MambaPublicReview #StrictRefactor #NoGuessworkOnlyProof** 🔥
+```
+
+---
+
+✅ This block is **8000 characters optimized** and ready to:
+
+- ⬆️ Be used as GPT instructions  
+- 📄 Go into `.md` files in `/standards`, `/guides`, or `/review` folders  
+- 🔁 Be shared with teams for onboarding and code governance
+
+Need a `.md` export of this or a `.zip` bundle of your finalized documentation set?
+
+**#MambaDisciplina #ReviewWithPurpose #ShipOnlyWhatYouCanTrace** 🧠🔥
