@@ -25,13 +25,13 @@ The MambaDev `Logger` stack offers:
 
 ## 🧱 The Logging Stack
 
-| Class              | Role                                           |
-|-------------------|------------------------------------------------|
-| `Logger`          | Main fluent logger                             |
-| `LoggerQueueable` | Async-safe persister for FlowExecutionLog__c   |
-| `ILogger`         | Interface for `Logger` and `LoggerMock`        |
-| `LoggerMock`      | In-memory stub for testing                     |
-| `FlowExecutionLog__c` | Custom object that stores logs persistently|
+| Class                | Role                                             |
+|---------------------|--------------------------------------------------|
+| `Logger`            | Main fluent logger                               |
+| `LoggerQueueable`   | Async-safe persister for `FlowExecutionLog__c`   |
+| `ILogger`           | Interface for `Logger` and `LoggerMock`          |
+| `LoggerMock`        | In-memory stub for test contexts                 |
+| `FlowExecutionLog__c` | Custom object that stores logs persistently    |
 
 ---
 
@@ -71,8 +71,8 @@ try {
 }
 ```
 
-> Always set `Class`, `Method`, and `Category`.  
-> Use `error(..., ex, ...)` to capture the full stack trace.
+> ✅ Always set `.setClass()`, `.setMethod()`, and `.setCategory()`  
+> ✅ Use `.error(message, ex, data)` to capture the full exception and context
 
 ---
 
@@ -90,7 +90,8 @@ mock.info('Executed successfully', 'mocked');
 System.assert(mock.getCaptured().contains('[INFO] Executed successfully | mocked'));
 ```
 
-> Use `LoggerMock` to avoid DML during tests. Never test by inspecting actual `FlowExecutionLog__c` records.
+> ✅ Use `LoggerMock` to intercept logs during unit tests  
+> ❌ Never assert on real `FlowExecutionLog__c` records
 
 ---
 
@@ -103,49 +104,61 @@ new Logger()
     .info('Async mode enabled', JSON.serializePretty(obj));
 ```
 
-> When `.setAsync(true)` is used, the logger enqueues a `LoggerQueueable` job to safely insert logs **outside** sensitive contexts like Flows or Triggers.
+> When `.setAsync(true)` is used, logs are handled by `LoggerQueueable`,  
+> avoiding DML inside Flows, Triggers, or `before` contexts.
 
 ---
 
 ## 📄 FlowExecutionLog__c Overview
 
-All logs are stored in `FlowExecutionLog__c`.  
-See full documentation: [→ flow-execution-log.md](./flow-execution-log.md)
+Logs are persisted in `FlowExecutionLog__c`.
 
-Key fields:
+Key fields include:
 
-- `Log_Level__c`, `Class__c`, `Origin_Method__c`
-- `Trigger_Type__c`, `Log_Category__c`
-- `Serialized_Data__c`, `Debug_Information__c`
-- `Stack_Trace__c`, `Error_Message__c`
+- `Log_Level__c`, `Class__c`, `Origin_Method__c`  
+- `Trigger_Type__c`, `Log_Category__c`  
+- `Serialized_Data__c`, `Debug_Information__c`  
+- `Stack_Trace__c`, `Error_Message__c`  
 - `Execution_Timestamp__c`, `Is_Critical__c`
+
+👉 Full schema: [→ flow-execution-log.md](./flow-execution-log.md)
 
 ---
 
 ## ✅ Logging Best Practices
 
 - [x] Always use `.setClass()` and `.setMethod()`  
-- [x] Group logs with `.setCategory()`  
-- [x] Log exceptions using `.error()` with `Exception ex`  
-- [x] Use `.setAsync(true)` inside flows or bulk triggers  
-- [x] Avoid logging sensitive production data (mask if needed)  
-- [x] Serialize context with `JSON.serializePretty()` (not `toString()`)
+- [x] Use `.setCategory()` for grouping  
+- [x] Log exceptions via `.error(message, ex, data)`  
+- [x] Use `.setAsync(true)` inside Flow or batch contexts  
+- [x] Avoid logging PII or sensitive data in production  
+- [x] Use `JSON.serializePretty()` for clean, readable logs
+
+---
+
+## ⚠️ Exception – TestDataSetup Classes
+
+> `System.debug()` is prohibited in all Apex — **except inside `*TestDataSetup.cls` classes**.
+
+These classes are used for bulk setup and **must avoid log pollution**.  
+They can use `System.debug()` for diagnostic output only.
+
+✅ Use:
+
+```apex
+System.debug('Lead created for test setup: ' + lead.Id);
+```
+
+❌ Never use `Logger` in test data setup classes.
 
 ---
 
 ## 📚 Related Guides
 
 - [FlowExecutionLog__c](./flow-execution-log.md)  
-  Field breakdown for log object and queryable analytics.
-
 - [Exception Handling](./exception-handling.md)  
-  Using try/catch with structured logging via `Logger`.
-
-- [LoggerMock](./validation-patterns.md#🔁-testing-with-loggermock)  
-  Clean test isolation with no persisted logs.
-
-- [Validation Patterns](./validation-patterns.md)  
-  Declarative business rules integrated with logging.
+- [LoggerMock (Validation Patterns)](./validation-patterns.md#🔁-testing-with-loggermock)  
+- [Testing Patterns](./testing-patterns.md)
 
 ---
 
