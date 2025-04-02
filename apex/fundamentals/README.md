@@ -9,7 +9,7 @@
 
 ---
 
-## 🎯 Purpose
+## 🌟 Purpose
 
 Fundamentals exist to:
 
@@ -34,16 +34,16 @@ Fundamentals exist to:
 
 ---
 
-## 🧭 How to Use This Folder
+## 🧡🔬 How to Use This Folder
 
 - 🧱 **Follow**: All new modules and patterns must align with these fundamentals  
 - 🧠 **Reference**: Link to these documents inside other guides when relevant  
-- 🔒 **Protect**: Refactors that break fundamentals must be versioned and reviewed  
-- 🔄 **Evolve**: New rules should build *on top of*, never *against* these foundations
+- 🔐 **Protect**: Refactors that break fundamentals must be versioned and reviewed  
+- ⟳ **Evolve**: New rules should build *on top of*, never *against* these foundations
 
 ---
 
-## 🪧 Scope
+## 🚧 Scope
 
 | Applies to...           | Does *not* apply to...                            |
 |-------------------------|---------------------------------------------------|
