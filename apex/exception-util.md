@@ -4,8 +4,8 @@
 
 # ExceptionUtil – Declarative Guard Utility
 
-> This guide documents the use of `ExceptionUtil`, MambaDev’s utility class for declaring defensive and semantic validations.  
-> It replaces low-level `if` checks with expressive, testable guard clauses using `AppValidationException`.
+> This guide documents the use of `ExceptionUtil`, MambaDev’s utility class for declaring **semantic, defensive validations**.  
+> It replaces imperative `if/throw` checks with **expressive, testable guard clauses** using `AppValidationException`.
 
 ---
 
@@ -15,20 +15,20 @@
 
 - ✅ Eliminate repetitive `if/throw` blocks
 - ✅ Express preconditions in a single line
-- ✅ Enforce business logic with clarity and traceability
-- ✅ Keep service and controller logic focused on behavior, not boilerplate
+- ✅ Enforce business rules with clarity and traceability
+- ✅ Keep services and controllers focused on **logic, not boilerplate**
 
 ---
 
 ## 🧠 Why Use It?
 
 ```apex
-// Instead of this:
+// Instead of:
 if (account.Name == null || account.Name.trim() == '') {
     throw new AppValidationException('Account Name is required.');
 }
 
-// Use this:
+// Use:
 ExceptionUtil.throwIfBlank(account.Name, 'Account Name is required.');
 ```
 
@@ -38,15 +38,15 @@ ExceptionUtil.throwIfBlank(account.Name, 'Account Name is required.');
 
 | Method                            | Purpose                                                               |
 |----------------------------------|-----------------------------------------------------------------------|
-| `throwIfNull(obj, msg)`          | Throws if the object is null                                         |
-| `throwIfBlank(str, msg)`         | Throws if the string is null or whitespace                           |
-| `throwIf(condition, msg)`        | Throws if the condition is true                                      |
-| `require(condition, msg)`        | Throws if the condition is false                                     |
-| `fail(msg)`                      | Always throws (useful for explicit failure points)                   |
+| `throwIfNull(obj, msg)`          | Throws if the object is `null`                                       |
+| `throwIfBlank(str, msg)`         | Throws if the string is `null` or whitespace                         |
+| `throwIf(condition, msg)`        | Throws if the condition evaluates to `true`                          |
+| `require(condition, msg)`        | Throws if the condition evaluates to `false`                         |
+| `fail(msg)`                      | Always throws — useful for explicit rejection points                 |
 
 ---
 
-## 🔁 Examples
+## 🔁 Guard Examples
 
 ### ✅ Required Field
 
@@ -60,13 +60,13 @@ ExceptionUtil.throwIfBlank(contact.Email, 'Email is required.');
 ExceptionUtil.throwIfNull(opportunity.AccountId, 'Opportunity must have an Account.');
 ```
 
-### ✅ Conditional Validation
+### ✅ Rule Validation
 
 ```apex
 ExceptionUtil.require(invoice.Amount > 0, 'Invoice amount must be greater than zero.');
 ```
 
-### ✅ Fallback Rule
+### ✅ Explicit Fail
 
 ```apex
 if (!isAccountEligible(account)) {
@@ -76,7 +76,7 @@ if (!isAccountEligible(account)) {
 
 ---
 
-## 🔬 Usage in Triggers
+## 🔀 Trigger Usage
 
 ```apex
 for (Lead lead : Trigger.new) {
@@ -87,7 +87,7 @@ for (Lead lead : Trigger.new) {
 
 ---
 
-## 🧪 Unit Testing Validations
+## 🧪 Testing Validations
 
 ```apex
 @IsTest
@@ -103,7 +103,7 @@ static void testShouldThrowIfBlank() {
 
 ---
 
-## ✅ Integration with Logger
+## 📈 Logging + Exception Pattern
 
 ```apex
 try {
@@ -118,32 +118,36 @@ try {
 }
 ```
 
+> 🧱 Logging + rethrow guarantees traceability without breaking flow.
+
 ---
 
-## 🔁 Optional Extensions (Advanced)
+## 🧬 Optional Extensions (Advanced)
 
 You may extend `ExceptionUtil` to support:
 
-- Masked field validation
-- Declarative field-by-field builders (`requireAll`, `validateMap`)
-- FieldSet-aware rules for dynamic objects
+- Field masking & redaction on logs
+- Declarative `requireAll(...)`, `validateMap(...)` patterns
+- Dynamic field rule evaluation using FieldSet metadata
 
 ---
 
 ## 📚 Related Guides
 
 - [Validation Patterns](./validation-patterns.md)  
-  How to write declarative, auditable validation logic in Apex.
+  Declarative, auditable validation logic in Apex.
 
 - [Exception Handling](./exception-handling.md)  
-  Strategy for structured try/catch using semantic exception types.
+  Strategy for try/catch with semantic exception types.
 
-- [Logger Class](./structured-logging.md)  
-  Use alongside `ExceptionUtil` to capture validation failures cleanly.
+- [Structured Logging](./structured-logging.md)  
+  Best practices for logging using `Logger`.
+
+---
 
 ## 📎 Aligned Fundamentals
 
-These operational guides are built on:
+These operational guides support the `ExceptionUtil` standard:
 
 - [`MambaDev Coding Style`](../fundamentals/mambadev-coding-style.md)
 - [`Apex Style Guide`](../fundamentals/apex-style-guide.md)
@@ -152,5 +156,4 @@ These operational guides are built on:
 
 ---
 
-> MambaDev doesn't throw exceptions to stop the code.  
-> It throws to reveal what should never be allowed to happen.
+> **MambaDev doesn't throw exceptions to crash code — we throw to enforce what must never be violated.**
