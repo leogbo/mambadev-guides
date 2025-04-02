@@ -2,24 +2,24 @@
   <img src="https://raw.githubusercontent.com/leogbo/mambadev-guides/main/static/img/github_banner_mambadev.png" alt="MambaDev Banner" width="100%" />
 </p>
 
-# Validation Patterns – MambaDev
+# ✅ Validation Patterns – MambaDev
 
 > This guide defines standard patterns for input and business rule validation in Apex.  
-> Designed to be declarative, semantic, and aligned with MambaDev’s logging and exception architecture.
+> Designed to be **declarative**, **semantic**, and aligned with MambaDev’s logging and exception architecture.
 
 ---
 
 ## 🎯 Validation Philosophy
 
 - ✅ Fail fast, fail clearly  
-- ✅ Use exceptions to represent functional problems — not control flow  
+- ✅ Use **exceptions** to represent functional issues — not control flow  
 - ✅ Prefer `ExceptionUtil` over inline `if/throw`  
-- ✅ Always log before throwing when in a controller, trigger, or integration boundary  
-- ✅ Keep business logic **clean**, **auditable**, and **testable**
+- ✅ Always log **before throwing** on integration or trigger boundaries  
+- ✅ Keep logic **clean**, **auditable**, and **testable**
 
 ---
 
-## 🔁 Reusable Guard Clauses with `ExceptionUtil`
+## 🔁 Guard Clauses with `ExceptionUtil`
 
 ### 1. Required Field
 
@@ -27,49 +27,51 @@
 ExceptionUtil.throwIfBlank(account.Name, 'Account Name is required.');
 ```
 
-### 2. Mandatory Reference
+### 2. Required Reference
 
 ```apex
-ExceptionUtil.throwIfNull(opportunity.AccountId, 'Opportunity must be related to an Account.');
+ExceptionUtil.throwIfNull(opportunity.AccountId, 'Opportunity must be linked to an Account.');
 ```
 
-### 3. Custom Rule
+### 3. Rule Assertion
 
 ```apex
 ExceptionUtil.require(user.Email.endsWith('@company.com'), 'Only corporate emails are allowed.');
 ```
 
-### 4. Logged & Thrown Validation
+### 4. Logged + Thrown (Hybrid Pattern)
 
 ```apex
 if (!isAccountEligible(account)) {
     new Logger()
         .setClass('AccountService')
         .setMethod('checkEligibility')
-        .warn('Account not eligible', JSON.serialize(account));
+        .warn('Account not eligible', JSON.serializePretty(account));
 
     ExceptionUtil.fail('Account is not eligible for conversion.');
 }
 ```
 
+> 🚨 Always log before `fail()` if you're inside a controller, service, or REST class.
+
 ---
 
-## 🧪 Before Insert / Before Update Validations
+## 🧪 Validations in Triggers (Before Insert/Update)
 
 ```apex
 for (Opportunity opp : Trigger.new) {
     ExceptionUtil.throwIfBlank(opp.StageName, 'Stage is required.');
     ExceptionUtil.throwIfNull(opp.CloseDate, 'Close Date is required.');
-    ExceptionUtil.throwIf(
-        opp.Amount < 0,
-        'Amount must be non-negative.'
-    );
+    ExceptionUtil.throwIf(opp.Amount < 0, 'Amount must be non-negative.');
 }
 ```
 
+> ✅ Keep trigger validations short and expressive.  
+> ❌ Never include `Logger` or domain logic in triggers.
+
 ---
 
-## ✅ Validation Checklist (Service Layer)
+## 📋 Validation Checklist (Service Layer)
 
 | Validation Type         | Pattern                                                                |
 |-------------------------|------------------------------------------------------------------------|
@@ -77,40 +79,52 @@ for (Opportunity opp : Trigger.new) {
 | Required Object         | `ExceptionUtil.throwIfNull(obj, msg)`                                 |
 | Rule Evaluation         | `ExceptionUtil.require(condition, msg)`                               |
 | Logged Failure          | `logger.warn(...)` + `ExceptionUtil.fail(msg)`                        |
-| Label / Config Missing  | `ExceptionUtil.throwIfBlank(Label.MY_LABEL, 'Label MY_LABEL missing')`|
+| Config / Label Missing  | `ExceptionUtil.throwIfBlank(Label.MY_LABEL, 'Label MY_LABEL missing')`|
 
 ---
 
 ## 🧠 Pro Tips
 
-- Use `ExceptionUtil` in service classes, utility layers, and validations
-- Use `Logger` to **document validation failures**
-- Prefer **semantic exceptions** like `AppValidationException` over generic `Exception`
-- Test validation scenarios explicitly in unit tests
+- Use validations **only in Service layer or Domain logic**
+- Always log **before** throwing when at integration or user-entry boundaries
+- Prefer semantic exceptions: `AppValidationException` instead of `Exception`
+- Keep `ExceptionUtil` usage fluent and expressive
+- Always test both **happy** and **fail** paths in unit tests
+
+---
+
+## ❌ Anti-Patterns to Avoid
+
+| Pattern                                | Why it's bad                                             |
+|----------------------------------------|----------------------------------------------------------|
+| `if (...) throw new Exception()`       | Breaks consistency — use `ExceptionUtil` instead         |
+| `throw new Exception('validation')`    | Use `AppValidationException` for clarity and handling    |
+| Silent fails (no log)                  | Hides root causes from logs and dashboards               |
+| Logging inside domain rules            | Domain must not know infrastructure                      |
 
 ---
 
 ## 📚 Related Guides
 
+- [ExceptionUtil](./exceptionutil.md)  
+  Full reference of guard methods and validation helpers.
+
 - [Exception Handling](./exception-handling.md)  
-  How to define and catch semantic exceptions using the Mamba style.
+  How to classify, throw and catch exceptions in Mamba-style.
 
 - [Structured Logging](./structured-logging.md)  
-  Log all validation and system failures consistently to `FlowExecutionLog__c`.
+  When and how to log validation failures via `Logger`.
 
-- [ExceptionUtil Class](./exceptionutil.md)  
-  Helper methods to enforce preconditions with semantic exceptions.
+---
 
 ## 📎 Aligned Fundamentals
 
-These operational guides are built on:
-
-- [`MambaDev Coding Style`](../fundamentals/mambadev-coding-style.md)
-- [`Apex Style Guide`](../fundamentals/apex-style-guide.md)
-- [`Architecture Principles`](../fundamentals/architecture-principles.md)
+- [`MambaDev Coding Style`](../fundamentals/mambadev-coding-style.md)  
+- [`Apex Style Guide`](../fundamentals/apex-style-guide.md)  
+- [`Architecture Principles`](../fundamentals/architecture-principles.md)  
 - [`Review Checklist`](../fundamentals/apex-review-checklist.md)
 
 ---
 
-> In MambaDev, validation isn't defensive —  
-> it's assertive, intentional, and part of the architecture.
+> In MambaDev, validation isn't defensive.  
+> **It's proactive. Semantic. Intentional. And part of the architecture.** 🧱🔥
