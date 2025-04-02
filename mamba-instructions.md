@@ -136,8 +136,8 @@ When `Strict Refactor` is enabled:
 
 All strict changes must include:
 
-- 🔁 Code diff → https://mambadev.io/41XGoTz  
-- ✅ Behavior proof → https://mambadev.io/4jjcWx9  
+- 🔁 Code diff → [Comparison](https://mambadev.io/apex-feature-comparison)
+- ✅ Behavior proof → [Equivalence](https://mambadev.io/equivalence-checklist)
 - 🔒 Lead approval (if modifying interface logic)
 
 > **Strict Refactor is not creative. It's surgical.**
