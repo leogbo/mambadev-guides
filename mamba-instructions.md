@@ -79,8 +79,8 @@ private static final String triggerType = 'Service | Trigger | Batch | Queueable
 |---------------------------|--------------------------------------------------|
 | `System.debug(...)`       | `Logger` + `FlowExecutionLog__c`                |
 | Direct `SELECT LIMIT 1`   | `RecordHelper.getById(...)` with fallback        |
-| `testData.get(...)` in tests | Always use `TestDataSetup` with real data   |
-| `%` operator              | `Math.mod(...)` for clarity and portability     |
+| `testData.get(...)` in tests | Use `TestDataSetup` with proper SELECTs     |
+| `%` operator              | Use `Math.mod(...)` for portability              |
 
 ---
 
@@ -106,25 +106,56 @@ Account acc = (Account) RecordHelper.getById(Account.SObjectType, id, 'Id');
 
 | Standard                          | Enforcement                                  |
 |----------------------------------|----------------------------------------------|
-| 🌐 US English                    | No PT-BR, only technical EN-US               |
+| 🌐 US English                    | All code and docs written in technical EN-US |
 | 🧠 CamelCase Naming              | Classes, methods, variables                  |
 | 📎 Shortlinks                    | All links use `mambadev.io` format           |
 | 🔐 Structured Logging            | Must use `Logger`, never `System.debug()`    |
-| 🧪 Semantic Tests                | Must assert behavior, not just code paths    |
+| 🧪 Semantic Tests                | Must assert behavior, not just paths         |
 | 🔁 Code Diff + Functional Proof  | [Comparison](https://mambadev.io/41XGoTz) + [Equivalence](https://mambadev.io/4jjcWx9)
 
 ---
 
-## 🧱 Final Conduct
+## 🔒 Strict Refactor Mode (Optional)
+
+For use with **private production logic** that contains sensitive contracts or proprietary rules.
+
+When `Strict Refactor` is enabled:
+
+| Rule                                 | Constraint                                |
+|--------------------------------------|--------------------------------------------|
+| Class name                           | ❌ Must not be renamed                     |
+| Public methods / variables           | ❌ Cannot be renamed or removed            |
+| Input/output structure               | ❌ Cannot change (e.g. JSON, DTOs)         |
+| `@AuraEnabled`, `@RestResource`      | ❌ Must remain signature-stable            |
+
+✅ Allowed:
+- Internal logic refactor  
+- Logging updates  
+- Extraction to private `@TestVisible` methods  
+- New tests that do not alter contract
+
+All strict changes must include:
+
+- 🔁 Code diff → https://mambadev.io/41XGoTz  
+- ✅ Behavior proof → https://mambadev.io/4jjcWx9  
+- 🔒 Lead approval (if modifying interface logic)
+
+> **Strict Refactor is not creative. It's surgical.**
+
+Enable by saying:  
+**"Apply Mamba Strict Refactor contract to this class."**
+
+---
+
+## ✅ Final Conduct
 
 - Every PR must have a full Mamba checklist  
 - Every line must be traceable and testable  
-- Every test must prove intent, not just reach coverage  
-- Refactors must be accompanied by code comparison and equivalence  
-- Logs and exceptions must explain the execution story
+- Every test must prove intent, not just pass  
+- Every refactor must show proof of equivalence  
+- Logs and exceptions must explain behavior
 
 ---
 
 **🖤 Be Mamba. Refactor like Mamba. Review like Mamba.**  
-**#MambaPublicReview #NonNegotiableExcellence #LoggerOnly** 🔥
-**#MambaMentality #NothingUntraced #NoDebugsEver** 🧠🔥
+**#MambaPublicReview #MambaStrictRefactor #NoSurfaceChanges #OnlyProof** 🔥
