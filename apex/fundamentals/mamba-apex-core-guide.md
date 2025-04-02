@@ -2,161 +2,155 @@
   <img src="https://raw.githubusercontent.com/leogbo/mambadev-guides/main/static/img/github_banner_mambadev.png" alt="MambaDev Banner" width="100%" />
 </p>
 
-> 🧱 @status:core | This document defines official MambaDev Apex coding standards.  
-> All changes must be reviewed and versioned by the architecture team.  
-> Applied modules (e.g., `/apex/`) may evolve from this foundation for scale and compliance.
-
 # 🧱 MambaDev Apex Core Guide – 2025
 
-> **"Excellence is not an option. It's the only way."** – Mamba Mentality
+@status:core | This document defines non-negotiable coding principles for Apex.  
+All modules (e.g., `/apex/`, `/batch/`, `/triggers/`) must comply.  
+Changes must be approved by architecture leadership.
+
+---
+
+## 📘 Shortlink
+
+https://mambadev.io/coding-style
 
 ---
 
 ## 🎯 Mission
 
-Promote **unbreakable traceability**, **ruthless quality**, and **architectural clarity** in Apex development by enforcing:
-
-- Standardized architecture across all modules  
-- Tests with traceable, expressive assertions  
-- Structured logging for proactive diagnosis  
-- Clear separation of production, test, and mocking code
+Guarantee **traceability, clarity, modularity, and testability** in all Apex code.  
+If it's not auditable, it's not acceptable.
 
 ---
 
-## 🛠️ Non-Negotiable Standards
+## ✅ Mamba Architecture Principles
 
-### ✅ 1. Use `@TestVisible` in logic methods
+| Principle                | In Practice                                                                  |
+|--------------------------|-------------------------------------------------------------------------------|
+| SRP – Single Responsibility | Every method does one thing well and is isolated for testing            |
+| Traceability             | `Logger`, `@TestVisible`, `FlowExecutionLog__c` for all logic layers         |
+| Testability              | Logic receives primitive values and can be tested without external calls     |
+| Defensive by default     | Validate all inputs: nulls, lists, enums, fallback logic required            |
+| Modular structure        | Methods stay under ~30 lines, delegate clearly, and never nest excessively   |
 
-Every logic-carrying method must:
+---
 
-- Be marked as `@TestVisible`  
-- Be **covered in isolation** with meaningful asserts
+## 🏗️ Standard Class Setup
 
 ```apex
-@TestVisible private static void calculateProposal() {
-    // ...
-}
+@TestVisible public static String  environment     = EnvironmentUtils.getRaw() != null ? EnvironmentUtils.getRaw() : 'sandbox';
+@TestVisible public static String  logLevelDefault = EnvironmentUtils.getLogLevel() != null ? EnvironmentUtils.getLogLevel() : 'INFO';
+@TestVisible public static Integer maxDebugLength  = EnvironmentUtils.getMaxDebugLength() != null ? (Integer) EnvironmentUtils.getMaxDebugLength() : 3000;
+
+@TestVisible private static final String className   = 'MyClass';
+@TestVisible private static final String logCategory = 'Domain';
+private static final String triggerType = 'Service | Queueable | Trigger';
 ```
 
 ---
 
-### ✅ 2. Structured logging with `Logger`
+## 🪵 Logging (Standard)
 
-- Never use `System.debug()`  
-- Use fluent `Logger` with full context
+Use the `Logger` class:
 
 ```apex
 new Logger()
   .setClass('MyClass')
-  .setMethod('myMethod')
-  .error('Proposal calculation failed', e, JSON.serializePretty(proposal));
+  .setMethod('processRecord')
+  .error('Unexpected exception', ex, JSON.serializePretty(input));
 ```
 
-In tests, always use `LoggerMock` to capture logs safely without persistence.
+In tests, use `LoggerMock`.
 
 ---
 
-### ✅ 3. REST responses with `RestServiceHelper`
-
-Wrap all API responses using `RestServiceHelper`:
+## 🌐 REST Responses
 
 ```apex
-RestServiceHelper.badRequest('Missing required field.');
-RestServiceHelper.sendResponse(200, 'Success', result);
-```
-
-This ensures:
-- Proper status codes
-- Standard JSON output
-- Headers and formatting enforced
-
-Example response body:
-
-```json
-{
-  "status": "error",
-  "message": "Invalid access token",
-  "details": null
-}
+RestServiceHelper.badRequest('Missing required parameter');
+RestServiceHelper.sendResponse(200, 'Success', returnData);
 ```
 
 ---
 
-### ✅ 4. Test utilities via `TestHelper`
+## 🧪 Testing Expectations
 
-Use safe fake IDs:
-
-```apex
-TestHelper.fakeIdForSafe(Proposta__c.SObjectType);
-```
-
-Dynamic mocks for test data:
-
-```apex
-TestHelper.randomEmail();
-TestHelper.fakePhone();
-```
+- `@TestVisible` for all logic  
+- Setup via `TestDataSetup.setupCompleteEnvironment()`  
+- Each test must cover one case, with expressive `System.assertEquals(...)`  
+- Use `LoggerMock`, not real logging  
+- Validate fallbacks, errors, async paths
 
 ---
 
-## 🧪 Mamba-Level Testing
-
-### 🔒 Logging discipline
-- Do not assert logs directly  
-- Use `LoggerMock` to verify that logging occurred
-
-### 🔁 Standard setup
-
-```apex
-@TestSetup
-static void setup() {
-    TestDataSetup.setupCompleteEnvironment();
-}
-```
-
-### 🧠 Every assert matters
+## 🧠 Assertion Examples
 
 ```apex
 System.assertEquals(
-    'update_uc',
-    res.get('action'),
-    'Expected action to be "update_uc", but got: ' + res.get('action')
-);
-
-System.assertEquals(
-    recordId,
-    res.get('record_id'),
-    'Expected record_id to match, but got: ' + res.get('record_id')
+  'expected_action',
+  res.get('action'),
+  'Expected "expected_action", got: ' + res.get('action')
 );
 ```
 
 ---
 
-## 📌 Required Refactor Docs
+## 📦 Method Patterns
 
-- Before vs After → [Comparison Guide](https://mambadev.io/41XGoTz)  
-- Functional Confirmation → [Equivalence Guide](https://mambadev.io/4jjcWx9)
-
----
-
-## 🚫 Eliminated Anti-patterns
-
-| 🚫 Anti-pattern         | ✅ Correct Form                        |
-|-------------------------|----------------------------------------|
-| `System.debug()`        | `Logger().info()` or `.error()`        |
-| Logging inside tests    | `LoggerMock` to capture calls          |
-| If by SObject type      | Use ID prefix → `recordId.startsWith(...)` |
+| Context        | Naming                     |
+|----------------|----------------------------|
+| Public logic   | `executeX`, `getY`, `runZ` |
+| Test methods   | `should_do_X_when_Y`       |
+| Private logic  | `validateInput`, `buildMap`|
 
 ---
 
-## 🚀 Purpose of This Guide
+## ✅ Required Supporting Docs
 
-To ensure that every Apex codebase is:
+- Before vs After → https://mambadev.io/41XGoTz  
+- Equivalence → https://mambadev.io/4jjcWx9  
+- Logger Guide → https://mambadev.io/41WCcDA  
+- Test Setup → https://mambadev.io/4ceNlTD
 
-- 🔐 Secure  
-- 🧠 Clear  
-- 🧪 Testable  
-- 🧱 Traceable  
-- 🐍 Mamba
+---
 
-> **"The only failure is the lack of will to be excellent."**
+## 🚫 Anti-Patterns
+
+| ❌ Wrong                   | ✅ Correct                          |
+|---------------------------|-------------------------------------|
+| `System.debug()`          | Use `Logger`                        |
+| `testData.get(...)`       | Use `TestDataSetup`                 |
+| `SELECT ... LIMIT 1`      | Use `RecordHelper.getById(...)`     |
+| Multiple `if/try/catch`   | Extract into named, testable methods|
+
+---
+
+## 🔐 Production Safety
+
+Block unsafe behavior in prod:
+
+```apex
+if (![SELECT IsSandbox FROM Organization LIMIT 1].IsSandbox) {
+  logger.warn('Blocked in production');
+  return;
+}
+```
+
+---
+
+## 🧱 Final Rule
+
+> Every method with more than one responsibility must be broken into `@TestVisible` primitives, fully traceable and testable.
+
+---
+
+## 🖤 Mamba Mentality
+
+- Every line must justify its existence  
+- No logic escapes logging  
+- Every test proves **behavior**, not just coverage
+
+**#BuiltForTraceability #ModularByDesign #NothingLessThanExcellent**
+- Docusaurus/GitBook page?
+
+**#OneCoreGuide #AllMamba #ArchitectureWithoutCompromise** 🧠🔥
