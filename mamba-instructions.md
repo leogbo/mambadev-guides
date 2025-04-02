@@ -31,20 +31,18 @@ No shortcuts. No guesswork. Every line must justify its existence.
 ## 🛠️ Core Standards
 
 - Logic methods: `@TestVisible` + direct test coverage  
-- Logging: only via [Logger](https://mambadev.io/logger) (supports `.info()`, `.warn()`, `.error()`); never `System.debug()`  
-- API responses via [RestServiceHelper](https://mambadev.io/rest-service-helper)  
-- Logs persist via [FlowExecutionLog__c](https://mambadev.io/flow-execution-log)
+- Logging: only via `Logger` (supports `.info()`, `.warn()`, `.error()`); never `System.debug()`  
+- API responses via `RestServiceHelper`  
+- Logs persist via `FlowExecutionLog__c`
 - Every exception must be logged with full context
 
 ---
 
 ## 🧱 Class Skeleton (Mamba Format)
-[EnvironmentUtils.cls](https://mambadev.io/environment-utils)
 ```apex
 @TestVisible public static String environment = EnvironmentUtils.getRaw() ?? 'sandbox';
 @TestVisible public static String logLevelDefault = EnvironmentUtils.getLogLevel() ?? 'INFO';
 @TestVisible public static Integer maxDebugLength = (Integer)(EnvironmentUtils.getMaxDebugLength() ?? 3000);
-
 @TestVisible private static final String className = 'MyClass';
 @TestVisible private static final String logCategory = 'Domain';
 private static final String triggerType = 'Service | Queueable | Trigger';
@@ -90,14 +88,13 @@ private static final String triggerType = 'Service | Queueable | Trigger';
 ```apex
 // ❌ Before:
 Account acc = [SELECT Id FROM Account WHERE Id = :id LIMIT 1];
-
 // ✅ After:
 Account acc = (Account) RecordHelper.getById(Account.SObjectType, id, 'Id');
 ```
 
 ---
 
-## 🔐 Public Review Contract (Default Mode)
+## 🔐 Public Review Contract
 
 | Rule                         | Enforcement                                |
 |------------------------------|---------------------------------------------|
@@ -110,9 +107,9 @@ Account acc = (Account) RecordHelper.getById(Account.SObjectType, id, 'Id');
 
 ---
 
-## 🔒 Strict Refactor Mode (Sensitive/Private Code)
+## 🔒 Strict Refactor Mode
 
-Use when working on production logic or proprietary business flows.
+Use for production/proprietary logic.
 
 | Rule                          | Constraint                              |
 |-------------------------------|------------------------------------------|
@@ -122,22 +119,15 @@ Use when working on production logic or proprietary business flows.
 | `@RestResource` / `@AuraEnabled` | ❌ Must be signature-stable          |
 
 ✅ You may:
-
 - Extract logic to `@TestVisible` methods  
-- Add log coverage  
-- Improve naming internally  
-- Add tests that don’t alter the contract
+- Add log coverage and tests  
+- Refactor internally without altering contracts
 
 All strict changes must include:
 
 - 🔁 Code diff → https://mambadev.io/apex-feature-comparison  
 - ✅ Behavior proof → https://mambadev.io/equivalence-checklist  
-- 🔒 Lead approval if changing exposed logic
-
-> **Strict Refactor is not creative. It’s surgical.**
-
-Enable with:  
-**"Apply Mamba Strict Refactor contract to this class."**
+- 🔒 Lead approval if changing public logic
 
 ---
 
@@ -152,16 +142,3 @@ Enable with:
 
 **🖤 Be Mamba. Refactor like Mamba. Review like Mamba.**  
 **#MambaPublicReview #StrictRefactor #NoGuessworkOnlyProof** 🔥
-```
-
----
-
-✅ This block is **8000 characters optimized** and ready to:
-
-- ⬆️ Be used as GPT instructions  
-- 📄 Go into `.md` files in `/standards`, `/guides`, or `/review` folders  
-- 🔁 Be shared with teams for onboarding and code governance
-
-Need a `.md` export of this or a `.zip` bundle of your finalized documentation set?
-
-**#MambaDisciplina #ReviewWithPurpose #ShipOnlyWhatYouCanTrace** 🧠🔥
