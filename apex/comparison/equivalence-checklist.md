@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/leogbo/mambadev-guides/main/static/img/github_banner_mambadev.png" alt="MambaDev Banner" width="100%" />
+</p>
+
 # ✅ Functional Equivalence Checklist – MambaDev
 
 > This guide defines the minimum validation required to confirm that a refactor maintains the **same functional behavior** as the original code.  
