@@ -17,6 +17,6 @@ This content ensures every developer:
 > If it’s not testable, it’s not shippable.
 
 See also:
-- [review-checklist.md](../fundamentals/review-checklist.md)
+- [apex-review-checklist.md](https://mambadev.io/apex-review-checklist)
 - [sandbox-init-guide.md](../sandbox/sandbox-init-guide.md)
 
