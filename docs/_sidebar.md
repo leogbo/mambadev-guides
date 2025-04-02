@@ -1,1 +1,13 @@
+- [Home](index.md)
+- **Apex**
+  - [Core](apex/core/)
+  - [Testing](apex/testing/)
+  - [Integrations](apex/integrations/)
+- **Automation**
+  - [AI Agents](automation/ai-agents/)
+  - [Workflows](automation/workflows/)
+- **Prompting**
+  - [Effective Prompting](prompting/effective-prompting/)
+  - [Examples](prompting/examples/)
+- [Style Guide](style.md)
 
