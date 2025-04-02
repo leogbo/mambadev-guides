@@ -11,12 +11,12 @@
 
 ## 🎯 Purpose
 
-The goal of layering is **separation of concerns**.
+Layering enforces **separation of concerns**, ensuring:
 
-- ✅ Know **where** logic lives  
-- ✅ Know **who** calls who  
-- ✅ Replace, mock, or extend behavior **without breaking the system**  
-- ✅ Improve readability, testability, and team collaboration
+- ✅ You know **where** logic lives  
+- ✅ You know **who** calls who  
+- ✅ You can replace, mock, or extend behavior safely  
+- ✅ The codebase is readable, testable, and collaboration-friendly
 
 ---
 
@@ -36,65 +36,70 @@ The goal of layering is **separation of concerns**.
 
 ---
 
-### 🔹 1. Controllers
+### 🔹 1. Controllers → **Handle requests only**
 
-> Responsible for receiving the request (from Flow, REST, Trigger)  
-> Calls the service layer. Does not contain logic.
+> Entry points for Flows, REST, Triggers.  
+> Delegates to services. **Never** contains business logic.
 
 Examples:
-- Flow Action Apex Class
+- Flow Action Apex Classes
 - `@InvocableMethod`
-- `@AuraEnabled` methods
-- REST `@RestResource` methods
+- `@AuraEnabled`
+- `@RestResource`
 
 ---
 
-### 🔹 2. Services
+### 🔹 2. Services → **Coordinate use cases**
 
-> Coordinate use cases. They orchestrate logic but do not implement the rules themselves.
+> Orchestrates operations. Owns transactions and logging.  
+> Uses ExceptionUtil and Logger, but avoids business logic.
 
-- Named with clear intent (`LeadConversionService`, `BillingService`)
-- Own the transaction boundaries
-- Use `ExceptionUtil` to validate
-- Use `Logger` to record the operation
+- Named for behavior (`LeadConversionService`, `BillingService`)
+- Central place to:
+  - Validate with `ExceptionUtil`
+  - Log with `Logger`
+  - Call domain logic or helpers
+  - Perform DML (as needed)
 
 ---
 
-### 🔹 3. Domain Logic
+### 🔹 3. Domain Logic → **Contain business rules**
 
-> Business rules that apply regardless of UI or integration.  
-> Pure Apex logic, reusable across org boundaries.
+> Stateless, reusable logic that applies regardless of controller or integration.  
+> Pure logic, no infrastructure.
 
 Examples:
 - `ProductPricingEngine`
 - `AccountEligibilityRule`
 - `QuoteApprovalStrategy`
 
-They should be:
-- Stateless
-- Testable
-- Free from DML and UI logic
+Guidelines:
+- No DML
+- No Logger
+- No platform dependencies
 
 ---
 
-### 🔹 4. Helpers & Utilities
+### 🔹 4. Helpers & Utilities → **Provide pure functions**
 
-> Shared logic across layers. Simple functions with no side effects.
+> Stateless, side-effect-free logic shared across layers.
 
 Examples:
 - `StringHelper`
 - `DateMath`
 - `ExceptionUtil`
-- `RecordHelper`
 - `ValidationRulesEngine`
 
-Should be `public` or `global` and **never know about business logic**.
+Never:
+- Contain business logic
+- Perform DML
+- Know about domains
 
 ---
 
-### 🔹 5. Platform APIs (DML, SOQL, Schema)
+### 🔹 5. Platform APIs → **Access the platform safely**
 
-> Lowest layer: only used by services and helpers.
+> Lowest layer. Used by services or helpers — never by controllers or domain logic.
 
 Examples:
 - `Database.convertLead`
@@ -102,11 +107,9 @@ Examples:
 - `insert/update/delete`
 - `Flow.Interview`
 
-These should **never be called directly from controllers**.
-
 ---
 
-## 🧪 Example: Lead Conversion
+## 🧪 Example: Lead Conversion Flow
 
 ```plaintext
 Flow → LeadController → LeadConversionService → LeadConversionRule → Logger + DML
@@ -125,46 +128,48 @@ public class LeadController {
 
 ## ⚠️ Anti-Patterns to Avoid
 
-| Pattern                              | Why it breaks the architecture                              |
-|--------------------------------------|--------------------------------------------------------------|
-| Logic in Triggers or Flow Actions   | Hard to test, duplicate, or reuse                            |
-| Services doing DML and business logic| Too much responsibility, no separation                       |
-| Helpers calling DML or Logger        | Violates pure function principles                            |
-| Logging in domain classes            | Domain logic shouldn't care about infrastructure             |
+| Pattern                              | Why it breaks architecture                                         |
+|--------------------------------------|--------------------------------------------------------------------|
+| Logic in Triggers or Flow Actions   | Hard to test, reuse or debug                                       |
+| Services mixing logic and DML       | Violates separation of concerns                                    |
+| Helpers doing DML or logging        | Breaks purity — helpers must be infrastructure-free                |
+| Logger in domain rules              | Domain logic must not depend on side-effects or platform concerns  |
 
 ---
 
-## ✅ Mamba Rules
+## ✅ Mamba Layer Rules
 
-- Controllers: ❌ no logic, ✅ call services
-- Services: ✅ coordinate, ❌ contain rules
-- Domain: ✅ isolated, testable, ❌ DML
-- Helpers: ✅ reusable, ❌ know business
-- Logger/Exception: ✅ only in service or controller layer
+| Layer         | ✅ Allowed                           | ❌ Forbidden                         |
+|---------------|-------------------------------------|-------------------------------------|
+| Controller    | Call services                       | Business logic, DML, logging        |
+| Service       | Orchestrate, log, validate, DML     | Complex rule logic                  |
+| Domain        | Rules, pure logic                   | Logger, DML                         |
+| Helper        | Pure functions                      | Business logic, platform access     |
+| Platform API  | Called by service/helper            | Never directly from controller/domain |
 
 ---
 
 ## 📚 Related Guides
 
 - [Structured Logging](./structured-logging.md)  
-  Logging flows cleanly through service layers only.
+  How logs propagate cleanly from service layer.
 
 - [Validation Patterns](./validation-patterns.md)  
-  All validations should be at the service layer using `ExceptionUtil`.
+  Declarative guard logic lives in the service layer.
 
 - [Testing Patterns](./testing-patterns.md)  
-  How to test each layer in isolation and mock the rest.
+  Isolate and test each layer with confidence.
+
+---
 
 ## 📎 Aligned Fundamentals
 
-These operational guides are built on:
-
-- [`MambaDev Coding Style`](../fundamentals/mambadev-coding-style.md)
-- [`Apex Style Guide`](../fundamentals/apex-style-guide.md)
-- [`Architecture Principles`](../fundamentals/architecture-principles.md)
+- [`MambaDev Coding Style`](../fundamentals/mambadev-coding-style.md)  
+- [`Apex Style Guide`](../fundamentals/apex-style-guide.md)  
+- [`Architecture Principles`](../fundamentals/architecture-principles.md)  
 - [`Review Checklist`](../fundamentals/apex-review-checklist.md)
 
 ---
 
 > Code without layers is code without clarity.  
-> In MambaDev, we separate to scale — and we build to last.
+> **MambaDev separates to scale — and builds to endure.** 🧱🔥
