@@ -60,7 +60,7 @@ EnvironmentUtils.updateEnvironment('sandbox');
 
 ---
 
-### 🔹 `ConfigSystem__c` Fields
+### 🔹 `ConfigSystem__c` Fields (https://mambadev.io/config-system)
 
 | Field Name               | Type     | Used By                          |
 |--------------------------|----------|----------------------------------|
