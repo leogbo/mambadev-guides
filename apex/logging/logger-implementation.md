@@ -23,7 +23,8 @@ This guide defines the **standard for structured, traceable, and persistent logg
 > - [Apex Architecture](https://mambadev.io/layered-architecture)
 > - [Testing](https://mambadev.io/apex-testing-guide)
 > - [Review Checklist](https://mambadev.io/apex-review-checklist)
-> - [FlowExecutionLog__c Example](https://mambadev.io/logger-implementation#flowexecutionlogc)
+> - [Logger Implementarion](https://mambadev.io/logger-implementation)
+> - [FlowExecutionLog__c](https://mambadev.io/flow-execution-log)
 
 ---
 
