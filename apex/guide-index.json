@@ -1,0 +1,70 @@
+{
+  "apex": {
+    "layered-architecture": {
+      "title": "Layered Architecture",
+      "slug": "guia-apex-mamba",
+      "path": "apex/layered-architecture.md",
+      "description": "Layered design principles for scalable Apex architecture."
+    },
+    "review-checklist": {
+      "title": "Review Checklist",
+      "slug": "apex-review",
+      "path": "apex/fundamentals/review-checklist.md",
+      "description": "Validation checklist for reviewing Apex code before deployment."
+    },
+    "exception-util": {
+      "title": "Exception Utility",
+      "slug": "exception-util",
+      "path": "apex/exception-util.md",
+      "description": "Centralized handling and propagation of exceptions."
+    },
+    "flow-execution-log": {
+      "title": "Flow Execution Log",
+      "slug": "flow-execution-log",
+      "path": "apex/logging/flow-execution-log.md",
+      "description": "Logging standard for Apex Flows and system-wide observability."
+    },
+    "logger-guide": {
+      "title": "Logger Guide",
+      "slug": "logger",
+      "path": "apex/logging/logger-guide.md",
+      "description": "Implementation of structured logging using the Logger class."
+    },
+    "testing-patterns": {
+      "title": "Testing Patterns",
+      "slug": "testing-patterns",
+      "path": "apex/testing/testing-patterns.md",
+      "description": "Recommended unit test structure and coverage patterns."
+    },
+    "test-data-setup": {
+      "title": "Test Data Setup",
+      "slug": "test-data-setup",
+      "path": "apex/testing/test-data-setup.md",
+      "description": "Patterns for creating reusable and isolated test data."
+    },
+    "apex-feature-comparison": {
+      "title": "Feature Comparison Guide",
+      "slug": "apex-feature-comparison",
+      "path": "apex/comparison/apex-feature-comparison.md",
+      "description": "How to compare Apex refactors and validate equivalence."
+    },
+    "equivalence-checklist": {
+      "title": "Equivalence Checklist",
+      "slug": "equivalence-checklist",
+      "path": "apex/comparison/equivalence-checklist.md",
+      "description": "Criteria to validate functional equivalence in refactored code."
+    },
+    "sandbox-init-guide": {
+      "title": "Sandbox Initialization Guide",
+      "slug": "sandbox-init",
+      "path": "apex/sandbox/sandbox-init-guide.md",
+      "description": "Automated configuration after sandbox refresh."
+    },
+    "rest-api-guide": {
+      "title": "REST API Guide",
+      "slug": "rest-api-guide",
+      "path": "apex/integrations/rest-api-guide.md",
+      "description": "How to build secure and standard REST endpoints in Apex."
+    }
+  }
+}
