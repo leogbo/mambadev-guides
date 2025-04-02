@@ -32,5 +32,5 @@ This folder centralizes the material needed to:
 
 For usage examples and enforcement rules, see:
 
-- [`review-checklist.md`](../fundamentals/fundamentals/apex-review-checklist.md)  
+- [`review-checklist.md`](../fundamentals/apex-review-checklist.md)  
 - [`testing-patterns.md`](../testing-patterns.md)
