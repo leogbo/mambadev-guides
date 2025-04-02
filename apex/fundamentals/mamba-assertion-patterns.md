@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/leogbo/mambadev-guides/main/static/img/github_banner_mambadev.png" alt="MambaDev Banner" width="100%" />
+</p>
+
 # ✅ Mamba Apex – Assertion Patterns
 
 > All assertions must express **intent**, reveal **expectation**, and provide **traceable failure context**.
