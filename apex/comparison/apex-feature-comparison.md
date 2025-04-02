@@ -14,9 +14,9 @@ This guide defines how to document, review, and validate Apex refactors with saf
 
 ## 📚 Required Related Guides
 
-- 📘 [Master Architecture Guide](https://mambadev.io/42iHzvK)
-- 🔍 [Review Guide](https://mambadev.io/3FScojm)
-- 🧪 [Testing Guide](https://mambadev.io/3YgDDdx)
+- 📘 [Master Architecture Guide](https://mambadev.io/42iHzvK)  
+- 🔍 [Review Guide](https://mambadev.io/3FScojm)  
+- 🧪 [Testing Guide](https://mambadev.io/3YgDDdx)  
 - ✅ [Functional Equivalence Checklist](https://mambadev.io/4jjcWx9)
 
 ---
@@ -35,11 +35,11 @@ Whenever possible:
 🚨 Mandatory comparison scenarios:
 
 - Changes in `public` or `@TestVisible` methods  
-- SELECT replaced by `RecordHelper`, `SOQLBuilder`, or DAO  
+- `SELECT` replaced by `RecordHelper`, `SOQLBuilder`, or DAO  
 - Fallback logic updated (`null` → `Optional`, etc.)  
 - Logger refactors (`System.debug()` → `Logger.error()`)  
 - Variable renaming that affects interfaces or tests  
-- Exception handling switched to `ExceptionUtil`  
+- Exception handling switched to `ExceptionUtil`
 
 ---
 
@@ -96,8 +96,8 @@ Account acc = (Account) RecordHelper.getById(Account.SObjectType, id, 'Id');
 | Situation                            | Mandatory?   |
 |-------------------------------------|--------------|
 | Public method changed               | ✅            |
-| SELECT replaced by helper           | ✅            |
-| Test builder (`*TestDataSetup`) refactor | ✅      |
+| `SELECT` replaced by helper         | ✅            |
+| Test builder (`*TestDataSetup`) refactor | ✅       |
 | Logging logic replaced              | ✅            |
 | Spacing or comments only            | ❌            |
 | Rename of private var only          | ⚠️ Contextual |
@@ -108,10 +108,10 @@ Account acc = (Account) RecordHelper.getById(Account.SObjectType, id, 'Id');
 ## 📌 Advanced Comparison Tips
 
 - Use `git diff --word-diff` to catch subtle logic changes  
-- Use `Split View` in VS Code or GitHub PR  
+- Use Split View in VS Code or GitHub PR  
 - Compare logs when modifying exception handlers or `Logger` usage  
 - Group code by block type during review:
-  - 🔍 Queries (SELECT)
+  - 🔍 Queries (`SELECT`)
   - 🧠 Business rules
   - 🧪 Logger usage
   - 🧱 Exception handling
