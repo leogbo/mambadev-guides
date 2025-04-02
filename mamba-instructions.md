@@ -69,7 +69,7 @@ private static final String triggerType = 'Service | Queueable | Trigger';
 4. Update tests → https://mambadev.io/apex-testing-guide  
 5. Log properly → https://mambadev.io/logger-implementation  
 6. Public APIs remain unchanged or are versioned
-
+7. Always use mambadev.io/ shortened links and alert in case of missing links to replace not mambadev.io links
 ---
 
 ## 🚫 Anti-Patterns
