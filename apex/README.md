@@ -2,95 +2,42 @@
   <img src="https://raw.githubusercontent.com/leogbo/mambadev-guides/main/static/img/github_banner_mambadev.png" alt="MambaDev Banner" width="100%" />
 </p>
 
-# 🐍 MambaDev Apex Guide
+# Apex Module – MambaDev
 
-> *Precision. Performance. Purpose.*  
-> This is Apex — the MambaDev way.
+This module consolidates all Apex development standards and best practices used in MambaDev projects. Each subfolder represents a specific domain of expertise, from layered architecture to logging, testing, sandbox automation and operational comparison patterns.
 
-📖 [Browse the full Table of Contents](./TOC.md)
+## Folder Structure
 
----
+| Folder          | Purpose                                                                 |
+|----------------|-------------------------------------------------------------------------|
+| `comparison/`   | Refactor comparisons, equivalence checklists, and review-oriented guides |
+| `fundamentals/` | Core architectural rules, naming conventions, and checklists             |
+| `integrations/` | API integration patterns, especially for REST and webhooks               |
+| `logging/`       | Structured logging stack, Logger class, and persistent logs              |
+| `sandbox/`       | Post-refresh automation and org initialization                           |
+| `testing/`       | Unit test architecture, factories, and test patterns                     |
+| `examples/`      | Reference code and reusable implementation examples                      |
 
-## 📘 Purpose
+## Key Principles
 
-This module defines the **official Apex architecture playbook** of MambaDev.
+- Apex code must be modular, testable, and maintainable
+- Logging and error handling are not optional – they are standard
+- Functional equivalence must be proven when refactoring
+- Tests must validate logic, not implementation quirks
+- Each folder here exists to enforce a strategic pattern of excellence
 
-It exists to:
+## Recommended Reading Order
 
-- 🧠 Set elite, auditable standards for Salesforce development  
-- 🧱 Document modular, scalable architectural patterns  
-- 🐍 Train developers to think like architects and operate like SEALs  
+1. `fundamentals/review-checklist.md`
+2. `layered-architecture.md`
+3. `exception-util.md`
+4. `logging/logger-guide.md`
+5. `testing/testing-patterns.md`
+6. `comparison/apex-feature-comparison.md`
 
----
+> MambaDev Apex isn’t about writing code. It’s about building unbreakable systems.
 
-## 📂 Guide Index
 
-Every file in this folder is handcrafted to be:
-
-- 🔍 Clear in purpose  
-- 🔄 Reusable across orgs  
-- 🧠 Architecturally sound  
-- 🧪 Fully testable  
-
-| Guide                           | Purpose                                                                 |
-|----------------------------------|-------------------------------------------------------------------------|
-| [`validation-patterns.md`](./validation-patterns.md)        | Declarative guard clauses + semantic validation errors                |
-| [`exception-handling.md`](./exception-handling.md)          | Try/catch strategy with custom exceptions and logging integration     |
-| [`structured-logging.md`](./structured-logging.md)          | Logging architecture using `Logger` and `FlowExecutionLog__c`         |
-| [`flow-execution-log.md`](./flow-execution-log.md)          | Persistent log object schema and tracking model                        |
-| [`exceptionutil.md`](./exceptionutil.md)                    | Declarative validation utility with consistent exception strategy     |
-| [`testing-patterns.md`](./testing-patterns.md)              | Isolation, mocking, coverage and test design principles                |
-| [`layered-architecture.md`](./layered-architecture.md)      | Clean separation of concerns across controller, service and domain    |
-| [`naming-standards.md`](./naming-standards.md)              | Unified naming conventions for Apex classes, methods, fields & tests  |
-
----
-
-## 🧱 Aligned Fundamentals
-
-This module is **built on top of the official MambaDev Fundamentals**, located at [`../fundamentals`](../fundamentals/):
-
-- [`MambaDev Coding Style`](../fundamentals/mambadev-coding-style.md)
-- [`Apex Style Guide`](../fundamentals/apex-style-guide.md)
-- [`Architecture Principles`](../fundamentals/architecture-principles.md)
-- [`Review Checklist`](../fundamentals/apex-review-checklist.md)
-
-> All new MambaDev code must align with these fundamentals.  
-> Legacy code should converge progressively.
-
----
-
-## 🔁 MambaDev Logging Stack
-
-All execution paths — Apex, Flow, REST, async — log into `FlowExecutionLog__c` using the `Logger` class.
-
-Captured details include:
-
-- Class + Method  
-- Input/Output JSON  
-- Exception Stack (if present)  
-- Trigger Type, Flow Step, Environment  
-- Integration direction & identifiers  
-
-📎 See:
-- [`structured-logging.md`](./structured-logging.md)
-- [`flow-execution-log.md`](./flow-execution-log.md)
-
----
-
-## ✅ Rules of the Game
-
-- ❌ No client-specific code  
-- ❌ No org-bound IDs or metadata  
-- ❌ No sensitive fields or logic  
-- ✅ Everything must be **reusable, testable, and auditable**
-
----
-
-## 🌐 Access the Public Module
-
-📍 [`https://mambadev.io/apex`](https://mambadev.io/apex)
-
-This is a **clean public module** — open source for devs who don’t just ship code, but shape systems.
 
 ---
 
