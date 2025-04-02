@@ -2,7 +2,7 @@
   <img src="https://raw.githubusercontent.com/leogbo/mambadev-guides/main/static/img/github_banner_mambadev.png" alt="MambaDev Banner" width="100%" />
 </p>
 
-# 🩵 Apex Logger Guide (v2025) | MambaDev
+# 🦥 Apex Logger Guide (v2025) | MambaDev
 
 > *"Logging is not optional. It's your single source of truth in production."* – Mamba Mentality 🧠🔥
 
@@ -10,7 +10,7 @@
 
 ## 🔖 Shortlink
 
-Official: [bit.ly/GuiaLoggerApex](https://bit.ly/GuiaLoggerApex)
+Official: [mambadev.io/logger-implementation](https://mambadev.io/logger-implementation)
 
 ---
 
@@ -19,10 +19,11 @@ Official: [bit.ly/GuiaLoggerApex](https://bit.ly/GuiaLoggerApex)
 This guide defines the **standard for structured, traceable, and persistent logging** across any Salesforce org. Every critical process — triggers, APIs, batches, callouts — **must** follow this architecture.
 
 > Related Guides:
-> - [Apex Architecture Guide](./apex-architecture.md)
-> - [Apex Review Checklist](./apex-review-checklist.md)
-> - [Apex Testing Guide](./apex-testing-guide.md)
-> - [Flow Execution Log Object](../examples/flow-execution-log.cls)
+> - [Core Standards](https://mambadev.io/apex-core-guide)
+> - [Apex Architecture](https://mambadev.io/layered-architecture)
+> - [Testing](https://mambadev.io/apex-testing-guide)
+> - [Review Checklist](https://mambadev.io/apex-review-checklist)
+> - [FlowExecutionLog__c Example](https://mambadev.io/logger-implementation#flowexecutionlogc)
 
 ---
 
@@ -63,7 +64,7 @@ new Logger()
 
 ---
 
-## 🪧 Usage in Triggers
+## 🚧 Usage in Triggers
 
 ```apex
 Logger.fromTrigger(triggerNew[0])
@@ -116,10 +117,10 @@ Logger.fromTrigger(newRecord)
 
 ---
 
-## 🪜 Logger in Unit Tests
+## 🧼 Logger in Unit Tests
 
 ```apex
-LoggerContext.overrideLogger(new LoggerMock());
+Logger.overrideLogger(new LoggerMock());
 Logger.isEnabled = false;
 ```
 
@@ -129,16 +130,16 @@ Never assert on `FlowExecutionLog__c`. Use mocks only for validation.
 
 ## 📊 FlowExecutionLog__c Fields
 
-| Field                   | Description                                 |
-|------------------------|---------------------------------------------|
-| `Class__c`             | Originating class                           |
-| `Origin_Method__c`     | Method inside class                         |
-| `Log_Level__c`         | Severity: INFO, WARN, ERROR, SUCCESS        |
-| `Log_Category__c`      | Context domain: REST, Trigger, etc.         |
-| `Serialized_Data__c`   | Pretty JSON payload                         |
-| `Trigger_Type__c`      | Execution type: REST, Batch, etc.           |
-| `Error_Message__c`     | Message of the exception                    |
-| `Stack_Trace__c`       | Stack trace (if error)                      |
+| Field                    | Description                                 |
+|-------------------------|---------------------------------------------|
+| `Class__c`              | Originating class                           |
+| `Origin_Method__c`      | Method inside class                         |
+| `Log_Level__c`          | Severity: INFO, WARN, ERROR, SUCCESS        |
+| `Log_Category__c`       | Context domain: REST, Trigger, etc.         |
+| `Serialized_Data__c`    | Pretty JSON payload                         |
+| `Trigger_Type__c`       | Execution type: REST, Batch, etc.           |
+| `Error_Message__c`      | Message of the exception                    |
+| `Stack_Trace__c`        | Stack trace (if error)                      |
 | `Execution_Timestamp__c`| Execution timestamp                        |
 
 ---
@@ -148,7 +149,7 @@ Never assert on `FlowExecutionLog__c`. Use mocks only for validation.
 ```apex
 @IsTest
 static void should_use_logger_mock_correctly() {
-    LoggerContext.overrideLogger(new LoggerMock());
+    Logger.overrideLogger(new LoggerMock());
     Logger.isEnabled = false;
 
     new MyService().run();
@@ -161,7 +162,7 @@ static void should_use_logger_mock_correctly() {
 ## 📄 Pull Request Logging Summary Template
 
 ```markdown
-### 🩵 Logging Validation
+### 🦥 Logging Validation
 
 - `.setClass()`, `.setMethod()`, `.setCategory()` applied
 - `.error(...)` with full trace and data
@@ -184,12 +185,12 @@ static void should_use_logger_mock_correctly() {
 | `LoggerMock` used in test methods                | [ ]   |
 | `FlowExecutionLog__c` used for persistence       | [ ]   |
 | Categories & types correctly set                 | [ ]   |
-| JSON via `serializePretty()`                    | [ ]   |
+| JSON via `serializePretty()`                     | [ ]   |
 
 ---
 
 🧠🖤  
-**Leo Mamba Garcia**  
+**MambaDev**  
 _Logging is soul-traceable. You either log it, or lose it._  
 #NoDebug #MambaLogger #VisibilityIsPower
 
