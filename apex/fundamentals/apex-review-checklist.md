@@ -2,103 +2,112 @@
   <img src="https://raw.githubusercontent.com/leogbo/mambadev-guides/main/static/img/github_banner_mambadev.png" alt="MambaDev Banner" width="100%" />
 </p>
 
-> 🧱 @status:core | This document defines official MambaDev coding fundamentals.  
-> Changes must be versioned and approved by architecture leads.  
-> Applied guides (e.g. `/apex/`) may evolve beyond this for future-proofing.
+> 🧱 @status:core | This document defines official MambaDev Apex review standards.  
+> All changes must be versioned and approved by architecture leads.  
+> Consumer guides (e.g., `/apex/`) may extend this foundation for specific use cases.
 
-# 🔍 Guia Rigoroso de Revisão Apex – v2025 (Mentalidade Mamba)
+# 🔍 Apex Review Checklist – v2025 (MambaDev Standard)
 
-📎 **Shortlink oficial:** [bit.ly/GuiaApexRevisao](https://bit.ly/GuiaApexRevisao)
+📎 **Shortlink:** [mambadev.io/3FScojm](https://mambadev.io/3FScojm)
 
-> “A revisão é o filtro final da excelência. Nenhuma linha sobrevive sem propósito.” – 🧠 Mentalidade Mamba
-
-Este guia define os critérios obrigatórios para revisar código Apex com excelência institucional. Toda nova feature, refatoração ou bugfix **passa obrigatoriamente** por esse crivo.
+> “Review is the final filter of excellence. No line survives without purpose.” – Mamba Mentality 🧠🔥
 
 ---
 
-## 📚 Referência cruzada com demais guias
+## 📚 Related Core Guides
 
-- 📘 [Guia Master Apex Mamba](https://bit.ly/GuiaApexMamba)
-- 🧪 [Guia de Testes Apex](https://bit.ly/GuiaTestsApex)
-- 🪵 [Guia de Logger Apex](https://bit.ly/GuiaLoggerApex)
-- 🧱 [Guia de Setup de Dados de Teste](https://bit.ly/TestDataSetup)
-- 🔁 [Guia de Comparações de Código](https://bit.ly/ComparacaoApex)
-- ✅ [Guia de Equivalência Funcional](https://bit.ly/ConfirmacaoApex)
-
----
-
-## ✅ Fundamentos da Revisão Mamba
-
-- **Rastreabilidade vem antes da performance.**
-- **Boilerplate nunca é desperdício quando traz previsibilidade.**
-- **Testes que “passam” não significam que cobrem.**
-- **O código deve se explicar sozinho – o log, confirmar.**
+- 📘 [Architecture Guide](https://mambadev.io/42iHzvK)  
+- 🧪 [Testing Guide](https://mambadev.io/3YgDDdx)  
+- 🪵 [Logger Guide](https://mambadev.io/41WCcDA)  
+- 🧱 [Test Data Setup Guide](https://mambadev.io/4ceNlTD)  
+- 🔁 [Code Comparison Guide](https://mambadev.io/41XGoTz)  
+- ✅ [Functional Equivalence Guide](https://mambadev.io/4jjcWx9)
 
 ---
 
-## ✔️ Checklist Mamba para Revisão
+## ✅ Core Review Principles
 
-### 🔒 Arquitetura & Estrutura
-- [ ] Classe possui `@TestVisible`, `className`, `logCategory`, `triggerType`
-- [ ] `RecordHelper.getById(...)` aplicado nos `SELECT Id WHERE ...`
-- [ ] `FlowExecutionLog__c` presente se for lógica de negócio crítica
-- [ ] Nenhum `System.debug()` fora de teste
-- [ ] Métodos públicos mantêm compatibilidade após refatoração
-- [ ] Versionamento aplicado em handlers REST (`v2`, `v3`, ...)
-
-### 🧪 Testes
-- [ ] Possui `@TestSetup` com `TestDataSetup.setupCompleteEnvironment()`
-- [ ] `SELECT LIMIT 1` defensivo (sem QueryException)
-- [ ] `System.assert(...)` com mensagem real e conteúdo testado
-- [ ] Nenhum uso de `testData.get(...)` dentro dos métodos de teste
-- [ ] `fakeIdForSafe(...)` aplicado em cenários de ausência
-- [ ] Teste com `exceptionThrown` ou rastreio de efeitos colaterais
-- [ ] Teste de comportamento assíncrono (se houver `Queueable`, `Future`)
-
-### 🔁 Refatoração
-- [ ] Antes vs Depois disponível ([Comparação](https://bit.ly/ComparacaoApex))
-- [ ] Equivalência funcional formalizada ([Confirmação](https://bit.ly/ConfirmacaoApex))
-- [ ] Fallbacks adicionados em campos `null`, `blank`, `invalid`
-- [ ] Métodos garantem `null-safe` com `RecordHelper` ou `List<T>.isEmpty()`
-- [ ] Nenhum breaking change em retorno de métodos REST ou públicos
+- **Traceability before performance**  
+- **Boilerplate is predictability**  
+- **Passing tests ≠ sufficient tests**  
+- **Code should explain itself — the log should confirm it**
 
 ---
 
-## 🚫 Proibições intransigentes
+## 🧾 Mamba Review Checklist
 
-| Item                        | Proibido                      | Alternativa Mamba                           |
-|-----------------------------|-------------------------------|----------------------------------------------|
-| `System.debug(...)`         | ❌ Fora de testes              | `Logger` ou `FlowExecutionLog__c`            |
-| `SELECT ... LIMIT 1` direto| ❌ Sem fallback                | `RecordHelper.getById(...)` ou `List<T>`     |
-| `testData.get(...)`        | ❌ Dentro de @IsTest           | Sempre usar `SELECT` após `@TestSetup`       |
-| `%` em números             | ❌ `a % b` inválido em Apex    | `Math.mod(a, b)`                             |
-| `padLeft/padRight`         | ❌ Não suportado               | `String.format` ou concat manual             |
+### 🔒 Architecture & Structure
+
+- [ ] Class includes `@TestVisible`, `className`, `logCategory`, `triggerType`
+- [ ] Uses `RecordHelper.getById(...)` instead of raw `SELECT LIMIT 1`
+- [ ] Logs critical paths to `FlowExecutionLog__c` when applicable
+- [ ] No use of `System.debug()` outside of test factories
+- [ ] Public and `@TestVisible` methods are backwards compatible
+- [ ] Versioning applied for REST handlers (`v2`, `v3`, etc.)
 
 ---
 
-## 🔁 Exemplo de Refatoração Antes vs Depois
+### 🧪 Testing & Validation
 
-### ❌ Antes:
+- [ ] Has `@TestSetup` using `TestDataSetup.setupCompleteEnvironment()`
+- [ ] `SELECT LIMIT 1` includes fallback to avoid QueryException
+- [ ] All `System.assert(...)` include message and assert **meaning**
+- [ ] No use of `testData.get(...)` inside test methods
+- [ ] Uses `fakeIdForSafe(...)` for fallback scenarios
+- [ ] Negative test case included (`exceptionThrown` or fail path)
+- [ ] Async behavior tested if code includes `Queueable`, `Future`, etc.
+
+---
+
+### 🔁 Refactor Checks
+
+- [ ] Before vs After documented → [Comparison Guide](https://mambadev.io/41XGoTz)
+- [ ] Functional equivalence confirmed → [Equivalence Guide](https://mambadev.io/4jjcWx9)
+- [ ] All `null` / `blank` / `invalid` inputs have fallback
+- [ ] Null-safe checks in all list returns / optional lookups
+- [ ] No breaking changes to REST contracts or public methods
+
+---
+
+## 🚫 Forbidden Patterns
+
+| Pattern                  | ❌ Do Not Use                 | ✅ Use Instead                             |
+|--------------------------|------------------------------|---------------------------------------------|
+| `System.debug(...)`      | Outside test factories       | `Logger` or `FlowExecutionLog__c`           |
+| Raw `SELECT ... LIMIT 1` | Without fallback             | `RecordHelper.getById(...)`                |
+| `testData.get(...)`      | Inside `@IsTest`             | `SELECT` after `@TestSetup`                |
+| `a % b` (modulo)         | Not supported in Apex        | `Math.mod(a, b)`                            |
+| `padLeft`, `padRight`    | Not available in Apex        | `String.format()` or manual string ops      |
+
+---
+
+## 📌 Before vs After Example
+
+### ❌ Before
+
 ```apex
 Account acc = [SELECT Id, Name FROM Account WHERE Id = :id LIMIT 1];
 ```
 
-### ✅ Depois:
+### ✅ After
+
 ```apex
 Account acc = (Account) RecordHelper.getById(Account.SObjectType, id, 'Id, Name');
 ```
 
 ---
 
-## 📌 Exemplo de assertiva mamba:
+## 🧠 Assertion Examples (Mamba Style)
+
 ```apex
-System.assertEquals(1, contas.size(), 'Esperado 1 conta. Obtido: ' + contas.size());
-System.assertNotEquals(null, conta, 'Conta retornada foi null');
+System.assertEquals(1, accounts.size(), 'Expected 1 account, got: ' + accounts.size());
+System.assertNotEquals(null, account, 'Account should not be null');
 ```
 
 ---
 
-## 🧪 Exemplo de teste rastreável com fallback
+## 🧪 Fallback Testing Example
+
 ```apex
 List<UC__c> ucs = [SELECT Id FROM UC__c LIMIT 1];
 if (ucs.isEmpty()) {
@@ -109,60 +118,57 @@ UC__c uc = ucs[0];
 
 ---
 
-## 📎 Checklists relacionados
+## ✅ Related Checklists
 
-- ✅ [Checklist de Testes Apex](https://bit.ly/GuiaTestsApex#✅-checklist-mamba-para-testes)
-- ✅ [Checklist de Equivalência Funcional](https://bit.ly/ConfirmacaoApex#🧠-checklist-de-confirmação-mamba)
-- ✅ [Checklist de Comparação de Código](https://bit.ly/ComparacaoApex)
+- [ ] [Testing Checklist](https://mambadev.io/3YgDDdx#✅-mamba-test-checklist)
+- [ ] [Functional Equivalence](https://mambadev.io/4jjcWx9#🧠-confirmation-checklist)
+- [ ] [Before vs After Comparison](https://mambadev.io/41XGoTz)
 
 ---
 
-## 📄 Exemplo de Pull Request com validação de revisão
-```markdown
-### 🧠 Revisão Executada
+## 📄 Pull Request Review Template (Mamba Style)
 
-- Checklist Mamba totalmente preenchido
-- Logs estruturados com `Logger`
-- Testes atualizados com `exceptionThrown` e validação de fallback
-- `FlowExecutionLog__c` presente com categoria `Service`
-- Nenhuma quebra de assinatura pública
-- Refatoração validada: [ComparacaoApex](https://bit.ly/ComparacaoApex)
-- Equivalência funcional confirmada: [ConfirmacaoApex](https://bit.ly/ConfirmacaoApex)
+```markdown
+### 🧠 Review Summary
+
+- [x] Full checklist completed
+- [x] Logger used instead of System.debug
+- [x] Tests include negative case and async path
+- [x] FlowExecutionLog__c logs added in service methods
+- [x] No breaking signature change
+- [x] Refactor validated → [Comparison](https://mambadev.io/41XGoTz)
+- [x] Functional behavior confirmed → [Equivalence](https://mambadev.io/4jjcWx9)
 ```
 
 ---
 
-## 🔍 Exemplo de revisão rejeitada (anti-pattern)
+## 🚫 Bad Refactor Example
+
 ```diff
-- public Map<String, Object> buscarConta(String id) {
+- public Map<String, Object> getAccount(String id) {
 -     Account acc = [SELECT Id, Name FROM Account WHERE Id = :id LIMIT 1];
--     return new Map<String, Object>{ 'Id' => acc.Id, 'Nome' => acc.Name };
+-     return new Map<String, Object>{ 'Id' => acc.Id, 'Name' => acc.Name };
 - }
-+ public Map<String, Object> buscarContaComDocumento(String id) {
-+     Account acc = [SELECT Id, Name, Documento__c FROM Account WHERE Id = :id LIMIT 1];
-+     return new Map<String, Object>{ 'Id' => acc.Id, 'Documento' => acc.Documento__c };
++ public Map<String, Object> getAccountWithDocument(String id) {
++     Account acc = [SELECT Id, Name, Document__c FROM Account WHERE Id = :id LIMIT 1];
++     return new Map<String, Object>{ 'Id' => acc.Id, 'Document' => acc.Document__c };
 + }
 ```
 
-❌ **Problema:** método anterior foi suprimido
-✅ **Correto:** manter `buscarConta(...)` e criar `buscarContaComDocumento(...)` como evolução
-
-> Nunca quebre contrato público. Apenas estenda, sobrecarregue ou versiona.
+❌ **Problem:** You removed `getAccount(...)` — breaking compatibility  
+✅ **Correct:** Keep the original method and extend with a new one if needed
 
 ---
 
-## 🧠 Final
+## 🧠 Final Words
 
-Revisar código não é só aprovar. É confirmar que:
-- Rastreia
-- Registra
-- Funciona em produção
-- Passa por testes agressivos
+Code review isn’t just approval — it’s validation that:
 
-📌 **Nada é considerado revisado sem checklist preenchido.**
+- ✅ Behavior is traceable  
+- ✅ Logs are structured  
+- ✅ Tests fail for the right reasons  
+- ✅ No regression slips into production
 
-🧠🧱🧪 #RevisaoMamba #FiltroDeExcecao #NadaEntraSemValidacao
+📌 **No code is considered reviewed without a completed checklist.**
 
-
-**classes .cls**
-
+🧠🧱🧪 #MambaReview #ExcellenceGatekeeper #NothingUnvalidated
