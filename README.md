@@ -2,7 +2,8 @@
   <img src="https://raw.githubusercontent.com/leogbo/mambadev-guides/main/static/img/github_banner_mambadev.png" alt="MambaDev Banner" width="100%" />
 </p>
 
-# 🐍 MambaDev Guides
+# 🐍 MambaDev Guides  
+**Version**: `v2025.1` • _Last updated: Apr 2025_
 
 Welcome to the **MambaDev Knowledge Arsenal** — a high-performance guidebook for developers who operate with **clarity, discipline, and legacy in mind**.
 
@@ -19,9 +20,11 @@ Every file in this repo is crafted with Mamba Mentality:
 
 This repository exists to:
 
-- Set **elite technical standards** in software, Apex, and AI-powered development
-- Share **modular**, **battle-tested**, and **auditable** implementation patterns
+- Set **elite technical standards** in software, Apex, and AI-powered development  
+- Share **modular**, **battle-tested**, and **auditable** implementation patterns  
 - Transform codebases into **scalable ecosystems** — and developers into **system thinkers**
+
+> ⚠️ All guides follow [Mamba Public Review Standards](https://mambadev.io/apex-review-checklist) — no guesswork, only proof.
 
 ---
 
@@ -29,7 +32,7 @@ This repository exists to:
 
 | Module                    | Description                                                                 |
 |---------------------------|-----------------------------------------------------------------------------|
-| **Apex**                  | Core Mamba Apex framework: logging, exception handling, validation          |
+| **[Apex](https://mambadev.io/apex)**                | Core Mamba Apex framework: logging, exception handling, validation          |
 | **Effective Prompting**   | How to ask, instruct, and extract brilliance from AI models                 |
 | **AI Automation**         | End-to-end use of agents and GPT for business flows *(coming soon)*         |
 | **Intelligent Agents**    | Multi-step autonomous behavior and decision trees *(coming soon)*          |
@@ -44,9 +47,9 @@ This repository exists to:
 
 This guide brings the **Mamba Mentality** to Salesforce Apex development — with:
 
-- ⚙️ Structured Logging
-- 🧱 Exception Architecture
-- ✅ Declarative Validation
+- ⚙️ Structured Logging  
+- 🧱 Exception Architecture  
+- ✅ Declarative Validation  
 - 🧪 Mockable, Test-First Utilities
 
 📍 Live module: [https://mambadev.io/apex](https://mambadev.io/apex)
@@ -69,10 +72,10 @@ This guide brings the **Mamba Mentality** to Salesforce Apex development — wit
 
 ## 🧭 How to Use This Repo
 
-- Start with `apex/` for the core Mamba patterns
-- Use each guide as a reference, checklist, or review base
-- All code is designed to be copied, adapted, and deployed with confidence
-- Apply patterns progressively — or refactor boldly
+- Start with [`apex/`](https://mambadev.io/apex-core-guide) for the core Mamba patterns  
+- Use each guide as a reference, checklist, or review base  
+- All code is designed to be copied, adapted, and deployed with confidence  
+- Apply patterns progressively — or refactor boldly with public equivalence proof
 
 ---
 
