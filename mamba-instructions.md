@@ -64,11 +64,11 @@ private static final String triggerType = 'Service | Trigger | Batch | Queueable
 
 ## 🔁 Mamba Refactor Protocol
 
-1. Code follows architecture → [MambaDev Architecture](https://mambadev.io/42iHzvK)  
-2. Before vs After comparison provided → [Comparison Guide](https://mambadev.io/41XGoTz)  
-3. Functional equivalence confirmed → [Equivalence Checklist](https://mambadev.io/4jjcWx9)  
-4. Tests updated and mapped → [Testing Guide](https://mambadev.io/3YgDDdx)  
-5. Logging implemented via `.setClass(...).setMethod(...).error(...)`  
+1. Code follows Mamba Apex Core Guide → [Mamba Apex Core Guide](https://mambadev.io/apex-core-guide) 
+2. Before vs After comparison provided → [Apex Feature Comparison](https://mambadev.io/apex-feature-comparison)
+3. Functional equivalence confirmed → [Equivalence Checklist](https://mambadev.io/equivalence-checklist)
+4. Tests updated and mapped → [Testing Guide](https://mambadev.io/apex-testing-guide) and [Testing Patterns](https://mambadev.io/testing-patterns)
+5. Logging implemented via `.setClass(...).setMethod(...).error(...)` → [Logger Implementation](https://mambadev.io/logger-implementation)
 6. Public methods preserve compatibility — or are versioned
 
 ---
@@ -100,7 +100,7 @@ Account acc = (Account) RecordHelper.getById(Account.SObjectType, id, 'Id');
 
 ---
 
-## 🔐 Mamba Public Review Contract
+## 🔐 Mamba Public Review Contract (usually for public material)
 
 > Transforming content to **Mamba Public Review** requires:
 
@@ -115,7 +115,7 @@ Account acc = (Account) RecordHelper.getById(Account.SObjectType, id, 'Id');
 
 ---
 
-## 🔒 Strict Refactor Mode (Optional)
+## 🔒 Strict Refactor Mode (usually codes in production)
 
 For use with **private production logic** that contains sensitive contracts or proprietary rules.
 
