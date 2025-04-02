@@ -4,7 +4,7 @@
 
 # 🔁 Apex Feature Comparison Guide – v2025 (Mamba Mentality)
 
-📎 **Official Shortlink:** [bit.ly/ComparacaoApex](https://bit.ly/ComparacaoApex)
+📎 **Official Shortlink:** [mambadev.io/41XGoTz](https://mambadev.io/41XGoTz)
 
 > “No refactor is legit without explicit comparison, formal review, and proven equivalence.” – Mamba Mentality 🧠🔥
 
@@ -14,45 +14,50 @@ This guide defines how to document, review, and validate Apex refactors with saf
 
 ## 📚 Required Related Guides
 
-- 📘 [Master Architecture Guide](https://bit.ly/GuiaApexMamba)
-- 🔍 [Review Guide](https://bit.ly/GuiaApexRevisao)
-- 🧪 [Testing Guide](https://bit.ly/GuiaTestsApex)
-- ✅ [Functional Equivalence Checklist](https://bit.ly/ConfirmacaoApex)
+- 📘 [Master Architecture Guide](https://mambadev.io/42iHzvK)
+- 🔍 [Review Guide](https://mambadev.io/3FScojm)
+- 🧪 [Testing Guide](https://mambadev.io/3YgDDdx)
+- ✅ [Functional Equivalence Checklist](https://mambadev.io/4jjcWx9)
 
 ---
 
 ## ✅ What Should Be Compared
 
-🧠 Every refactor must preserve compatibility with functional legacy code. Mamba doesn’t break – Mamba evolves with responsibility.
+🧠 Every refactor must preserve compatibility with legacy functional behavior.  
+Mamba doesn’t break — Mamba evolves with responsibility.
 
 Whenever possible:
-- Keep the original method name
-- Add overloads (new method signatures)
-- Use optional parameters or helpers to simplify without removing previous behavior
 
-Mandatory comparison situations:
-- Public or `@TestVisible` method changes
-- Internal structure changes
-- Fallback changes (e.g., `null` → `Optional`, `LIMIT 1` → `RecordHelper`)
-- Logic block replacements with external helper
-- Renaming of visible variables (except private ones without external impact)
-- Replacing `System.debug()` with `Logger.info()` or `Logger.error()`
+- Preserve method names (`public`, `@TestVisible`)  
+- Add overloads instead of replacing behavior  
+- Introduce helpers or optional parameters for clarity  
+
+🚨 Mandatory comparison scenarios:
+
+- Changes in `public` or `@TestVisible` methods  
+- SELECT replaced by `RecordHelper`, `SOQLBuilder`, or DAO  
+- Fallback logic updated (`null` → `Optional`, etc.)  
+- Logger refactors (`System.debug()` → `Logger.error()`)  
+- Variable renaming that affects interfaces or tests  
+- Exception handling switched to `ExceptionUtil`  
 
 ---
 
-## ✅ Minimum Comparison Structure
+## ✅ Minimum Comparison Template
 
 ### ❌ Before
+
 ```apex
 Account acc = [SELECT Id, Name FROM Account WHERE Id = :id LIMIT 1];
 ```
 
 ### ✅ After
+
 ```apex
 Account acc = (Account) RecordHelper.getById(Account.SObjectType, id, 'Id, Name');
 ```
 
-> Every comparison must be documented in a comment, PR, or markdown inside the branch.
+> Document comparisons in comments, pull requests, or in-code markdown.
 
 ---
 
@@ -62,8 +67,9 @@ Account acc = (Account) RecordHelper.getById(Account.SObjectType, id, 'Id, Name'
 ### 🔄 Proposed Refactor
 
 - Refactored `buscarConta()` to use `RecordHelper.getById(...)`
-- Added fallback to null
-- Preserved `@TestVisible` for coverage
+- Preserved method signature
+- Replaced raw SOQL with safe helper
+- Maintained `@TestVisible`
 
 ### ✅ Before
 ```apex
@@ -76,11 +82,11 @@ Account acc = (Account) RecordHelper.getById(Account.SObjectType, id, 'Id');
 ```
 
 ### 🧪 Tests
-- Updated tests with `@TestSetup` and specific coverage
-- Added null-id test case
+- Updated test coverage via `TestDataSetup`
+- Added test for null id fallback
 
-### 🔒 Functional Equivalence Maintained
-✔️ Confirmed via [bit.ly/ConfirmacaoApex](https://bit.ly/ConfirmacaoApex)
+### 🔒 Functional Equivalence Confirmed
+✔️ Validated via [mambadev.io/4jjcWx9](https://mambadev.io/4jjcWx9)
 ```
 
 ---
@@ -89,36 +95,36 @@ Account acc = (Account) RecordHelper.getById(Account.SObjectType, id, 'Id');
 
 | Situation                            | Mandatory?   |
 |-------------------------------------|--------------|
-| Public method change                | ✅            |
-| SELECT replaced with helper         | ✅            |
-| Test builder refactor               | ✅            |
-| Log logic change (`Logger`)         | ✅            |
-| Only spacing changes                | ❌            |
-| Change in `private` variable        | ⚠️ Contextual |
-| Assert added in test                | ⚠️ Contextual |
+| Public method changed               | ✅            |
+| SELECT replaced by helper           | ✅            |
+| Test builder (`*TestDataSetup`) refactor | ✅      |
+| Logging logic replaced              | ✅            |
+| Spacing or comments only            | ❌            |
+| Rename of private var only          | ⚠️ Contextual |
+| Test assert added                   | ⚠️ Contextual |
 
 ---
 
 ## 📌 Advanced Comparison Tips
 
-- Use `git diff --word-diff` to highlight subtle changes
-- Use `Side-by-Side` in VS Code to analyze long refactors
-- Compare logs when modifying `Logger` or `RestServiceHelper` calls
-- Group code blocks by type for comparison:
-  - `SELECT`
-  - `Logger`
-  - `Branch / if`
-  - `Serialization`
+- Use `git diff --word-diff` to catch subtle logic changes  
+- Use `Split View` in VS Code or GitHub PR  
+- Compare logs when modifying exception handlers or `Logger` usage  
+- Group code by block type during review:
+  - 🔍 Queries (SELECT)
+  - 🧠 Business rules
+  - 🧪 Logger usage
+  - 🧱 Exception handling
 
 ---
 
 ## 🔗 Useful Integrations
 
-| Guide                            | Contribution                                  |
-|----------------------------------|-----------------------------------------------|
-| [Logger Guide](https://bit.ly/GuiaLoggerApex)     | Common target for refactors                    |
-| [Testing Guide](https://bit.ly/GuiaTestsApex)     | Validates equivalence after changes            |
-| [REST API Guide](https://bit.ly/Guia_APIs_REST)   | Handlers must be compared when changed         |
+| Guide                                         | Contribution                                  |
+|----------------------------------------------|-----------------------------------------------|
+| [Logger Guide](https://mambadev.io/41WCcDA)   | When replacing `System.debug()`               |
+| [Testing Guide](https://mambadev.io/3YgDDdx)  | When confirming equivalence via test          |
+| [REST API Guide](https://mambadev.io/428yTrz) | When changing public endpoints or handlers    |
 
 ---
 
@@ -128,6 +134,5 @@ Account acc = (Account) RecordHelper.getById(Account.SObjectType, id, 'Id');
 > Every proof needs context.  
 > Every change must go through the lens of comparison.
 
-📌 Refactoring without comparison is improvisation.  
+📌 Refactoring without comparison is **improvisation**.  
 🧱🧠🧪 #RefactorWithRoots #BeforeVsAfter #ChangeRequiresTraceability
-
