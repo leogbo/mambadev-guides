@@ -117,8 +117,17 @@ static void setup() {
 ### 🧠 Every assert matters
 
 ```apex
-System.assertEquals('update_uc', res.get('action'), 'unexpected result '+res.get('action'));
-System.assertEquals(recordId, res.get('record_id'), 'unexpected result '+res.get('record_id'));
+System.assertEquals(
+    'update_uc',
+    res.get('action'),
+    'Expected action to be "update_uc", but got: ' + res.get('action')
+);
+
+System.assertEquals(
+    recordId,
+    res.get('record_id'),
+    'Expected record_id to match, but got: ' + res.get('record_id')
+);
 ```
 
 ---
