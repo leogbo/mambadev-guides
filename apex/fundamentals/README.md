@@ -25,12 +25,12 @@ Fundamentals exist to:
 
 ## 📚 Core Documents
 
-| File                                 | Purpose                                                             |
-|--------------------------------------|---------------------------------------------------------------------|
-| [`mambadev-coding-style.md`](./mambadev-coding-style.md)      | The official Apex style foundation used across all modules         |
-| [`apex-style-guide.md`](./apex-style-guide.md)                | Syntax, indentation, spacing, and formatting rules                 |
-| [`apex-review-checklist.md`](./apex-review-checklist.md)      | What must be verified before approving a pull request              |
-| [`architecture-principles.md`](./architecture-principles.md)  | Philosophy and mental models behind all layered design in MambaDev |
+- 🧱 Core: https://mambadev.io/apex-core-guide
+- 🧪 Testing: https://mambadev.io/apex-testing-guide • https://mambadev.io/testing-patterns
+- 🪵 Logging: https://mambadev.io/logger-implementation
+- 🔁 Refactor: https://mambadev.io/apex-feature-comparison • https://mambadev.io/equivalence-checklist
+- 🧩 Architecture: https://mambadev.io/layered-architecture • https://mambadev.io/rest-api-guide • https://mambadev.io/style
+
 
 ---
 
