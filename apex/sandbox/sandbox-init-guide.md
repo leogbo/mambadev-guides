@@ -23,7 +23,7 @@ Standardize and automate sandbox initialization to ensure:
 
 ## ⚙️ Key Classes
 
-### 🔹 `OrgInitializer`
+### 🔹 `OrgInitializer` (https://mambadev.io/org-initializer)
 
 Main class responsible for initializing your Salesforce sandbox environment.
 
@@ -40,7 +40,7 @@ OrgInitializer.run();
 
 ---
 
-### 🔹 `EnvironmentUtils`
+### 🔹 `EnvironmentUtils` (https://mambadev.io/environment-utils)
 
 Utility class that reads and updates environment config from `ConfigSystem__c`.
 
