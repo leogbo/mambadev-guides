@@ -11,73 +11,73 @@
 
 ## 🎯 Purpose
 
-Naming is architecture.
+**Naming is architecture.**
 
 In MambaDev, names must:
 
-- ✅ Reveal intent
-- ✅ Respect hierarchy
-- ✅ Be searchable
-- ✅ Avoid ambiguity
-- ✅ Stand the test of refactoring
+- ✅ Reveal intent  
+- ✅ Respect hierarchy  
+- ✅ Be searchable  
+- ✅ Avoid ambiguity  
+- ✅ Survive refactors
 
 ---
 
-## 🧱 General Principles
+## 🧱 General Guidelines
 
-| Rule                               | Example                              |
+| Pattern                            | Example                              |
 |------------------------------------|--------------------------------------|
 | Use `PascalCase` for class names   | `AccountService`, `QuoteHelper`      |
 | Use `camelCase` for variables      | `userId`, `accountList`              |
-| Always be **descriptive**, not clever | `LeadConversionService`, not `LCS` |
-| Use nouns for classes              | `Logger`, `PricingRule`              |
-| Use verbs for methods              | `calculateTotal()`, `validateEmail()`|
+| Use **meaningful**, not clever names | `LeadConversionService`, not `LCS` |
+| Use **nouns** for classes          | `Logger`, `PricingRule`              |
+| Use **verbs** for methods          | `calculateTotal()`, `validateEmail()`|
 
 ---
 
-## 📦 Class Naming Conventions
+## 📦 Class Naming Patterns
 
-| Class Type         | Convention                   | Example                       |
-|--------------------|------------------------------|-------------------------------|
-| Controller / Invocable | Ends with `Controller`    | `LeadController`              |
-| Service            | Ends with `Service`          | `AccountMergeService`         |
+| Class Type         | Convention                   | Example                        |
+|--------------------|------------------------------|--------------------------------|
+| Controller / Invocable | Ends with `Controller`    | `LeadController`               |
+| Service            | Ends with `Service`          | `AccountMergeService`          |
 | Domain Logic       | Ends with `Rule`, `Engine`   | `DiscountRule`, `PricingEngine`|
-| Utility / Helper   | Ends with `Helper`, `Util`   | `ExceptionUtil`, `DateHelper` |
-| Exception          | Ends with `Exception`        | `AppValidationException`      |
-| Test Class         | Ends with `Test`             | `AccountServiceTest`          |
-| Mock               | Ends with `Mock`             | `LoggerMock`, `ServiceMock`   |
-| Trigger Handler    | Ends with `TriggerHandler`   | `OpportunityTriggerHandler`   |
+| Utility / Helper   | Ends with `Helper`, `Util`   | `ExceptionUtil`, `DateHelper`  |
+| Exception          | Ends with `Exception`        | `AppValidationException`       |
+| Test Class         | Ends with `Test`             | `AccountServiceTest`           |
+| Mock               | Ends with `Mock`             | `LoggerMock`, `EmailServiceMock`|
+| Trigger Handler    | Ends with `TriggerHandler`   | `OpportunityTriggerHandler`    |
 
 ---
 
-## 🔁 Method Naming
+## 🔁 Method Naming Patterns
 
-| Pattern                    | Purpose                                      | Example                  |
-|----------------------------|----------------------------------------------|--------------------------|
-| `getX()` / `fetchX()`      | Return a value                               | `getEligibleAccounts()`  |
-| `setX()`                   | Assign a value                               | `setUserId()`            |
-| `isX()` / `hasX()`         | Return a boolean                             | `isActive()`, `hasAccess()` |
-| `validateX()`              | Perform validation                           | `validateEmail()`        |
-| `run()`, `execute()`       | Entry points / orchestration                 | `run()`, `executeBatch()`|
-| `fromX()` / `toX()`        | Factory or conversion                        | `fromTrigger()`, `toJSON()`|
+| Pattern              | Intent                                 | Example                      |
+|----------------------|----------------------------------------|------------------------------|
+| `getX()` / `fetchX()`| Retrieve or query                      | `getEligibleAccounts()`      |
+| `setX()`             | Assign a value                         | `setUserId()`                |
+| `isX()` / `hasX()`   | Boolean checks                         | `isActive()`, `hasAccess()`  |
+| `validateX()`        | Enforce validation rules               | `validateEmail()`            |
+| `run()` / `execute()`| Entry points / orchestration methods   | `run()`, `executeBatch()`    |
+| `fromX()` / `toX()`  | Converters / factories                 | `fromTrigger()`, `toJSON()`  |
 
 ---
 
-## 📄 Variable Naming
+## 📄 Variable Naming Guidelines
 
-| Type               | Rule                         | Example                       |
-|--------------------|------------------------------|-------------------------------|
-| Boolean            | Prefix with `is`, `has`, `should` | `isValid`, `hasEmail`    |
-| List / Collection  | Use plural                   | `accounts`, `rules`           |
-| IDs                | End with `Id`, `Ids`         | `userId`, `leadIds`           |
-| DTO / Map          | Describe purpose             | `flowInput`, `requestData`    |
+| Type               | Rule                                   | Example                     |
+|--------------------|----------------------------------------|-----------------------------|
+| Boolean            | Prefix with `is`, `has`, `should`      | `isValid`, `shouldNotify`  |
+| Lists / Collections| Use plural                             | `accounts`, `errorMessages`|
+| Identifiers        | End with `Id`, `Ids`                   | `userId`, `contactIds`     |
+| Maps / DTOs        | Describe structure or context          | `flowInput`, `requestData` |
 
 ---
 
 ## 🧪 Test Class Naming & Structure
 
-- Test class: `ClassUnderTestTest`
-- Test method: `test_<scenario>_<expectedBehavior>()`
+- **Test class:** `ClassUnderTestTest`  
+- **Test method:** `test_<scenario>_<expectedBehavior>()`
 
 ```apex
 @IsTest
@@ -85,20 +85,22 @@ private class LeadConversionServiceTest {
 
     @IsTest
     static void test_convertLead_shouldCreateAccountAndContact() {
-        // ...
+        // Setup, execute, assert
     }
 }
 ```
 
+> ✅ Tests should describe **intent**, not just code paths.
+
 ---
 
-## 🧼 Apex Custom Metadata & Fields
+## 🧼 Custom Metadata & Field Naming
 
-| Element               | Convention                   | Example                        |
-|------------------------|------------------------------|--------------------------------|
-| Custom Object API Name | PascalCase + `__c`           | `FlowExecutionLog__c`         |
-| Custom Field API Name  | camelCase + `__c`            | `triggerType__c`, `flowName__c`|
-| Picklist Values        | SCREAMING_SNAKE_CASE         | `INBOUND`, `OUTBOUND`         |
+| Element               | Pattern                        | Example                       |
+|------------------------|-------------------------------|-------------------------------|
+| Custom Object API Name | PascalCase + `__c`            | `FlowExecutionLog__c`         |
+| Custom Field API Name  | camelCase + `__c`             | `triggerType__c`, `flowName__c`|
+| Picklist Values        | `SCREAMING_SNAKE_CASE`        | `INBOUND`, `OUTBOUND`         |
 
 ---
 
@@ -106,33 +108,33 @@ private class LeadConversionServiceTest {
 
 | Anti-pattern              | Fix                                                       |
 |---------------------------|------------------------------------------------------------|
-| `Utils`, `Things`, `Manager` | Rename with domain or purpose: `Logger`, `PricingRule` |
-| `a`, `x`, `y` in loops     | Use meaningful names: `lead`, `account`, `lineItem`       |
-| `doStuff()`, `handleIt()` | Use verbs that show **what** and **why**                  |
+| Generic: `Utils`, `Things`, `Manager` | Rename with domain or function: `EmailHelper`, `QuoteEngine` |
+| Cryptic variables: `a`, `x`, `y`      | Use meaningful names: `lead`, `lineItem`, `approvalStep`      |
+| Vague methods: `doStuff()`, `handleIt()` | Use verbs that express **what** and **why**                |
 
 ---
 
 ## 📚 Related Guides
 
 - [Layered Architecture](./layered-architecture.md)  
-  Naming follows structure. Structure follows intent.
+  Naming flows from structure — and structure flows from responsibility.
 
 - [Testing Patterns](./testing-patterns.md)  
-  How to name tests that describe behavior clearly.
+  Write tests that are self-documenting via naming.
 
 - [Validation Patterns](./validation-patterns.md)  
-  Use naming that reveals rule logic and scope.
+  Rule naming should describe business conditions clearly.
+
+---
 
 ## 📎 Aligned Fundamentals
 
-These operational guides are built on:
-
-- [`MambaDev Coding Style`](../fundamentals/mambadev-coding-style.md)
-- [`Apex Style Guide`](../fundamentals/apex-style-guide.md)
-- [`Architecture Principles`](../fundamentals/architecture-principles.md)
+- [`MambaDev Coding Style`](../fundamentals/mambadev-coding-style.md)  
+- [`Apex Style Guide`](../fundamentals/apex-style-guide.md)  
+- [`Architecture Principles`](../fundamentals/architecture-principles.md)  
 - [`Review Checklist`](../fundamentals/apex-review-checklist.md)
 
 ---
 
 > MambaDev doesn’t name things to be clever.  
-> We name to communicate. To scale. To dominate.
+> **We name to communicate. To scale. To dominate.** 🧠🔥
