@@ -1,20 +1,27 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
-    <title>MambaDev Guides</title>
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
+    <meta charset="UTF-8" />
+    <title>MambaDev Docs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/lib/themes/vue.css" />
   </head>
   <body>
     <div id="app"></div>
     <script>
       window.$docsify = {
-        name: 'MambaDev Guides',
+        name: 'MambaDev',
         repo: 'leogbo/mambadev-guides',
         loadSidebar: true,
         subMaxLevel: 2,
-      }
+        maxLevel: 3,
+        auto2top: true,
+        alias: {
+          '/.*/_sidebar.md': '/docs/_sidebar.md'
+        },
+        homepage: 'index.md'
+      };
     </script>
-    <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+    <script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
   </body>
 </html>
