@@ -2,10 +2,14 @@
   <img src="https://raw.githubusercontent.com/leogbo/mambadev-guides/main/static/img/github_banner_mambadev.png" alt="MambaDev Banner" width="100%" />
 </p>
 
+> 🧱 @status:core | This guide defines structured logging standards for MambaDev using `Logger`, `FlowExecutionLog__c`, and `LoggerMock`.
+
 # 📊 Structured Logging – MambaDev
 
-> This guide defines the **MambaDev pattern** for structured logging across Apex services, flows, triggers, and integrations.  
-> Designed for **full traceability**, **debuggability**, and **analytics-ready observability** using `FlowExecutionLog__c`.
+📎 [Shortlink: mambadev.io/logger](https://mambadev.io/logger)
+
+> MambaDev doesn’t log noise.  
+> We log signal — structured, contextual, and actionable. 🧠🔥
 
 ---
 
@@ -13,25 +17,25 @@
 
 In complex Salesforce architectures, knowing **what ran**, **why it ran**, and **what failed** is critical.
 
-The MambaDev `Logger` stack offers:
+The MambaDev `Logger` stack provides:
 
-- 📎 **Context-aware logging** (`class`, `method`, `trigger`, `record`, `user`)  
-- 🧱 **Structured fields** for dashboards, audits, and monitoring  
+- 📎 **Context-aware logging** (`class`, `method`, `triggerType`, `recordId`)  
+- 🧱 **Structured fields** for dashboards, audits, and observability  
 - 🔁 **Async-safe execution** with `LoggerQueueable`  
-- 🧪 **Test support via `LoggerMock`**  
-- 🔍 **Full JSON visibility** for inputs, outputs, and context
+- 🧪 **Mock-ready via `LoggerMock`**  
+- 🔍 **Full JSON payload visibility** via `Serialized_Data__c` and `Debug_Information__c`
 
 ---
 
 ## 🧱 The Logging Stack
 
-| Class                | Role                                             |
-|---------------------|--------------------------------------------------|
-| `Logger`            | Main fluent logger                               |
-| `LoggerQueueable`   | Async-safe persister for `FlowExecutionLog__c`   |
-| `ILogger`           | Interface for `Logger` and `LoggerMock`          |
-| `LoggerMock`        | In-memory stub for test contexts                 |
-| `FlowExecutionLog__c` | Custom object that stores logs persistently    |
+| Component                    | Role                                                  |
+|-----------------------------|-------------------------------------------------------|
+| [`Logger.cls`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/logger.cls)              | Main fluent log builder                            |
+| [`LoggerQueueable.cls`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/logger-queueable.cls) | DML-safe async log processor                        |
+| [`ILogger.cls`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/ilogger.cls)            | Common interface for test and prod loggers         |
+| [`LoggerMock.cls`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/logger-mock.cls)     | In-memory stub for use in test methods             |
+| [`FlowExecutionLog__c`](/docs/apex/logging/flow-execution-log.md) | Persisted custom object log target                |
 
 ---
 
@@ -46,6 +50,8 @@ Logger logger = new Logger()
 
 logger.info('Validation passed', JSON.serializePretty(account));
 ```
+
+✅ Always `.setClass()`, `.setMethod()`, and `.setCategory()` before logging.
 
 ---
 
@@ -71,8 +77,7 @@ try {
 }
 ```
 
-> ✅ Always set `.setClass()`, `.setMethod()`, and `.setCategory()`  
-> ✅ Use `.error(message, ex, data)` to capture the full exception and context
+> Use `.error(message, ex, context)` for full exception coverage.
 
 ---
 
@@ -87,89 +92,97 @@ LoggerMock mock = new LoggerMock()
 
 mock.info('Executed successfully', 'mocked');
 
-System.assert(mock.getCaptured().contains('[INFO] Executed successfully | mocked'));
+System.assert(
+    mock.getCaptured().contains('[INFO] Executed successfully'),
+    'LoggerMock should capture expected log'
+);
 ```
 
-> ✅ Use `LoggerMock` to intercept logs during unit tests  
-> ❌ Never assert on real `FlowExecutionLog__c` records
+> ✅ Use `LoggerMock` for all test assertions  
+> ❌ Never assert `FlowExecutionLog__c` records in tests
 
 ---
 
-## 🚀 Using Async Logging
+## 🚀 Async Logging with `LoggerQueueable`
 
 ```apex
 new Logger()
     .setClass('SyncService')
     .setAsync(true)
-    .info('Async mode enabled', JSON.serializePretty(obj));
+    .info('Async log queued', JSON.serializePretty(obj));
 ```
 
-> When `.setAsync(true)` is used, logs are handled by `LoggerQueueable`,  
-> avoiding DML inside Flows, Triggers, or `before` contexts.
+✅ Use `.setAsync(true)` to:
+
+- Avoid DML inside Flows and `before` triggers  
+- Offload logs into a `Queueable` context  
+- Comply with platform-safe logging constraints
 
 ---
 
 ## 📄 FlowExecutionLog__c Overview
 
-Logs are persisted in `FlowExecutionLog__c`.
+Logs are stored in `FlowExecutionLog__c` with:
 
-Key fields include:
-
-- `Log_Level__c`, `Class__c`, `Origin_Method__c`  
-- `Trigger_Type__c`, `Log_Category__c`  
+- `Class__c`, `Origin_Method__c`, `Trigger_Type__c`  
+- `Log_Level__c`, `Log_Category__c`  
 - `Serialized_Data__c`, `Debug_Information__c`  
-- `Stack_Trace__c`, `Error_Message__c`  
-- `Execution_Timestamp__c`, `Is_Critical__c`
+- `Error_Message__c`, `Stack_Trace__c`  
+- `Execution_Timestamp__c`, `Is_Critical__c`  
 
-👉 Full schema: [→ flow-execution-log.md](./flow-execution-log.md)
+🔗 See full schema: [FlowExecutionLog__c](/docs/apex/logging/flow-execution-log.md)
 
 ---
 
 ## ✅ Logging Best Practices
 
-- [x] Always use `.setClass()` and `.setMethod()`  
-- [x] Use `.setCategory()` for grouping  
-- [x] Log exceptions via `.error(message, ex, data)`  
-- [x] Use `.setAsync(true)` inside Flow or batch contexts  
-- [x] Avoid logging PII or sensitive data in production  
-- [x] Use `JSON.serializePretty()` for clean, readable logs
+- ✅ Always `.setClass()`, `.setMethod()`, `.setCategory()`  
+- ✅ Use `.error(...)` with stack trace when applicable  
+- ✅ Use `.setAsync(true)` inside Flow, Trigger, Queueable  
+- ✅ Truncate large payloads with `EnvironmentUtils.getMaxDebugLength()`  
+- ✅ Avoid sensitive data — log by reference, not PII  
+- ✅ Prefer `serializePretty()` for readability
 
 ---
 
-## ⚠️ Exception – TestDataSetup Classes
+## ⚠️ Exception – Test Data Setup Classes
 
-> `System.debug()` is prohibited in all Apex — **except inside `*TestDataSetup.cls` classes**.
+> `System.debug()` is **only allowed inside `*TestDataSetup.cls` classes**  
+> These classes must avoid persistence side effects (Logger writes)
 
-These classes are used for bulk setup and **must avoid log pollution**.  
-They can use `System.debug()` for diagnostic output only.
-
-✅ Use:
+✅ Allowed:
 
 ```apex
-System.debug('Lead created for test setup: ' + lead.Id);
+System.debug('Created test Contact: ' + contact.Id);
 ```
 
-❌ Never use `Logger` in test data setup classes.
+❌ Not allowed:
+
+```apex
+new Logger().info('Test setup').save(); // 🚫 No
+```
 
 ---
 
 ## 📚 Related Guides
 
-- [FlowExecutionLog__c](./flow-execution-log.md)  
-- [Exception Handling](./exception-handling.md)  
-- [LoggerMock (Validation Patterns)](./validation-patterns.md#🔁-testing-with-loggermock)  
-- [Testing Patterns](./testing-patterns.md)
+- [FlowExecutionLog__c](/docs/apex/logging/flow-execution-log.md)  
+- [Exception Handling](/docs/apex/logging/exception-handling.md)  
+- [Validation Patterns](/docs/apex/testing/validation-patterns.md)  
+- [Testing Patterns](/docs/apex/testing/testing-patterns.md)
 
 ---
 
 ## 📎 Aligned Fundamentals
 
-- [`MambaDev Coding Style`](../fundamentals/mambadev-coding-style.md)  
-- [`Apex Style Guide`](../fundamentals/apex-style-guide.md)  
-- [`Architecture Principles`](../fundamentals/architecture-principles.md)  
-- [`Review Checklist`](../fundamentals/apex-review-checklist.md)
+- [MambaDev Coding Style](/docs/apex/fundamentals/mamba-coding-style.md)  
+- [Apex Core Guide](/docs/apex/fundamentals/mamba-apex-core-guide.md)  
+- [Architecture Principles](/docs/apex/fundamentals/architecture-principles.md)  
+- [Review Checklist](/docs/apex/fundamentals/apex-review-checklist.md)
 
 ---
 
-> **MambaDev doesn't log noise.**  
-> We log signal — structured, contextual, actionable. 🧠🔥
+> **In MambaDev, if it’s not logged, it didn’t happen.**  
+> Logs are the contract of execution — and the root of trust.
+
+**#LogWithStructure #NoDebugOnlyLogger #LoggerMockOrBust**
