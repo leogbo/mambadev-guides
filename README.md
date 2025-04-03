@@ -24,20 +24,20 @@ This repository exists to:
 - Share **modular**, **battle-tested**, and **auditable** implementation patterns  
 - Transform codebases into **scalable ecosystems** — and developers into **system thinkers**
 
-> ⚠️ All guides follow [Mamba Public Review Standards](docs/apex/fundamentals/apex-review-checklist.md) — no guesswork, only proof.
+> ⚠️ All guides follow [Mamba Public Review Standards](docs/apex/fundamentals/README.md#apex-review-checklist) — no guesswork, only proof.
 
 ---
 
 ## 📚 Module Index
 
-| Module                    | Description                                                                 |
-|---------------------------|-----------------------------------------------------------------------------|
-| **[Apex](docs/apex/)**                | Core Mamba Apex framework: logging, exception handling, validation          |
-| **Effective Prompting**   | How to ask, instruct, and extract brilliance from AI models                 |
-| **AI Automation**         | End-to-end use of agents and GPT for business flows *(coming soon)*         |
-| **Intelligent Agents**    | Multi-step autonomous behavior and decision trees *(coming soon)*          |
-| **Salesforce Integration**| API and architecture patterns for reliable external communication *(WIP)*  |
-| **Marketing Cloud**       | Modular email and campaign automation strategies *(coming soon)*           |
+| Module                         | Description                                                                 |
+|--------------------------------|-----------------------------------------------------------------------------|
+| **[Apex](docs/apex/)**         | Core Mamba Apex framework: logging, exception handling, validation          |
+| **Effective Prompting**        | How to ask, instruct, and extract brilliance from AI models                 |
+| **AI Automation**              | End-to-end use of agents and GPT for business flows *(coming soon)*         |
+| **Intelligent Agents**         | Multi-step autonomous behavior and decision trees *(coming soon)*          |
+| **Salesforce Integration**     | API and architecture patterns for reliable external communication *(WIP)*  |
+| **Marketing Cloud**            | Modular email and campaign automation strategies *(coming soon)*           |
 
 ---
 
@@ -60,13 +60,13 @@ This guide brings the **Mamba Mentality** to Salesforce Apex development — wit
 
 ## 📂 Repo Structure
 
-| Section               | Description                                                       |
-|------------------------|-------------------------------------------------------------------|
-| `docs/apex/`               | Core Apex guide: Logger, ExceptionUtil, FlowExecutionLog, etc.    |
-| `docs/marketing-cloud/`    | *(planned)* SFMC modular components, templates and content flows   |
-| `docs/ai/`                 | *(coming soon)* Prompt design, GPT roles, RAG workflows            |
-| `docs/agents/`             | *(planned)* Modular logic for intelligent multi-step AI agents    |
-| `docs/integrations/`       | *(WIP)* Outbound and inbound Salesforce API patterns               |
+| Section                   | Description                                                       |
+|---------------------------|-------------------------------------------------------------------|
+| `docs/apex/`              | Core Apex guide: Logger, ExceptionUtil, FlowExecutionLog, etc.    |
+| `docs/marketing-cloud/`   | *(planned)* SFMC modular components, templates and content flows   |
+| `docs/ai/`                | *(coming soon)* Prompt design, GPT roles, RAG workflows            |
+| `docs/agents/`            | *(planned)* Modular logic for intelligent multi-step AI agents    |
+| `docs/integrations/`      | *(WIP)* Outbound and inbound Salesforce API patterns               |
 
 ---
 
