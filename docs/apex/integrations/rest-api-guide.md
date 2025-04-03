@@ -2,29 +2,30 @@
   <img src="https://raw.githubusercontent.com/leogbo/mambadev-guides/main/static/img/github_banner_mambadev.png" alt="MambaDev Banner" width="100%" />
 </p>
 
+> 🧱 @status:core | This document defines the required architecture and behavior for internal REST APIs in MambaDev.
+
 # 🌐 Official REST API Guide in Apex (v2025) – MambaDev Mindset
 
-📎 **Shortlink**: [mambadev.io/rest-api-guide](https://mambadev.io/rest-api-guide)
+📎 [Shortlink: mambadev.io/rest-api-guide](https://mambadev.io/rest-api-guide)
 
 > _“Every API carries the reputation of your platform. It must be clear, predictable, and traceable.”_  
 > — Leo Mamba Garcia 🧠🔥
-
-This guide defines the **mandatory architecture and behavior** for internal REST APIs built with Apex on Salesforce.
 
 ---
 
 ## 📚 Required Reference Guides
 
-- 🧱 [Apex Core Standards](https://mambadev.io/apex-core-guide)  
-- 🧩 [Layered Architecture](https://mambadev.io/layered-architecture)  
-- 🔁 [Refactor & Equivalence](https://mambadev.io/apex-feature-comparison) • [Equivalence Checklist](https://mambadev.io/equivalence-checklist)  
-- 🪵 [Logger Implementation](https://mambadev.io/logger-implementation)  
-- 🧪 [Testing Guide](https://mambadev.io/apex-testing-guide) • [Testing Patterns](https://mambadev.io/testing-patterns)  
-- 🧱 [REST Style Guide](https://mambadev.io/style)  
+- 🧱 [Apex Core Guide](/docs/apex/fundamentals/mamba-apex-core-guide.md)  
+- 🧩 [Layered Architecture](/docs/apex/fundamentals/layered-architecture.md)  
+- 🔁 [Feature Comparison Guide](/docs/apex/fundamentals/apex-feature-comparison.md) • [Equivalence Checklist](/docs/apex/fundamentals/equivalence-checklist.md)  
+- 🪵 [Logger Implementation](/docs/apex/logging/logger-implementation.md)  
+- 🧪 [Testing Guide](/docs/apex/testing/apex-testing-guide.md) • [Testing Patterns](/docs/apex/testing/testing-patterns.md)  
+- 🧱 [Style Guide](/docs/apex/fundamentals/mamba-coding-style.md)
 
 ---
 
 ## ✅ REST Class Structure Example
+
 ```apex
 @RestResource(urlMapping='/lead/v1')
 global with sharing class LeadRestController {
@@ -54,19 +55,23 @@ global with sharing class LeadRestController {
 
 ## 🧩 What is `RestServiceHelper`?
 
-A standard utility class for:
+A core utility class defined at  
+[`RestServiceHelper.cls`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/rest-service-helper.cls)
+
+Responsibilities:
 
 - ✅ Validating access tokens  
 - ✅ Safely parsing request bodies  
 - ✅ Sending structured responses with HTTP status codes  
-- ✅ Logging execution with `Logger`  
-- ✅ Mapping JSON into SObject fields (`mapFieldsFromRequest(...)`)
+- ✅ Logging execution via [`Logger`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/logger.cls)  
+- ✅ Mapping JSON into SObject fields via `mapFieldsFromRequest(...)`
 
 > 🧠 All REST APIs **must** use this class. Never handle raw requests manually.
 
 ---
 
 ## ✅ Standard REST Response Format
+
 ```json
 {
   "message": "Lead created successfully",
@@ -94,21 +99,21 @@ A standard utility class for:
 
 ## ❌ Common Mistakes to Avoid
 
-| Mistake                      | Instead, do this                          |
-|-----------------------------|-------------------------------------------|
-| `JSON.deserializeUntyped()` | ❌ Use `RestServiceHelper.getRequestBody()` |
-| `throw new Exception(...)`  | ❌ Use `RestServiceHelper.internalServerError(...)` |
-| `return 'ok';`              | ❌ Always return full structured response |
-| `System.debug(...)`         | ❌ Never. Use structured `Logger` instead  |
+| Mistake                      | Use Instead                                |
+|-----------------------------|---------------------------------------------|
+| `JSON.deserializeUntyped()` | `RestServiceHelper.getRequestBody()`        |
+| `throw new Exception(...)`  | `RestServiceHelper.internalServerError(...)`|
+| `return 'ok';`              | Always return full structured response      |
+| `System.debug(...)`         | Use [`Logger`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/logger.cls) instead |
 
 ---
 
-## 🧪 Required Test Scenarios for REST APIs
+## 🧪 Required Test Scenarios
 
-- ✅ `@IsTest` class with `@TestSetup` and real record insertion  
-- ✅ Use `Logger.overrideLogger(new LoggerMock())`  
-- ✅ Required test paths:
-  - Happy path (200 or 201)
+- ✅ `@IsTest` class with `@TestSetup` using real records  
+- ✅ Use [`LoggerMock`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/logger-mock.cls) to stub logging  
+- ✅ Validate:
+  - Happy path (200/201)
   - Bad request (400)
   - Unauthorized token (401)
   - Resource not found (404)
@@ -117,6 +122,7 @@ A standard utility class for:
 ---
 
 ### Example – Test for 400 Bad Request
+
 ```apex
 @IsTest
 static void test_invalid_payload_returns_400() {
@@ -139,17 +145,17 @@ static void test_invalid_payload_returns_400() {
 
 ## ✅ Mamba REST Checklist
 
-| Item                                                         | Done? |
-|--------------------------------------------------------------|-------|
-| REST class with `@RestResource`                              | [ ]   |
-| Uses only `RestServiceHelper` for request/response handling  | [ ]   |
-| Logs with `Logger`                                           | [ ]   |
-| JSON uses `serializePretty()`                                | [ ]   |
-| Critical flows persist logs to `FlowExecutionLog__c`         | [ ]   |
-| `LoggerMock` used in tests                                   | [ ]   |
-| Test asserts response `.statusCode`                          | [ ]   |
-| Tests catch `BadRequestException` and `AccessException`      | [ ]   |
-| No use of `System.debug(...)` anywhere                       | [ ]   |
+| Item                                                           | Done? |
+|----------------------------------------------------------------|-------|
+| REST class with `@RestResource`                                | [ ]   |
+| Uses only `RestServiceHelper` for request/response handling    | [ ]   |
+| Logs via `Logger`                                              | [ ]   |
+| JSON uses `serializePretty()`                                  | [ ]   |
+| Critical flows persist to `FlowExecutionLog__c`                | [ ]   |
+| Uses `LoggerMock` in tests                                     | [ ]   |
+| Asserts `response.statusCode`                                  | [ ]   |
+| Tests catch `BadRequestException` or `AccessException`         | [ ]   |
+| No use of `System.debug(...)` anywhere                         | [ ]   |
 
 ---
 
@@ -157,7 +163,3 @@ static void test_invalid_payload_returns_400() {
 > 🧠🖤 #MambaAPI #StatusWithError #NoDebugOnlyLogger #TestOrRollback
 
 **MambaDev Engineering | Excellence is the baseline.**
-
----
-
-Let me know if you'd like this exported as `rest-api-guide.md` or packaged for a GitHub repo 📦
