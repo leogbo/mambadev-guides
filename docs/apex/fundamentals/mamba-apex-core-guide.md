@@ -10,9 +10,9 @@ Changes must be approved by architecture leadership.
 
 ---
 
-## 📘 Shortlink
+## 📘 Reference Shortlink
 
-https://mambadev.io/coding-style
+[Mamba Coding Style](/docs/apex/fundamentals/mamba-coding-style.md)
 
 ---
 
@@ -28,7 +28,7 @@ If it's not auditable, it's not acceptable.
 | Principle                | In Practice                                                                  |
 |--------------------------|-------------------------------------------------------------------------------|
 | SRP – Single Responsibility | Every method does one thing well and is isolated for testing            |
-| Traceability             | `Logger`, `@TestVisible`, `FlowExecutionLog__c` for all logic layers         |
+| Traceability             | [`Logger`](/scr/classes/logger.cls), `@TestVisible`, [`FlowExecutionLog__c`](/docs/apex/logging/flow-execution-log.md) for all logic layers         |
 | Testability              | Logic receives primitive values and can be tested without external calls     |
 | Defensive by default     | Validate all inputs: nulls, lists, enums, fallback logic required            |
 | Modular structure        | Methods stay under ~30 lines, delegate clearly, and never nest excessively   |
@@ -36,6 +36,7 @@ If it's not auditable, it's not acceptable.
 ---
 
 ## 🏗️ Standard Class Setup
+[`Environment Utils`](/scr/classes/environment-utils.cls)
 
 ```apex
 @TestVisible public static String  environment     = EnvironmentUtils.getRaw() != null ? EnvironmentUtils.getRaw() : 'sandbox';
@@ -51,7 +52,7 @@ private static final String triggerType = 'Service | Queueable | Trigger';
 
 ## 🪵 Logging (Standard)
 
-Use the `Logger` class:
+Use the [`Logger`](/scr/classes/logger.cls)  class:
 
 ```apex
 new Logger()
@@ -60,11 +61,12 @@ new Logger()
   .error('Unexpected exception', ex, JSON.serializePretty(input));
 ```
 
-In tests, use `LoggerMock`.
+In tests, use [`Logger Mock`](/scr/classes/logger-mock.cls).
 
 ---
 
 ## 🌐 REST Responses
+[`RestServiceHelper`](/scr/classes/rest-service-helper.cls)
 
 ```apex
 RestServiceHelper.badRequest('Missing required parameter');
@@ -76,9 +78,9 @@ RestServiceHelper.sendResponse(200, 'Success', returnData);
 ## 🧪 Testing Expectations
 
 - `@TestVisible` for all logic  
-- Setup via `TestDataSetup.setupCompleteEnvironment()`  
+- Setup via [`TestDataSetup.setupCompleteEnvironment()`](/scr/classes/test-data-setup.cls)  
 - Each test must cover one case, with expressive `System.assertEquals(...)`  
-- Use `LoggerMock`, not real logging  
+- Use [`LoggerMock`](/scr/classes/logger-mock.cls), not real logging  
 - Validate fallbacks, errors, async paths
 
 ---
@@ -89,7 +91,7 @@ RestServiceHelper.sendResponse(200, 'Success', returnData);
 System.assertEquals(
   'expected_action',
   res.get('action'),
-  'Expected "expected_action", got: ' + res.get('action')
+  'Expected \"expected_action\", got: ' + res.get('action')
 );
 ```
 
@@ -105,12 +107,12 @@ System.assertEquals(
 
 ---
 
-## ✅ Required Supporting Docs
+## 📎 Required Supporting Docs
 
-- Before vs After → https://mambadev.io/41XGoTz  
-- Equivalence → https://mambadev.io/4jjcWx9  
-- Logger Guide → https://mambadev.io/41WCcDA  
-- Test Setup → https://mambadev.io/4ceNlTD
+- [Feature Comparison](/docs/apex/fundamentals/apex-feature-comparison.md)  
+- [Equivalence Checklist](/docs/apex/fundamentals/equivalence-checklist.md)  
+- [Logger Guide](/docs/apex/logging/logger-implementation.md)  
+- [Test Setup](/docs/apex/testing/apex-testing-guide.md)
 
 ---
 
@@ -118,9 +120,9 @@ System.assertEquals(
 
 | ❌ Wrong                   | ✅ Correct                          |
 |---------------------------|-------------------------------------|
-| `System.debug()`          | Use `Logger`                        |
-| `testData.get(...)`       | Use `TestDataSetup`                 |
-| `SELECT ... LIMIT 1`      | Use `RecordHelper.getById(...)`     |
+| `System.debug()`          | Use [`Logger`](/scr/classes/logger.cls)                        |
+| `testData.get(...)`       | Use [`TestDataSetup`](/scr/classes/test-data-setup.cls)                 |
+| `SELECT ... LIMIT 1`      | Use [`RecordHelper.getById(...)`](/scr/classes/rest-service-helper.cls)     |
 | Multiple `if/try/catch`   | Extract into named, testable methods|
 
 ---
@@ -150,7 +152,19 @@ if (![SELECT IsSandbox FROM Organization LIMIT 1].IsSandbox) {
 - No logic escapes logging  
 - Every test proves **behavior**, not just coverage
 
-**#BuiltForTraceability #ModularByDesign #NothingLessThanExcellent**
-- Docusaurus/GitBook page?
-
+**#BuiltForTraceability #ModularByDesign #NothingLessThanExcellent**  
 **#OneCoreGuide #AllMamba #ArchitectureWithoutCompromise** 🧠🔥
+```
+
+---
+
+## ✅ TO APPLY
+
+```bash
+git add docs/apex/fundamentals/mamba-apex-core-guide.md
+git commit -m "Finalize Apex Core Guide with full-path links and Mamba formatting"
+git push origin main
+```
+
+Let me know if you want to generate a printable version, summary sheet, or contribution enforcement badge (`@status:core`). You’ve now locked in the baseline for every Apex repo in your ecosystem.  
+**One Core Guide. One Standard. Mamba Forever.** 🧱🔥📘
