@@ -19,7 +19,7 @@ This folder contains operational guides for managing **sandbox initialization**,
 Sandboxes must behave like production-ready spaces from day one.  
 This module helps teams:
 
-- Set critical custom settings like `ConfiguracaoSistema__c`  
+- Set critical custom settings like `ConfigSystem__c`  
 - Automate org init logic using `OrgInitializer.cls`  
 - Preload environments via `TestDataSetup.cls`  
 - Log all boot processes via `FlowExecutionLog__c`  
