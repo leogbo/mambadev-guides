@@ -2,6 +2,8 @@
   <img src="https://raw.githubusercontent.com/leogbo/mambadev-guides/main/static/img/github_banner_mambadev.png" alt="MambaDev Banner" width="100%" />
 </p>
 
+> 🧱 @status:core | This document defines the official MambaDev pattern for initializing and securing sandbox environments using `OrgInitializer` and `EnvironmentUtils`.
+
 # 🧱 Sandbox Initialization Guide (`OrgInitializer` + `EnvironmentUtils`)  
 **Version**: `v2025.1` • _Last updated: Apr 2025_
 
@@ -14,89 +16,102 @@
 
 Standardize and automate sandbox initialization to ensure:
 
-- 🌐 Centralized config via `ConfigSystem__c` (Custom Setting or Custom Metadata)
-- ⟳ Seeded test data via `TestDataSetup`
-- ✅ Explicit setup of env flags, mocks, and flow controls
-- 🔐 Production-safe execution guardrails
+- 🌐 Centralized config via [`ConfigSystem__c`](/docs/apex/logging/config-system.md)
+- ⟳ Seeded test data via [`TestDataSetup`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/test-data-setup.cls)
+- ✅ Explicit setup of flags, mocks, and flow control
+- 🔐 Safe execution with production block logic
 
 ---
 
 ## ⚙️ Key Classes
 
-### 🔹 `OrgInitializer` (https://mambadev.io/org-initializer)
+### 🔹 [`OrgInitializer.cls`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/org-initializer.cls)
 
-Main class responsible for initializing your Salesforce sandbox environment.
+Initializes Salesforce sandboxes with safe, traceable defaults.
 
-#### 📦 Responsibilities:
-- Populates `ConfigSystem__c` with default values
-- Runs `TestDataSetup.setupCompleteEnvironment()`
-- Logs everything via `Logger`
-- Blocks execution in production
+#### 📦 Responsibilities
 
-#### 💡 Usage:
+- Inserts baseline `ConfigSystem__c` values  
+- Runs `TestDataSetup.setupCompleteEnvironment()`  
+- Logs via [`Logger`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/logger.cls)  
+- Blocks production usage automatically
+
+#### 💡 Usage
+
 ```apex
 OrgInitializer.run();
 ```
 
 ---
 
-### 🔹 `EnvironmentUtils` (https://mambadev.io/environment-utils)
+### 🔹 [`EnvironmentUtils.cls`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/environment-utils.cls)
 
-Utility class that reads and updates environment config from `ConfigSystem__c`.
+Provides cached access and updates to `ConfigSystem__c`.
 
-#### 🔍 Common Methods:
+#### 🔍 Common Getters
+
 ```apex
-EnvironmentUtils.isMockEnabled();
-EnvironmentUtils.getLogLevel();
 EnvironmentUtils.isSandbox();
-EnvironmentUtils.isLogEnabled();
+EnvironmentUtils.getLogLevel();
+EnvironmentUtils.isMockEnabled();
+EnvironmentUtils.isTestMode();
 ```
 
-#### ⟳ Config Updates:
+#### ⟳ Config Updates
+
 ```apex
-EnvironmentUtils.updateLogLevel('ERROR');
 EnvironmentUtils.updateEnvironment('sandbox');
+EnvironmentUtils.updateLogLevel('ERROR');
 ```
 
 ---
 
-### 🔹 `ConfigSystem__c` Fields (https://mambadev.io/config-system)
+### 🔹 `ConfigSystem__c` Fields
 
-| Field Name               | Type     | Used By                          |
-|--------------------------|----------|----------------------------------|
-| `Environment__c`         | Text     | `EnvironmentUtils.isSandbox()`   |
-| `Log_Level__c`           | Text     | `Logger`, `RestServiceHelper`    |
-| `Log_Enabled__c`         | Boolean  | `Logger`, `LoggerQueueable`      |
-| `Enable_Mock__c`         | Boolean  | External services & tests        |
-| `Enable_Test_Mode__c`    | Boolean  | Flow/test logic toggles          |
-| `Timeout_Callout__c`     | Decimal  | Timeout for outbound callouts    |
-| `Disable_Flows__c`       | Boolean  | `FlowControlManager`             |
+📎 See: [Config System Reference](/docs/apex/logging/config-system.md)
+
+| Field Name             | Type     | Used By                      |
+|------------------------|----------|------------------------------|
+| `Environment__c`       | Text     | `EnvironmentUtils.isSandbox()` |
+| `Log_Level__c`         | Text     | `Logger`, `RestServiceHelper` |
+| `Is_Log_Enabled__c`    | Boolean  | `LoggerQueueable`, `Logger` |
+| `Is_Mock_Enabled__c`   | Boolean  | Mocks + service testing     |
+| `Is_Test_Mode__c`      | Boolean  | Flow/test logic gates       |
+| `Callout_Timeout__c`   | Decimal  | HTTP callout limits         |
+| `Disable_Flows__c`     | Boolean  | `FlowControlManager`        |
 
 ---
 
-## 🔐 Protections & Guarantees
+## 🔐 Safety Guarantees
 
-- `OrgInitializer.run()` is guarded:
-  - ✅ Only runs in `Test.isRunningTest()` or sandbox environments
-  - ❌ Skips if `Organization.IsSandbox == false`
+- `OrgInitializer.run()`:
+  - ✅ Runs only inside `Test.isRunningTest()` or sandbox orgs  
+  - ❌ Skips entirely if `Organization.IsSandbox == false`
 
-- `EnvironmentUtils` uses caching for efficiency  
-- Logs are persisted in `FlowExecutionLog__c` (Category: `Setup`)
+- `EnvironmentUtils`:
+  - ✅ Uses internal static cache for perf  
+  - ✅ Returns null-safe fallback defaults if config is missing
+
+- All logs use `Logger.setCategory('Setup')` and are persisted via [`FlowExecutionLog__c`](/docs/apex/logging/flow-execution-log.md)
 
 ---
 
 ## 🚀 Manual Execution (Developer Console)
+
 ```apex
 OrgInitializer.run();
 ```
 
+✅ Safe to call after sandbox refresh, CI job, or `TestSetup`.
+
 ---
 
-## 🧪 Recommended Tests
+## 🧪 Test Examples
 
 ### ✅ Happy Path
+
 ```apex
-@isTest
+@IsTest
 static void should_initialize_sandbox_successfully() {
     OrgInitializer.run();
     ConfigSystem__c config = [SELECT Environment__c FROM ConfigSystem__c LIMIT 1];
@@ -104,53 +119,44 @@ static void should_initialize_sandbox_successfully() {
 }
 ```
 
-### 🚫 Production Guard
+### 🚫 Guard Against Production
+
 ```apex
-@isTest
+@IsTest
 static void should_block_execution_in_production() {
-    Test.startTest();
-    // simulate environment override if your test framework supports it
     EnvironmentUtils.updateEnvironment('production');
-    OrgInitializer.run(); // should not proceed
+
+    Test.startTest();
+    OrgInitializer.run(); // logic should not proceed
     Test.stopTest();
-    // Add log or assert validations if available
+
+    // Optionally assert logs were skipped
 }
 ```
 
 ---
 
-## 🔗 Integration with Other MambaDev Guides
+## 🔗 Integration with Other Guides
 
-| Guide                                            | How It Connects                                     |
-|--------------------------------------------------|-----------------------------------------------------|
-| [Logger Guide](https://mambadev.io/logger-implementation)         | Uses `getLogLevel()` and `isLogEnabled()`           |
-| [TestData Setup](https://mambadev.io/testing-patterns)           | Invokes `setupCompleteEnvironment()`                |
-| [Sandbox Mocks](https://mambadev.io/testing-patterns#mocking)     | Controlled by `isMockEnabled()`                     |
-| [REST API Guide](https://mambadev.io/rest-api-guide)              | Reads environment flags via `EnvironmentUtils`      |
+| Guide                                               | Why It Connects                      |
+|-----------------------------------------------------|--------------------------------------|
+| [Logger Implementation](/docs/apex/logging/logger-implementation.md) | Uses `getLogLevel()` and `isLogEnabled()` |
+| [TestDataSetup](/docs/apex/testing/test-data-setup.md)               | Automatically called during setup   |
+| [REST API Guide](/docs/apex/integrations/rest-api-guide.md)          | Reads env flags from `EnvironmentUtils` |
+| [Validation Patterns](/docs/apex/testing/validation-patterns.md)     | Controlled by `isTestMode()` flags |
 
 ---
 
 ## 🔍 Final Recommendations
 
-- Always run `OrgInitializer.run()` after a **sandbox refresh**
-- Never assume your environment is “clean” — _configure it every time_
-- Add guard asserts like `EnvironmentUtils.isSandbox()` before test-only logic
-- Use `EnvironmentUtils.updateX()` methods to safely mutate runtime settings
+- ✅ Always run `OrgInitializer.run()` after **sandbox refresh**  
+- ❌ Never assume config is present — validate via `EnvironmentUtils`  
+- ✅ Use `updateX()` methods in `@TestSetup` to control test config  
+- ✅ Log all setup paths using `Logger.setCategory('Setup')`  
+- ✅ Prefer declarative flow disablement via `Disable_Flows__c` instead of deleting logic
 
 ---
 
 > **“Unconfigured environments are latent failures.  
-> Mamba environments are trusted, auditable, and ready.”**  
-> — MambaDev Engineering 🧱🖤
-
----
-
-```
-
-Would you like me to:
-
-- 📥 Generate a downloadable `.md` file?
-- 🧩 Add this to a GitHub Pages setup or `docs/` folder?
-- 📚 Bundle it with your `rest-api-guide.md` as a zip?
-
-Just say the word.
+> Mamba environments are traceable, repeatable, and test-first.”**  
+> — MambaDev Engineering 🧱🔥
