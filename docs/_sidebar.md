@@ -1,8 +1,7 @@
 <!-- sidebar -->
 # 📚 Navigation
 
-- 🧠 [Table of Contents](/apex/TOC.md)
-- 🏠 [Home](/index.md)
+- 🏠 [Home](/README.md)
 
 ---
 
@@ -19,13 +18,16 @@
 ---
 
 - 🔗 Integrations
-  - [Index](/apex/integrations/index.md)
+  - [Index](/apex/integrations/README.md)
   - [REST API Guide](/apex/integrations/rest-api-guide.md)
+  - [Callout Patterns](/apex/integrations/callout-patterns.md)
+  - [Webhook Strategy](/apex/integrations/webhook-strategy.md)
+  - [Auth Token Design](/apex/integrations/auth-token-design.md)
 
 ---
 
 - 🔁 Logging & Error Handling
-  - [Index](/apex/logging/index.md)
+  - [Index](/apex/logging/README.md)
   - [Structured Logging](/apex/logging/structured-logging.md)
   - [Logger Implementation](/apex/logging/logger-implementation.md)
   - [FlowExecutionLog Schema](/apex/logging/flow-execution-log.md#fields)
@@ -36,13 +38,13 @@
 ---
 
 - 🧪 Sandbox Setup
-  - [Index](/apex/sandbox/index.md)
+  - [Index](/apex/sandbox/README.md)
   - [Sandbox Initialization Guide](/apex/sandbox/sandbox-init-guide.md)
 
 ---
 
 - 🧪 Testing & Validation
-  - [Index](/apex/testing/index.md)
+  - [Index](/apex/testing/README.md)
   - [Apex Testing Guide](/apex/testing/apex-testing-guide.md)
   - [Testing Patterns](/apex/testing/testing-patterns.md)
   - [Validation Patterns](/apex/testing/validation-patterns.md)
