@@ -1,74 +1,72 @@
 # 📚 Navigation
 
-- 🏠 [Home](/README.md)
+- 🧠 [Table of Contents](/apex/TOC.md)
+- 🏠 [Home](/index.md)
+
+---
 
 - 🧱 Fundamentals
-  - [MambaDev Coding Style](/fundamentals/mambadev-coding-style.md)
-  - [Apex Style Guide](/fundamentals/apex-style-guide.md)
-  - [Architecture Principles](/fundamentals/architecture-principles.md)
-  - [Apex Review Checklist](/fundamentals/apex-review-checklist.md)
+  - [MambaDev Coding Style](/apex/fundamentals/mamba-coding-style.md)
+  - [Apex Style Guide](/apex/fundamentals/mamba-apex-core-guide.md)
+  - [Architecture Principles](/apex/fundamentals/layered-architecture.md)
+  - [Naming Standards](/apex/fundamentals/naming-standards.md)
+  - [Apex Review Checklist](/apex/fundamentals/apex-review-checklist.md)
+  - [Equivalence Checklist](/apex/fundamentals/equivalence-checklist.md)
+  - [Feature Comparison](/apex/fundamentals/apex-feature-comparison.md)
+  - [Assertion Patterns](/apex/fundamentals/mamba-assertion-patterns.md)
 
-- 🐍 Apex Guide
-  - [📘 Overview](/apex/README.md)
-  - [📚 Table of Contents](/apex/TOC.md)
+---
 
-  - 🧱 Core Architecture
-    - [Layered Architecture](/apex/layered-architecture.md)
-    - [Naming Standards](/apex/naming-standards.md)
+- 🔗 Integrations
+  - [Index](/apex/integrations/index.md)
+  - [REST API Guide](/apex/integrations/rest-api-guide.md)
 
-  - 🧪 Testing & Validation
-    - [Validation Patterns](/apex/validation-patterns.md)
-    - [ExceptionUtil Guide](/apex/exceptionutil.md)
-    - [Testing Patterns](/apex/testing-patterns.md)
-
-  - 🔁 Error & Logging Strategy
-    - [Exception Handling](/apex/exception-handling.md)
-    - [Structured Logging](/apex/structured-logging.md)
-    - [FlowExecutionLog__c Schema](/apex/flow-execution-log.md)
-
-  - 📦 Utilities
-    - [Logger (section link)](/apex/structured-logging.md#🧱-the-logging-stack)
-    - [LoggerMock (section link)](/apex/structured-logging.md#🧪-testing-with-loggermock)
-
-  - 🧬 Class Reference
-    - [AppAuthenticationException](/apex/examples/classes/app-authentication-exception.cls)
-    - [AppConfigurationException](/apex/examples/classes/app-configuration-exception.cls)
-    - [AppIntegrationException](/apex/examples/classes/app-integration-exception.cls)
-    - [AppValidationException](/apex/examples/classes/app-validation-exception.cls)
-    - [AsyncLoggerJob](/apex/examples/classes/async-logger-job.cls)
-    - [AutoConvertLeads](/apex/examples/classes/auto-convert-leads.cls)
-    - [CustomException](/apex/examples/classes/custom-exception.cls)
-    - [ExceptionUtil](/apex/examples/classes/exception-util.cls)
-    - [ILogger Interface](/apex/examples/classes/ilogger.cls)
-    - [Logger](/apex/examples/classes/logger.cls)
-    - [LoggerMock](/apex/examples/classes/logger-mock.cls)
-    - [RecordHelper](/apex/examples/classes/record-helper.cls)
-    - [RestServiceHelper](/apex/examples/classes/rest-service-helper.cls)
-    - [TestHelper](/apex/examples/classes/test-helper.cls)
-
-
-
-
-- 🧱 Fundamentals
-  - [Coding Style](/apex/fundamentals/mambadev-coding-style.md)
-  - [Style Guide](/apex/fundamentals/apex-style-guide.md)
-  - [Architecture](/apex/fundamentals/architecture-principles.md)
-  - [Review Checklist](/apex/fundamentals/apex-review-checklist.md)
-
-- 🧪 Testing & Validation
-  - [Apex Testing Guide](/apex/testing/apex-testing-guide.md)
-  - [Validation Patterns](/apex/testing/validation-patterns.md)
-  - [Testing Patterns](/apex/testing/testing-patterns.md)
-  - [Test Helper](/apex/testing/test-helper.md)
+---
 
 - 🔁 Logging & Error Handling
+  - [Index](/apex/logging/index.md)
   - [Structured Logging](/apex/logging/structured-logging.md)
-  - [LoggerMock](/apex/logging/logger-mock.md)
-  - [FlowExecutionLog](/apex/logging/flow-execution-log.md)
-  - [Exception Handling](/apex/core/exception-handling.md)
+  - [Logger Implementation](/apex/logging/logger-implementation.md)
+  - [FlowExecutionLog Schema](/apex/logging/flow-execution-log.md#fields)
+  - [Exception Handling](/apex/logging/exception-handling.md)
+  - [ExceptionUtil](/apex/logging/exception-util.md#usage)
+  - [Config System Reference](/apex/logging/config-system.md)
+
+---
+
+- 🧪 Sandbox Setup
+  - [Index](/apex/sandbox/index.md)
+  - [Sandbox Initialization Guide](/apex/sandbox/sandbox-init-guide.md)
+
+---
+
+- 🧪 Testing & Validation
+  - [Index](/apex/testing/index.md)
+  - [Apex Testing Guide](/apex/testing/apex-testing-guide.md)
+  - [Testing Patterns](/apex/testing/testing-patterns.md)
+  - [Validation Patterns](/apex/testing/validation-patterns.md)
+  - [TestDataSetup](/apex/testing/test-data-setup.md)
+
+---
 
 - 🧬 Class Reference
-  - [`Logger.cls`](/apex/examples/classes/logger.cls)
-  - [`LoggerMock.cls`](/apex/examples/classes/logger-mock.cls)
-  - [`RestServiceHelper.cls`](/apex/examples/classes/rest-service-helper.cls)
-  - [`TestHelper.cls`](/apex/examples/classes/test-helper.cls)
+  - [`AppAuthenticationException.cls`](/src/classes/app-authentication-exception.cls)
+  - [`AppConfigurationException.cls`](/src/classes/app-configuration-exception.cls)
+  - [`AppIntegrationException.cls`](/src/classes/app-integration-exception.cls)
+  - [`AppValidationException.cls`](/src/classes/app-validation-exception.cls)
+  - [`AsyncLoggerJob.cls`](/src/classes/async-logger-job.cls)
+  - [`AuthenticationException.cls`](/src/classes/authentication-exception.cls)
+  - [`AutoConvertLeads.cls`](/src/classes/auto-convert-leads.cls)
+  - [`ConfigurationException.cls`](/src/classes/configuration-exception.cls)
+  - [`CustomException.cls`](/src/classes/custom-exception.cls)
+  - [`EnvironmentUtils.cls`](/src/classes/environment-utils.cls)
+  - [`ExceptionUtil.cls`](/src/classes/exception-util.cls)
+  - [`ILogger.cls`](/src/classes/ilogger.cls)
+  - [`Logger.cls`](/src/classes/logger.cls)
+  - [`LoggerMock.cls`](/src/classes/logger-mock.cls)
+  - [`LoggerQueueable.cls`](/src/classes/logger-queueable.cls)
+  - [`OrgInitializer.cls`](/src/classes/org-initializer.cls)
+  - [`RecordHelper.cls`](/src/classes/record-helper.cls)
+  - [`RestServiceHelper.cls`](/src/classes/rest-service-helper.cls)
+  - [`TestDataSetup.cls`](/src/classes/test-data-setup.cls)
+  - [`TestHelper.cls`](/src/classes/test-helper.cls)
