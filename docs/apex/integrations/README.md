@@ -4,7 +4,8 @@
 
 # 🌐 Integrations Module – MambaDev
 
-This folder defines the standards, utilities, and patterns for building **predictable, traceable, and testable integrations** using Apex. It currently covers **REST APIs**, with planned expansions into:
+This folder defines the standards, utilities, and patterns for building **predictable, traceable, and testable integrations** using Apex.  
+It currently covers **REST APIs**, with planned expansions into:
 
 - ✅ Outbound HTTP callouts  
 - 🔄 Bi-directional sync contracts  
@@ -16,10 +17,10 @@ This folder defines the standards, utilities, and patterns for building **predic
 
 ## 📚 Included Guides
 
-- [REST API Guide](rest-api-guide.md): Structure, patterns, and tests for public/internal APIs using [`RestServiceHelper`](rest-api-guide.md#what-is-restservicehelper)  
-- [Callout Patterns](callout-patterns.md): Retryable, mockable, and logger-powered external HTTP callouts  
-- [Webhook Strategy](webhook-strategy.md): Traceable, idempotent, and secure inbound webhook processing  
-- [Auth Token Design](auth-token-design.md): Best practices for token validation, mocking, and secure access headers
+- [REST API Guide](/docs/apex/integrations/rest-api-guide.md): Structure, patterns, and tests for public/internal APIs using [`RestServiceHelper`](/docs/apex/integrations/rest-api-guide.md#what-is-restservicehelper)  
+- [Callout Patterns](/docs/apex/integrations/callout-patterns.md): Retryable, mockable, and logger-powered external HTTP callouts  
+- [Webhook Strategy](/docs/apex/integrations/webhook-strategy.md): Traceable, idempotent, and secure inbound webhook processing  
+- [Auth Token Design](/docs/apex/integrations/auth-token-design.md): Best practices for token validation, mocking, and secure access headers  
 
 ---
 
@@ -30,8 +31,8 @@ MambaDev integrations are built to:
 - **Enforce structured communication** between systems  
 - **Handle failures** with meaningful logs and standardized errors  
 - **Prevent chaos** with full request validation and traceability  
-- **Avoid boilerplate** by using [`RestServiceHelper`](rest-api-guide.md) and [`Logger`](../logging/logger-implementation.md)  
-- **Enable full test coverage** even on edge cases using [`LoggerMock`](../logging/logger-mock.md) and [`TestDataSetup`](../testing/test-data-setup.md)
+- **Avoid boilerplate** by using [`RestServiceHelper`](/docs/apex/integrations/rest-api-guide.md) and [`Logger`](/docs/apex/logging/logger-implementation.md)  
+- **Enable full test coverage** using [`LoggerMock`](/docs/apex/logging/logger-mock.md) and [`TestDataSetup`](/docs/apex/testing/test-data-setup.md)
 
 > An integration is not an afterthought.  
 > It’s a contract. And Mamba signs every one.
@@ -40,23 +41,23 @@ MambaDev integrations are built to:
 
 ## 🧠 Patterns You’ll Find Here
 
-| Topic                                  | Purpose                                        |
-|----------------------------------------|------------------------------------------------|
-| [`RestServiceHelper`](rest-api-guide.md)       | Parse, validate, and respond to API calls      |
-| [`Logger`](../logging/logger-implementation.md) + [`LoggerMock`](../logging/logger-mock.md) | Trace external requests, errors, and retries |
-| [`FlowExecutionLog__c`](../logging/flow-execution-log.md) | Persist context across integrations            |
-| [`AccessException`](rest-api-guide.md#built-in-response-methods), [`BadRequestException`](rest-api-guide.md#built-in-response-methods) | Semantic failure mapping |
-| [`TestDataSetup`](../testing/test-data-setup.md) | Create valid test payloads and stubs           |
+| Topic | Purpose |
+|-------|---------|
+| [`RestServiceHelper`](/docs/apex/integrations/rest-api-guide.md) | Parse, validate, and respond to API calls |
+| [`Logger`](/docs/apex/logging/logger-implementation.md) + [`LoggerMock`](/docs/apex/logging/logger-mock.md) | Trace external requests, errors, and retries |
+| [`FlowExecutionLog__c`](/docs/apex/logging/flow-execution-log.md) | Persist context across integrations |
+| [`AccessException`](/docs/apex/integrations/rest-api-guide.md#built-in-response-methods), [`BadRequestException`](/docs/apex/integrations/rest-api-guide.md#built-in-response-methods) | Semantic failure mapping |
+| [`TestDataSetup`](/docs/apex/testing/test-data-setup.md) | Create valid test payloads and stubs |
 
 ---
 
 ## 🔁 Related Modules
 
-- [Logger Architecture](../logging/logger-implementation.md)  
-- [Test Patterns](../testing/testing-patterns.md)  
-- [Review Checklist](../fundamentals/apex-review-checklist.md)  
-- [ExceptionUtil](../logging/exception-util.md)  
-- [Apex Core Guide](../fundamentals/mamba-apex-core-guide.md)
+- [Logger Architecture](/docs/apex/logging/logger-implementation.md)  
+- [Test Patterns](/docs/apex/testing/testing-patterns.md)  
+- [Review Checklist](/docs/apex/fundamentals/apex-review-checklist.md)  
+- [ExceptionUtil](/docs/apex/logging/exception-util.md)  
+- [Apex Core Guide](/docs/apex/fundamentals/mamba-apex-core-guide.md)
 
 ---
 

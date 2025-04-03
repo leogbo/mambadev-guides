@@ -10,13 +10,13 @@ This folder contains all resources related to **structured logging**, **exceptio
 
 ## 📚 Included Guides
 
-- [Structured Logging](structured-logging.md): Centralized logging principles, usage, and fluent Logger syntax  
-- [Logger Implementation](logger-implementation.md): Implementation and lifecycle of the custom `Logger` class  
-- [FlowExecutionLog Schema](flow-execution-log.md): Persistent logging object + field mapping for traceability  
-- [ExceptionUtil Helper](exception-util.md): Fail-fast guards and exception throw helpers  
-- [Config System Reference](config-system.md): Environment-based logging toggles and flags  
-- [LoggerMock](logger-mock.md): Mock logger class for unit tests  
-- [LoggerQueueable](../examples/classes/logger-queueable.cls): Async persistence job for offloading logs
+- [Structured Logging](/docs/apex/logging/structured-logging.md): Centralized logging principles, usage, and fluent Logger syntax  
+- [Logger Implementation](/docs/apex/logging/logger-implementation.md): Implementation and lifecycle of the custom `Logger` class  
+- [FlowExecutionLog Schema](/docs/apex/logging/flow-execution-log.md): Persistent logging object + field mapping for traceability  
+- [ExceptionUtil Helper](/docs/apex/logging/exception-util.md): Fail-fast guards and exception throw helpers  
+- [Config System Reference](/docs/apex/logging/config-system.md): Environment-based logging toggles and flags  
+- [LoggerMock](/docs/apex/logging/logger-mock.md): Mock logger class for unit tests  
+- [`LoggerQueueable.cls`](/src/classes/logger-queueable.cls): Async persistence job for offloading logs
 
 ---
 
@@ -38,28 +38,16 @@ This content ensures that:
 
 ## 🔁 Related Docs & Modules
 
-- [ExceptionUtil Helper](exception-util.md)  
-- [REST API Guide](../integrations/rest-api-guide.md)  
-- [Apex Review Checklist](../fundamentals/apex-review-checklist.md)  
-- [TestDataSetup](../testing/test-data-setup.md)
+- [ExceptionUtil Helper](/docs/apex/logging/exception-util.md)  
+- [REST API Guide](/docs/apex/integrations/rest-api-guide.md)  
+- [Apex Review Checklist](/docs/apex/fundamentals/apex-review-checklist.md)  
+- [TestDataSetup](/docs/apex/testing/test-data-setup.md)
 
 ---
 
-📎 See also the [Class Reference](../../_sidebar.md#-class-reference) section in the global sidebar for direct access to Logger, LoggerMock, and LoggerQueueable `.cls` files.
+📎 See also the [Class Reference](/docs/_sidebar.md#-class-reference) in the global sidebar for direct access to `Logger`, `LoggerMock`, and `LoggerQueueable` `.cls` files.
 
 ---
 
 **Logging is not optional. It’s your trace to excellence.**  
 Welcome to the observability layer of MambaDev.
-```
-
----
-
-## ✅ Resulting Benefits
-
-| Upgrade                        | Impact |
-|-------------------------------|--------|
-| 🔗 Cross-linked all local docs | ✅    |
-| 🔁 Removed hardcoded URLs      | ✅    |
-| 📦 Expanded with `LoggerMock`, `LoggerQueueable` | ✅ Full stack |
-| 📘 Docsify + GitHub compatible | ✅ Zero breakage |

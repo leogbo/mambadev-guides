@@ -10,7 +10,7 @@ This folder contains operational guides for managing **sandbox initialization**,
 
 ## 📚 Included Guides
 
-- [Sandbox Initialization Guide](sandbox-init-guide.md): Full breakdown of what to configure when a new sandbox is created or refreshed.
+- [Sandbox Initialization Guide](/docs/apex/sandbox/sandbox-init-guide.md): Full breakdown of what to configure when a new sandbox is created or refreshed.
 
 ---
 
@@ -19,10 +19,10 @@ This folder contains operational guides for managing **sandbox initialization**,
 Sandboxes must behave like production-ready spaces from day one.  
 This module helps teams:
 
-- Set critical custom settings like `ConfiguracaoSistema__c`
-- Automate org init logic using `OrgInitializer.cls`
-- Preload environments via `TestDataSetup.cls`
-- Log all boot processes via `FlowExecutionLog__c`
+- Set critical custom settings like `ConfiguracaoSistema__c`  
+- Automate org init logic using `OrgInitializer.cls`  
+- Preload environments via `TestDataSetup.cls`  
+- Log all boot processes via `FlowExecutionLog__c`  
 - Enforce `EnvironmentUtils` configuration at runtime
 
 > A clean sandbox is the launchpad for serious delivery.
@@ -31,11 +31,11 @@ This module helps teams:
 
 ## 🔁 Related Docs
 
-- [FlowExecutionLog Schema](../logging/flow-execution-log.md)  
-- [Test Data Setup Guide](../testing/test-data-setup.md)  
-- [EnvironmentUtils Overview](../core/environment-utils.md)  
-- [Logger Architecture](../logging/logger-implementation.md)  
-- [Apex Review Checklist](../fundamentals/apex-review-checklist.md)
+- [FlowExecutionLog Schema](/docs/apex/logging/flow-execution-log.md)  
+- [Test Data Setup Guide](/docs/apex/testing/test-data-setup.md)  
+- [`EnvironmentUtils.cls`](/src/classes/environment-utils.cls)  
+- [Logger Architecture](/docs/apex/logging/logger-implementation.md)  
+- [Apex Review Checklist](/docs/apex/fundamentals/apex-review-checklist.md)
 
 ---
 
@@ -47,15 +47,3 @@ This module helps teams:
 **Apex without initialization is a guess.  
 Mamba without setup is not Mamba.**  
 **Start clean. Build legendary.**
-```
-
----
-
-## 🔥 Summary of Fixes
-
-| Fix Applied                     | Description                              |
-|----------------------------------|------------------------------------------|
-| 🔗 Linked `sandbox-init-guide.md` | Now clickable ✅                         |
-| ✅ Cross-linked other modules    | Logger, TestDataSetup, EnvUtils, etc.    |
-| 🧱 Rewrote purpose to be bolder  | Reinforces platform setup strategy       |
-| 📘 Docsify-compatible            | All `.md` links are local & relative     |
