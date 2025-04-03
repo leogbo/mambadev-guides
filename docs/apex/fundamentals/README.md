@@ -25,15 +25,15 @@ Fundamentals exist to:
 
 ## 📚 Core Documents
 
-- 🧱 Core: [https://mambadev.io/apex-core-guide](https://mambadev.io/apex-core-guide)  
-- 🧪 Testing: [https://mambadev.io/apex-testing-guide](https://mambadev.io/apex-testing-guide) • [https://mambadev.io/testing-patterns](https://mambadev.io/testing-patterns)  
-- 🩽 Logging: [https://mambadev.io/logger-implementation](https://mambadev.io/logger-implementation)  
-- 🔄 Refactor: [https://mambadev.io/apex-feature-comparison](https://mambadev.io/apex-feature-comparison) • [https://mambadev.io/equivalence-checklist](https://mambadev.io/equivalence-checklist)  
-- 🧩 Architecture: [https://mambadev.io/layered-architecture](https://mambadev.io/layered-architecture) • [https://mambadev.io/rest-api-guide](https://mambadev.io/rest-api-guide) • [https://mambadev.io/style](https://mambadev.io/style)
+- 🧱 [Apex Core Guide](mamba-apex-core-guide.md)  
+- 🧪 [Testing Guide](../testing/apex-testing-guide.md) • [Testing Patterns](../testing/testing-patterns.md)  
+- 🪵 [Logger Implementation](../logging/logger-implementation.md)  
+- 🔁 [Feature Comparison](../comparison/apex-feature-comparison.md) • [Equivalence Checklist](../comparison/equivalence-checklist.md)  
+- 🧩 [Layered Architecture](layered-architecture.md) • [REST API Guide](../integrations/rest-api-guide.md) • [Style Guide](mamba-coding-style.md)
 
 ---
 
-## 🧮🔬 How to Use This Folder
+## 🧠 How to Use This Folder
 
 - 🧱 **Follow**: All new modules and patterns must align with these fundamentals  
 - 🧠 **Reference**: Link to these documents inside other guides when relevant  
@@ -54,57 +54,29 @@ Fundamentals exist to:
 
 ## 🔁 Related Operational Guides
 
-See how these fundamentals apply in real-world architecture:
+These documents apply Mamba fundamentals across technical implementation:
 
-- [`/apex/structured-logging.md`](../apex/structured-logging.md)  
-- [`/apex/exceptionutil.md`](../apex/exceptionutil.md)  
-- [`/apex/naming-standards.md`](../apex/naming-standards.md)  
-- [`/apex/layered-architecture.md`](../apex/layered-architecture.md)
-
----
-
-
-# 📂 Comparison Guide Folder
-
-This folder contains advanced guides related to **Apex code comparison**, **refactoring discipline**, and **functional equivalence validation** – all core practices in the MambaDev engineering culture.
+- [Structured Logging Stack](../logging/structured-logging.md)  
+- [ExceptionUtil Helper](../logging/exception-util.md)  
+- [Naming Standards](naming-standards.md)  
+- [Layered Architecture](layered-architecture.md)  
+- [Apex Review Checklist](apex-review-checklist.md)
 
 ---
-
-## 📘 Included Guides
-
-- [`apex-feature-comparison.md`](./apex-feature-comparison.md)  
-  How to structure before/after comparisons to validate refactors.
-
-- [`equivalence-checklist.md`](./equivalence-checklist.md)  
-  What must be verified to ensure your refactor maintains behavior.
-
----
-
-## 🎯 Purpose
-
-Code comparison is **mandatory** for all impactful changes in Apex.  
-This folder centralizes the material needed to:
-
-- Create **structured and auditable** comparisons  
-- Document pull requests with clarity and discipline  
-- Apply Mamba principles of **safety**, **traceability**, and **performance**
-
-> Mamba doesn’t improvise refactors.  
-> **Mamba proves them.** 🔁🧠🧱
-
----
-
-## 🔗 Related References
-
-For usage examples and enforcement rules, see:
-
-- [`apex-review-checklist.md`](../fundamentals/apex-review-checklist.md)  
-- [`testing-patterns.md`](../testing-patterns.md)
-
-
 
 > **MambaDev Fundamentals are not rules for rules’ sake.**  
 > They are the **infrastructure of excellence** that lets us build without fear.
 
 **Honor the foundation. Evolve with discipline.**
+```
 
+---
+
+## ✅ Results After Cleanup
+
+| Area                   | Result |
+|------------------------|--------|
+| External → Internal links | ✅ Converted |
+| Duplicate comparison content | ✅ Removed |
+| Broken relative links       | ✅ Fixed |
+| Docsify-optimized           | ✅ Sidebar + routing compliant |
