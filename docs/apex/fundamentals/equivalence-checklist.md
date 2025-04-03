@@ -39,9 +39,9 @@ A refactor is **functionally equivalent** when:
 
 In any pull request involving functional code changes:
 
-- [x] List of tests proving equivalence
-- [x] Test of failure condition (e.g., validation or exception)
-- [x] Optional: output logs before vs after
+- [x] List of tests proving equivalence  
+- [x] Test of failure condition (e.g., validation or exception)  
+- [x] Optional: output logs before vs after  
 - [x] Optional: screenshot or JSON diff of behavior if frontend/API involved
 
 ---
@@ -73,13 +73,13 @@ If your refactor intentionally changes behavior:
 
 ## 📚 Related Guides
 
-- [Apex Feature Comparison Guide](./apex-feature-comparison.md)  
+- [Apex Feature Comparison Guide](/docs/apex/fundamentals/apex-feature-comparison.md)  
   How to show before vs after clearly and consistently.
 
-- [Testing Patterns](../testing-patterns.md)  
+- [Testing Patterns](/docs/apex/testing/testing-patterns.md)  
   Build test classes that validate equivalence explicitly.
 
-- [Review Checklist](../fundamentals/apex-review-checklist.md)  
+- [Review Checklist](/docs/apex/fundamentals/apex-review-checklist.md)  
   Enforces mandatory validations during code review.
 
 ---
