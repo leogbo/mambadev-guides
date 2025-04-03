@@ -1,7 +1,8 @@
-<!-- sidebar -->
+<!-- C:\Users\user\MyProjects\mambadev-guides\docs\_sidebar.md -->
 # 📚 Navigation
 
-- 🏠 [Home](/README.md)
+- 🧱 Apex
+  - [Module Overview](/apex/)
 
 ---
 
@@ -18,7 +19,7 @@
 ---
 
 - 🔗 Integrations
-  - [Index](/apex/integrations/README.md)
+  - [Index](/apex/integrations/)
   - [REST API Guide](/apex/integrations/rest-api-guide.md)
   - [Callout Patterns](/apex/integrations/callout-patterns.md)
   - [Webhook Strategy](/apex/integrations/webhook-strategy.md)
@@ -27,7 +28,7 @@
 ---
 
 - 🔁 Logging & Error Handling
-  - [Index](/apex/logging/README.md)
+  - [Index](/apex/logging/)
   - [Structured Logging](/apex/logging/structured-logging.md)
   - [Logger Implementation](/apex/logging/logger-implementation.md)
   - [FlowExecutionLog Schema](/apex/logging/flow-execution-log.md#fields)
@@ -38,13 +39,13 @@
 ---
 
 - 🧪 Sandbox Setup
-  - [Index](/apex/sandbox/README.md)
+  - [Index](/apex/sandbox/)
   - [Sandbox Initialization Guide](/apex/sandbox/sandbox-init-guide.md)
 
 ---
 
 - 🧪 Testing & Validation
-  - [Index](/apex/testing/README.md)
+  - [Index](/apex/testing/)
   - [Apex Testing Guide](/apex/testing/apex-testing-guide.md)
   - [Testing Patterns](/apex/testing/testing-patterns.md)
   - [Validation Patterns](/apex/testing/validation-patterns.md)
