@@ -58,18 +58,18 @@ public class TestDataSetup {
     }
 
     @TestVisible
-    public static ConfigSystem__c setupConfiguracaoSistema() {
+    public static SystemConfig__c setupConfiguracaoSistema() {
         try {
-            List<ConfigSystem__c> existing = [
+            List<SystemConfig__c> existing = [
                 SELECT Id 
-                FROM ConfigSystem__c 
+                FROM SystemConfig__c 
                 LIMIT 1
             ];
     
-            ConfigSystem__c config;
+            SystemConfig__c config;
     
             if (existing.isEmpty()) {
-                config = new ConfigSystem__c(
+                config = new SystemConfig__c(
                     Ambiente__c             = 'sandbox',
                     Desativar_Flows__c      = false,
                     Habilita_Log_JSON__c    = true,
@@ -103,7 +103,7 @@ public class TestDataSetup {
         Map<String, SObject> created = new Map<String, SObject>();
 
         try {
-            ConfigSystem__c config = setupSystemConfiguration();
+            SystemConfig__c config = setupSystemConfiguration();
             User user = UserTestDataSetup.createUser();
             Configuracoes__c owner = ResponsavelTestDataSetup.createResponsavel(user.Id);
             Integracao__c integration = createMockIntegration();

@@ -47,6 +47,11 @@ public class EnvironmentUtils {
     }
 
     @TestVisible
+    public static void resetCache() {
+        loadAllSettings();
+    }
+
+    @TestVisible
     private static void loadSettings() {
         try {
             SystemConfig__c config = [
