@@ -25,11 +25,11 @@ Fundamentals exist to:
 
 ## 📚 Core Documents
 
-- 🧱 [Apex Core Guide](mamba-apex-core-guide.md)  
-- 🧪 [Testing Guide](../testing/apex-testing-guide.md) • [Testing Patterns](../testing/testing-patterns.md)  
-- 🪵 [Logger Implementation](../logging/logger-implementation.md)  
-- 🔁 [Feature Comparison](apex-feature-comparison.md) • [Equivalence Checklist](equivalence-checklist.md)  
-- 🧩 [Layered Architecture](layered-architecture.md) • [REST API Guide](../integrations/rest-api-guide.md) • [Style Guide](mamba-coding-style.md)
+- 🧱 [Apex Core Guide](/docs/apex/fundamentals/mamba-apex-core-guide.md)  
+- 🧪 [Testing Guide](/docs/apex/testing/apex-testing-guide.md) • [Testing Patterns](/docs/apex/testing/testing-patterns.md)  
+- 🪵 [Logger Implementation](/docs/apex/logging/logger-implementation.md)  
+- 🔁 [Feature Comparison](/docs/apex/fundamentals/apex-feature-comparison.md) • [Equivalence Checklist](/docs/apex/fundamentals/equivalence-checklist.md)  
+- 🧩 [Layered Architecture](/docs/apex/fundamentals/layered-architecture.md) • [REST API Guide](/docs/apex/integrations/rest-api-guide.md) • [Style Guide](/docs/apex/fundamentals/mamba-coding-style.md)
 
 ---
 
@@ -56,11 +56,11 @@ Fundamentals exist to:
 
 These documents apply Mamba fundamentals across technical implementation:
 
-- [Structured Logging Stack](../logging/structured-logging.md)  
-- [ExceptionUtil Helper](../logging/exception-util.md)  
-- [Naming Standards](naming-standards.md)  
-- [Layered Architecture](layered-architecture.md)  
-- [Apex Review Checklist](apex-review-checklist.md)
+- [Structured Logging Stack](/docs/apex/logging/structured-logging.md)  
+- [ExceptionUtil Helper](/docs/apex/logging/exception-util.md)  
+- [Naming Standards](/docs/apex/fundamentals/naming-standards.md)  
+- [Layered Architecture](/docs/apex/fundamentals/layered-architecture.md)  
+- [Apex Review Checklist](/docs/apex/fundamentals/apex-review-checklist.md)
 
 ---
 
