@@ -5,16 +5,16 @@
  * @access      public
  * @author      MambaDev
  * @description
- *  Abstract helper class for implementing robust REST endpoints.
- *  Provides:
- *   - Standardized HTTP response handling (202, 400, 401, 404, 406, 500)
- *   - Token-based access validation
- *   - Request body parsing with error handling
- *   - Field mapping from JSON to SObject
- *   - Optional logging with Logger class
+ *  REST-layer helper for implementing robust Apex APIs.
  * 
- *  Extend or use in REST Apex classes to streamline endpoint behavior
- *  and reduce duplication.
+ *  ✅ Standardized response contract: JSON with HTTP code
+ *  ✅ Semantic exceptions: 400, 401, 404, 406, 500
+ *  ✅ Safe access token validation (Bearer/Token pattern)
+ *  ✅ Request body parsing with null/format guards
+ *  ✅ Optional field mapping from JSON to SObject
+ *  ✅ Logs via `Logger` with `.setClass()`, `.setMethod()`, `.setCategory()`
+ * 
+ *  All REST controllers must call these methods instead of raw response handling.
  */
 public abstract class RestServiceHelper {
 
