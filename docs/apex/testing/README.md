@@ -12,10 +12,10 @@ These resources define the **MambaDev standard** for Apex test quality, repeatab
 
 ## 📚 Included Guides
 
-- [Testing Patterns](testing-patterns.md): Structure, philosophy, and anti-patterns to avoid  
-- [Apex Testing Guide](apex-testing-guide.md): Setup of reusable test data, factories, and assertive validations  
-- [TestDataSetup](test-data-setup.md): Central test data builder for mock environments  
-- [TestHelper.cls](../../src/classes/test-helper.cls): Utility for safe IDs, fake emails, CNPJs, and assert contracts
+- [Testing Patterns](/docs/apex/testing/testing-patterns.md): Structure, philosophy, and anti-patterns to avoid  
+- [Apex Testing Guide](/docs/apex/testing/apex-testing-guide.md): Setup of reusable test data, factories, and assertive validations  
+- [TestDataSetup](/docs/apex/testing/test-data-setup.md): Central test data builder for mock environments  
+- [`TestHelper.cls`](/src/classes/test-helper.cls): Utility for safe IDs, fake emails, CNPJs, and assert contracts
 
 ---
 
@@ -36,11 +36,11 @@ This testing module ensures that every developer:
 
 ## 🔁 Related Docs
 
-- [Apex Review Checklist](../fundamentals/apex-review-checklist.md)  
-- [Sandbox Initialization Guide](../sandbox/sandbox-init-guide.md)  
-- [LoggerMock Utility](../logging/logger-mock.md)  
-- [FlowExecutionLog Logging Schema](../logging/flow-execution-log.md)  
-- [Exception Handling & Guards](../logging/exception-util.md)
+- [Apex Review Checklist](/docs/apex/fundamentals/apex-review-checklist.md)  
+- [Sandbox Initialization Guide](/docs/apex/sandbox/sandbox-init-guide.md)  
+- [LoggerMock Utility](/docs/apex/logging/logger-mock.md)  
+- [FlowExecutionLog Logging Schema](/docs/apex/logging/flow-execution-log.md)  
+- [Exception Handling & Guards](/docs/apex/logging/exception-util.md)
 
 ---
 
@@ -48,15 +48,3 @@ This testing module ensures that every developer:
 This module exists to raise the quality bar on every PR, every class, every change.
 
 **Ship tested. Ship Mamba.**
-```
-
----
-
-## ✅ Final Result
-
-| Area                     | Result |
-|--------------------------|--------|
-| 🔗 Links                 | All internal, Docsify and GitHub-ready |
-| 📦 Docsify compatibility | ✅ Compliant with sidebar, alias, anchors |
-| 🧠 Structure             | Purposeful, modular, and practical |
-| 🧱 Mamba spirit          | 🔥 Strong, disciplined, documented |
