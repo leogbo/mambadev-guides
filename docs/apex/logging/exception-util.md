@@ -2,33 +2,38 @@
   <img src="https://raw.githubusercontent.com/leogbo/mambadev-guides/main/static/img/github_banner_mambadev.png" alt="MambaDev Banner" width="100%" />
 </p>
 
-# ExceptionUtil – Declarative Guard Utility
+> 🧱 @status:core | This document defines MambaDev’s official strategy for declarative validations via `ExceptionUtil`.
 
-> This guide documents the use of `ExceptionUtil`, MambaDev’s utility class for declaring **semantic, defensive validations**.  
-> It replaces imperative `if/throw` checks with **expressive, testable guard clauses** using `AppValidationException`.
+# ❗ ExceptionUtil – Declarative Guard Utility
+
+📎 [Shortlink: mambadev.io/exceptionutil](https://mambadev.io/exceptionutil)
+
+> MambaDev doesn't throw to crash — we throw to enforce truth.  
+> Every exception is a contract that was violated.
 
 ---
 
 ## 🎯 Purpose
 
-`ExceptionUtil` allows developers to:
+`ExceptionUtil` simplifies validation logic using expressive, testable **guard clauses**.  
+It replaces repeated `if/throw` patterns with single-line declarations for:
 
-- ✅ Eliminate repetitive `if/throw` blocks
-- ✅ Express preconditions in a single line
-- ✅ Enforce business rules with clarity and traceability
-- ✅ Keep services and controllers focused on **logic, not boilerplate**
+- ✅ Required fields  
+- ✅ Required conditions  
+- ✅ Business rule enforcement  
+- ✅ Test assertions
 
 ---
 
 ## 🧠 Why Use It?
 
 ```apex
-// Instead of:
+// ❌ Imperative
 if (account.Name == null || account.Name.trim() == '') {
     throw new AppValidationException('Account Name is required.');
 }
 
-// Use:
+// ✅ Declarative
 ExceptionUtil.throwIfBlank(account.Name, 'Account Name is required.');
 ```
 
@@ -36,124 +41,119 @@ ExceptionUtil.throwIfBlank(account.Name, 'Account Name is required.');
 
 ## ⚙️ Available Methods
 
-| Method                            | Purpose                                                               |
-|----------------------------------|-----------------------------------------------------------------------|
-| `throwIfNull(obj, msg)`          | Throws if the object is `null`                                       |
-| `throwIfBlank(str, msg)`         | Throws if the string is `null` or whitespace                         |
-| `throwIf(condition, msg)`        | Throws if the condition evaluates to `true`                          |
-| `require(condition, msg)`        | Throws if the condition evaluates to `false`                         |
-| `fail(msg)`                      | Always throws — useful for explicit rejection points                 |
+| Method                        | Description                                 |
+|-------------------------------|---------------------------------------------|
+| `throwIfNull(obj, msg)`      | Throws if `obj == null`                     |
+| `throwIfBlank(str, msg)`     | Throws if `str == null || str.trim() == ''` |
+| `throwIf(condition, msg)`    | Throws if condition is true                 |
+| `require(condition, msg)`    | Throws if condition is false                |
+| `fail(msg)`                  | Unconditionally throws an exception         |
 
 ---
 
-## 🔁 Guard Examples
+## 🧾 Common Use Patterns
 
-### ✅ Required Field
+### ✅ Field Required
 
 ```apex
-ExceptionUtil.throwIfBlank(contact.Email, 'Email is required.');
+ExceptionUtil.throwIfBlank(contact.Email, 'Email is required');
 ```
 
-### ✅ Required Reference
+### ✅ Reference Required
 
 ```apex
-ExceptionUtil.throwIfNull(opportunity.AccountId, 'Opportunity must have an Account.');
+ExceptionUtil.throwIfNull(opp.AccountId, 'Opportunity must have Account');
 ```
 
-### ✅ Rule Validation
+### ✅ Rule Enforcement
 
 ```apex
-ExceptionUtil.require(invoice.Amount > 0, 'Invoice amount must be greater than zero.');
+ExceptionUtil.require(invoice.Total > 0, 'Invoice total must be greater than 0');
 ```
 
-### ✅ Explicit Fail
+### ✅ Fail Early
 
 ```apex
-if (!isAccountEligible(account)) {
-    ExceptionUtil.fail('Account is not eligible for onboarding.');
+if (!isAccountEligible(acc)) {
+    ExceptionUtil.fail('Account not eligible for onboarding');
 }
 ```
 
 ---
 
-## 🔀 Trigger Usage
+## 🔁 Trigger Usage
 
 ```apex
 for (Lead lead : Trigger.new) {
-    ExceptionUtil.throwIfBlank(lead.LastName, 'LastName is required');
-    ExceptionUtil.throwIfBlank(lead.Company, 'Company is required');
+    ExceptionUtil.throwIfBlank(lead.LastName, 'LastName required');
+    ExceptionUtil.throwIfBlank(lead.Company, 'Company required');
 }
 ```
 
 ---
 
-## 🧪 Testing Validations
+## 🧪 Unit Test Assertion Example
 
 ```apex
 @IsTest
-static void testShouldThrowIfBlank() {
+static void test_throw_if_blank() {
     try {
-        ExceptionUtil.throwIfBlank('', 'Should throw');
-        System.assert(false, 'Expected exception');
+        ExceptionUtil.throwIfBlank('', 'Email required');
+        System.assert(false, 'Expected AppValidationException');
     } catch (AppValidationException ex) {
-        System.assertEquals('Should throw', ex.getMessage());
+        System.assertEquals('Email required', ex.getMessage());
     }
 }
 ```
 
 ---
 
-## 📈 Logging + Exception Pattern
+## 🔄 Logging + Rethrow Pattern
 
 ```apex
 try {
-    ExceptionUtil.throwIfNull(config.DefaultTemplateId, 'Missing template config');
+    ExceptionUtil.throwIfNull(config.TemplateId, 'Missing Template ID');
 } catch (AppValidationException ex) {
     new Logger()
         .setClass('ConfigValidator')
-        .setMethod('validateTemplate')
+        .setMethod('validate')
         .warn(ex.getMessage(), null);
-
     throw ex;
 }
 ```
 
-> 🧱 Logging + rethrow guarantees traceability without breaking flow.
+> ✅ Rethrow after logging for full observability without silent skips.
 
 ---
 
-## 🧬 Optional Extensions (Advanced)
+## 🧬 Optional Extensions
 
-You may extend `ExceptionUtil` to support:
+You may extend `ExceptionUtil.cls` to support:
 
-- Field masking & redaction on logs
-- Declarative `requireAll(...)`, `validateMap(...)` patterns
-- Dynamic field rule evaluation using FieldSet metadata
+- `requireAll(Map<String, Object>)` for multi-field checks  
+- `throwIfInvalidMapKey(...)`  
+- Fieldset-driven validation for dynamic rules
 
 ---
 
 ## 📚 Related Guides
 
-- [Validation Patterns](./validation-patterns.md)  
-  Declarative, auditable validation logic in Apex.
-
-- [Exception Handling](./exception-handling.md)  
-  Strategy for try/catch with semantic exception types.
-
-- [Structured Logging](./structured-logging.md)  
-  Best practices for logging using `Logger`.
+- [Validation Patterns](/docs/apex/testing/validation-patterns.md)  
+- [Exception Handling](/docs/apex/logging/exception-handling.md)  
+- [Structured Logging](/docs/apex/logging/structured-logging.md)  
 
 ---
 
 ## 📎 Aligned Fundamentals
 
-These operational guides support the `ExceptionUtil` standard:
-
-- [`MambaDev Coding Style`](../fundamentals/mambadev-coding-style.md)
-- [`Apex Style Guide`](../fundamentals/apex-style-guide.md)
-- [`Architecture Principles`](../fundamentals/architecture-principles.md)
-- [`Review Checklist`](../fundamentals/apex-review-checklist.md)
+- [MambaDev Coding Style](/docs/apex/fundamentals/mamba-coding-style.md)  
+- [Apex Style Guide](/docs/apex/fundamentals/apex-style-guide.md)  
+- [Architecture Principles](/docs/apex/fundamentals/architecture-principles.md)  
+- [Review Checklist](/docs/apex/fundamentals/apex-review-checklist.md)
 
 ---
 
-> **MambaDev doesn't throw exceptions to crash code — we throw to enforce what must never be violated.**
+> Every `throw` is a line in your contract with the system.  
+> In MambaDev, that contract is not optional — it’s enforced.
+
+**#FailFastWithClarity #GuardWithIntent #MambaExceptionsAreArchitectural**
