@@ -59,6 +59,7 @@ Copyright (c) 2025 Leo G. / MambaDev
 
 Licensed under the Creative Commons Attribution 4.0 International License.
 [![License: CC BY 4.0](https://img.shields.io/badge/license-CC%20BY%204.0-blue.svg)](https://creativecommons.org/licenses/by/4.0/)
+
 You are free to:
 
 - Share — copy and redistribute the material in any medium or format
