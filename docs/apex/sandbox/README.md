@@ -19,11 +19,11 @@ This folder contains operational guides for managing **sandbox initialization**,
 Sandboxes must behave like production-ready spaces from day one.  
 This module helps teams:
 
-- Set critical custom settings like `ConfigSystem__c`  
-- Automate org init logic using `OrgInitializer.cls`  
-- Preload environments via `TestDataSetup.cls`  
-- Log all boot processes via `FlowExecutionLog__c`  
-- Enforce `EnvironmentUtils` configuration at runtime
+- Set critical custom settings like [`ConfigSystem__c`](/docs/apex/logging/config-system.md)  
+- Automate org init logic using [`OrgInitializer.cls`](/src/classes/org-initializer.cls)  
+- Preload environments via [`TestDataSetup.cls`](/src/classes/test-data-setup.cls)  
+- Log all boot processes via [`FlowExecutionLog__c`](/docs/apex/logging/flow-execution-log.md)  
+- Enforce [`EnvironmentUtils`](/src/classes/environment-utils.cls) configuration at runtime
 
 > A clean sandbox is the launchpad for serious delivery.
 
