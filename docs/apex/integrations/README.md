@@ -6,17 +6,20 @@
 
 This folder defines the standards, utilities, and patterns for building **predictable, traceable, and testable integrations** using Apex. It currently covers **REST APIs**, with planned expansions into:
 
-- ✅ Outbound HTTP callouts
-- 🔄 Bi-directional sync contracts
-- 🔐 Token-based authentication strategies
-- 📡 Webhook patterns and platform events
-- 🧪 Mocking and interception for external dependencies
+- ✅ Outbound HTTP callouts  
+- 🔄 Bi-directional sync contracts  
+- 🔐 Token-based authentication strategies  
+- 📡 Webhook patterns and platform events  
+- 🧪 Mocking and interception for external dependencies  
 
 ---
 
 ## 📚 Included Guides
 
-- [REST API Guide](rest-api-guide.md): Core principles, structure, and tests for building public/internal APIs using `RestServiceHelper`
+- [REST API Guide](rest-api-guide.md): Structure, patterns, and tests for public/internal APIs using [`RestServiceHelper`](rest-api-guide.md#what-is-restservicehelper)  
+- [Callout Patterns](callout-patterns.md): Retryable, mockable, and logger-powered external HTTP callouts  
+- [Webhook Strategy](webhook-strategy.md): Traceable, idempotent, and secure inbound webhook processing  
+- [Auth Token Design](auth-token-design.md): Best practices for token validation, mocking, and secure access headers
 
 ---
 
@@ -27,8 +30,8 @@ MambaDev integrations are built to:
 - **Enforce structured communication** between systems  
 - **Handle failures** with meaningful logs and standardized errors  
 - **Prevent chaos** with full request validation and traceability  
-- **Avoid boilerplate** by using utilities like `RestServiceHelper` and `Logger`  
-- **Enable full test coverage** even on edge cases
+- **Avoid boilerplate** by using [`RestServiceHelper`](rest-api-guide.md) and [`Logger`](../logging/logger-implementation.md)  
+- **Enable full test coverage** even on edge cases using [`LoggerMock`](../logging/logger-mock.md) and [`TestDataSetup`](../testing/test-data-setup.md)
 
 > An integration is not an afterthought.  
 > It’s a contract. And Mamba signs every one.
@@ -37,13 +40,13 @@ MambaDev integrations are built to:
 
 ## 🧠 Patterns You’ll Find Here
 
-| Topic                      | Purpose                                  |
-|---------------------------|------------------------------------------|
-| `RestServiceHelper`       | Parse, validate, and respond to API calls |
-| `Logger` + `LoggerMock`   | Trace external requests, errors, and retries |
-| `FlowExecutionLog__c`     | Persist context across integrations        |
-| `AccessException`, `BadRequestException` | Semantic failure mapping          |
-| `TestDataSetup`           | Create valid test payloads and stubs      |
+| Topic                                  | Purpose                                        |
+|----------------------------------------|------------------------------------------------|
+| [`RestServiceHelper`](rest-api-guide.md)       | Parse, validate, and respond to API calls      |
+| [`Logger`](../logging/logger-implementation.md) + [`LoggerMock`](../logging/logger-mock.md) | Trace external requests, errors, and retries |
+| [`FlowExecutionLog__c`](../logging/flow-execution-log.md) | Persist context across integrations            |
+| [`AccessException`](rest-api-guide.md#built-in-response-methods), [`BadRequestException`](rest-api-guide.md#built-in-response-methods) | Semantic failure mapping |
+| [`TestDataSetup`](../testing/test-data-setup.md) | Create valid test payloads and stubs           |
 
 ---
 
@@ -57,22 +60,12 @@ MambaDev integrations are built to:
 
 ---
 
-## 🧾 Next Sections (Coming Soon)
-
-| File                        | Status        |
-|-----------------------------|---------------|
-| `callout-patterns.md`       | 🚧 Drafting    |
-| `webhook-strategy.md`       | 🚧 Pending     |
-| `auth-token-design.md`      | 🚧 Pending     |
-
----
-
 ## 🔒 Mamba Integration Mentality
 
-- No `System.debug()` — only structured logs  
-- No hardcoded responses — only testable stubs  
-- No hand-coded `JSON.deserialize()` — only validated payloads  
-- No trust without traceability
+- ❌ No `System.debug()` — only structured logs  
+- ❌ No hardcoded responses — only testable stubs  
+- ❌ No hand-coded `JSON.deserialize()` — only validated payloads  
+- ❌ No trust without traceability  
 
 ---
 
