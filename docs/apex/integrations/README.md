@@ -2,7 +2,11 @@
   <img src="https://raw.githubusercontent.com/leogbo/mambadev-guides/main/static/img/github_banner_mambadev.png" alt="MambaDev Banner" width="100%" />
 </p>
 
+> 🧱 @status:core | This module defines official MambaDev standards for building secure, testable, and traceable integrations using Apex.
+
 # 🌐 Integrations Module – MambaDev
+
+📎 [Shortlink: mambadev.io/integrations](https://mambadev.io/integrations)
 
 This folder defines the standards, utilities, and patterns for building **predictable, traceable, and testable integrations** using Apex.  
 It currently covers **REST APIs**, with planned expansions into:
