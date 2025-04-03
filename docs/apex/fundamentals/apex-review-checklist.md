@@ -8,7 +8,7 @@
 
 # 🔍 Apex Review Checklist – v2025 (MambaDev Standard)
 
-📎 **Shortlink:** [mambadev.io/3FScojm](https://mambadev.io/3FScojm)
+📎 **Shortlink:** `/docs/apex/fundamentals/apex-review-checklist.md`
 
 > “Review is the final filter of excellence. No line survives without purpose.” – Mamba Mentality 🧠🔥
 
@@ -16,12 +16,12 @@
 
 ## 📚 Related Core Guides
 
-- 📘 [Architecture Guide](https://mambadev.io/42iHzvK)  
-- 🧪 [Testing Guide](https://mambadev.io/3YgDDdx)  
-- 🪵 [Logger Guide](https://mambadev.io/41WCcDA)  
-- 🧱 [Test Data Setup Guide](https://mambadev.io/4ceNlTD)  
-- 🔁 [Code Comparison Guide](https://mambadev.io/41XGoTz)  
-- ✅ [Functional Equivalence Guide](https://mambadev.io/4jjcWx9)
+- 📘 [Architecture Guide](/docs/apex/fundamentals/mamba-apex-core-guide.md)  
+- 🧪 [Testing Guide](/docs/apex/testing/apex-testing-guide.md)  
+- 🪵 [Logger Guide](/docs/apex/logging/logger-implementation.md)  
+- 🧱 [Test Data Setup](/docs/apex/testing/test-data-setup.md)  
+- 🔁 [Feature Comparison Guide](/docs/apex/fundamentals/apex-feature-comparison.md)  
+- ✅ [Equivalence Checklist](/docs/apex/fundamentals/equivalence-checklist.md)
 
 ---
 
@@ -39,7 +39,7 @@
 ### 🔒 Architecture & Structure
 
 - [ ] Class includes `@TestVisible`, `className`, `logCategory`, `triggerType`
-- [ ] Uses `RecordHelper.getById(...)` instead of raw `SELECT LIMIT 1`
+- [ ] Uses [`RecordHelper.getById(...)`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/rest-service-helper.cls) instead of raw `SELECT LIMIT 1`
 - [ ] Logs critical paths to `FlowExecutionLog__c` when applicable
 - [ ] No use of `System.debug()` outside of test factories
 - [ ] Public and `@TestVisible` methods are backwards compatible
@@ -50,10 +50,10 @@
 ### 🧪 Testing & Validation
 
 - [ ] Has `@TestSetup` using `TestDataSetup.setupCompleteEnvironment()`
-- [ ] `SELECT LIMIT 1` includes fallback to avoid QueryException
+- [ ] `SELECT LIMIT 1` includes fallback to avoid `QueryException`
 - [ ] All `System.assert(...)` include message and assert **meaning**
 - [ ] No use of `testData.get(...)` inside test methods
-- [ ] Uses `fakeIdForSafe(...)` for fallback scenarios
+- [ ] Uses [`TestHelper.fakeIdForSafe(...)`](/src/classes/test-helper.cls) for fallback scenarios
 - [ ] Negative test case included (`exceptionThrown` or fail path)
 - [ ] Async behavior tested if code includes `Queueable`, `Future`, etc.
 
@@ -61,8 +61,8 @@
 
 ### 🔁 Refactor Checks
 
-- [ ] Before vs After documented → [Comparison Guide](https://mambadev.io/41XGoTz)
-- [ ] Functional equivalence confirmed → [Equivalence Guide](https://mambadev.io/4jjcWx9)
+- [ ] Before vs After documented → [Feature Comparison Guide](/docs/apex/fundamentals/apex-feature-comparison.md)
+- [ ] Functional equivalence confirmed → [Equivalence Checklist](/docs/apex/fundamentals/equivalence-checklist.md)
 - [ ] All `null` / `blank` / `invalid` inputs have fallback
 - [ ] Null-safe checks in all list returns / optional lookups
 - [ ] No breaking changes to REST contracts or public methods
@@ -71,13 +71,13 @@
 
 ## 🚫 Forbidden Patterns
 
-| Pattern                  | ❌ Do Not Use                 | ✅ Use Instead                             |
-|--------------------------|------------------------------|---------------------------------------------|
-| `System.debug(...)`      | Outside test factories       | `Logger` or `FlowExecutionLog__c`           |
-| Raw `SELECT ... LIMIT 1` | Without fallback             | `RecordHelper.getById(...)`                |
-| `testData.get(...)`      | Inside `@IsTest`             | `SELECT` after `@TestSetup`                |
-| `a % b` (modulo)         | Not supported in Apex        | `Math.mod(a, b)`                            |
-| `padLeft`, `padRight`    | Not available in Apex        | `String.format()` or manual string ops      |
+| ❌ Pattern               | ✅ Correct Alternative                       |
+|--------------------------|----------------------------------------------|
+| `System.debug(...)`      | Use [`Logger`](/src/classes/logger.cls)     |
+| `SELECT ... LIMIT 1`     | Use [`RecordHelper.getById(...)`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/rest-service-helper.cls) |
+| `testData.get(...)`      | Use `SELECT` after `@TestSetup`              |
+| `a % b` (modulo)         | Use `Math.mod(a, b)`                         |
+| `padLeft`, `padRight`    | Use `String.format()` or manual handling     |
 
 ---
 
@@ -118,14 +118,6 @@ UC__c uc = ucs[0];
 
 ---
 
-## ✅ Related Checklists
-
-- [ ] [Testing Checklist](https://mambadev.io/3YgDDdx#✅-mamba-test-checklist)
-- [ ] [Functional Equivalence](https://mambadev.io/4jjcWx9#🧠-confirmation-checklist)
-- [ ] [Before vs After Comparison](https://mambadev.io/41XGoTz)
-
----
-
 ## 📄 Pull Request Review Template (Mamba Style)
 
 ```markdown
@@ -136,8 +128,8 @@ UC__c uc = ucs[0];
 - [x] Tests include negative case and async path
 - [x] FlowExecutionLog__c logs added in service methods
 - [x] No breaking signature change
-- [x] Refactor validated → [Comparison](https://mambadev.io/41XGoTz)
-- [x] Functional behavior confirmed → [Equivalence](https://mambadev.io/4jjcWx9)
+- [x] Refactor validated → [Comparison](/docs/apex/fundamentals/apex-feature-comparison.md)
+- [x] Functional behavior confirmed → [Equivalence](/docs/apex/fundamentals/equivalence-checklist.md)
 ```
 
 ---
