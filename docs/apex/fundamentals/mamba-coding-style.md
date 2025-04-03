@@ -56,6 +56,9 @@ Every Apex class must include authorship and origin:
 Every class must declare traceability metadata:
 
 ```apex
+@TestVisible public static String  environment       = (EnvironmentUtils.getRaw() != null) ? EnvironmentUtils.getRaw() : 'sandbox';
+@TestVisible public static String  logLevelDefault   = (EnvironmentUtils.getLogLevel() != null) ? EnvironmentUtils.getLogLevel() : 'INFO';
+@TestVisible public static Integer maxDebugLength    = (EnvironmentUtils.getMaxDebugLength() != null ) ? (Integer)EnvironmentUtils.getMaxDebugLength() : 3000;
 @TestVisible private static final String CLASS_NAME = 'MyClass';
 @TestVisible private static final String CATEGORY = 'Service';
 @TestVisible private static final String EXECUTION_TYPE = 'Queueable'; // or REST, Flow, Apex
