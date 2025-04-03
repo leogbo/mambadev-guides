@@ -24,7 +24,7 @@ This repository exists to:
 - Share **modular**, **battle-tested**, and **auditable** implementation patterns  
 - Transform codebases into **scalable ecosystems** — and developers into **system thinkers**
 
-> ⚠️ All guides follow [Mamba Public Review Standards](../apex/fundamentals/apex-review-checklist.md) — no guesswork, only proof.
+> ⚠️ All guides follow [Mamba Public Review Standards](docs/apex/fundamentals/apex-review-checklist.md) — no guesswork, only proof.
 
 ---
 
@@ -32,7 +32,7 @@ This repository exists to:
 
 | Module                    | Description                                                                 |
 |---------------------------|-----------------------------------------------------------------------------|
-| **[Apex](../apex/index.md)**                | Core Mamba Apex framework: logging, exception handling, validation          |
+| **[Apex](docs/apex/)**                | Core Mamba Apex framework: logging, exception handling, validation          |
 | **Effective Prompting**   | How to ask, instruct, and extract brilliance from AI models                 |
 | **AI Automation**         | End-to-end use of agents and GPT for business flows *(coming soon)*         |
 | **Intelligent Agents**    | Multi-step autonomous behavior and decision trees *(coming soon)*          |
@@ -43,7 +43,7 @@ This repository exists to:
 
 ## 🔗 Featured Module
 
-### 🧠 [Apex Guide](../apex/index.md) | MambaDev
+### 🧠 [Apex Guide](docs/apex/) | MambaDev
 
 This guide brings the **Mamba Mentality** to Salesforce Apex development — with:
 
@@ -52,7 +52,7 @@ This guide brings the **Mamba Mentality** to Salesforce Apex development — wit
 - ✅ Declarative Validation  
 - 🧪 Mockable, Test-First Utilities
 
-📍 Live module: [`apex/index.md`](../apex/index.md)
+📍 Live module: [`docs/apex/`](docs/apex/)
 
 > 🚫 100% clean. No client data. No org references. No compromise.
 
@@ -62,17 +62,17 @@ This guide brings the **Mamba Mentality** to Salesforce Apex development — wit
 
 | Section               | Description                                                       |
 |------------------------|-------------------------------------------------------------------|
-| `apex/`               | Core Apex guide: Logger, ExceptionUtil, FlowExecutionLog, etc.    |
-| `marketing-cloud/`    | *(planned)* SFMC modular components, templates and content flows   |
-| `ai/`                 | *(coming soon)* Prompt design, GPT roles, RAG workflows            |
-| `agents/`             | *(planned)* Modular logic for intelligent multi-step AI agents    |
-| `integrations/`       | *(WIP)* Outbound and inbound Salesforce API patterns               |
+| `docs/apex/`               | Core Apex guide: Logger, ExceptionUtil, FlowExecutionLog, etc.    |
+| `docs/marketing-cloud/`    | *(planned)* SFMC modular components, templates and content flows   |
+| `docs/ai/`                 | *(coming soon)* Prompt design, GPT roles, RAG workflows            |
+| `docs/agents/`             | *(planned)* Modular logic for intelligent multi-step AI agents    |
+| `docs/integrations/`       | *(WIP)* Outbound and inbound Salesforce API patterns               |
 
 ---
 
 ## 🕯️ How to Use This Repo
 
-- Start with [`apex/index.md`](../apex/index.md) for the core Mamba patterns  
+- Start with [`docs/apex/`](docs/apex/) for the core Mamba patterns  
 - Use each guide as a reference, checklist, or review base  
 - All code is designed to be copied, adapted, and deployed with confidence  
 - Apply patterns progressively — or refactor boldly with public equivalence proof
