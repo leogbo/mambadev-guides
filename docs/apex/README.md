@@ -27,7 +27,7 @@ Each subfolder represents a specific domain of expertise — from architecture a
 
 - **Apex code must be modular, testable, and maintainable**
 - **Logging and error handling are not optional** – they are required by contract
-- **Functional equivalence must be proven** when refactoring ([see Feature Comparison](fundamentals/apex-feature-comparison.md))
+- **Functional equivalence must be proven** when refactoring ([see Feature Comparison](/docs/apex/fundamentals/apex-feature-comparison.md))
 - **Tests must validate logic**, not implementation quirks
 - **Each folder enforces a strategic pattern of excellence**
 
@@ -35,12 +35,12 @@ Each subfolder represents a specific domain of expertise — from architecture a
 
 ## 📚 Recommended Reading Order
 
-1. [✅ Apex Review Checklist](fundamentals/apex-review-checklist.md)  
-2. [🧱 Layered Architecture](fundamentals/layered-architecture.md)  
-3. [🛡️ ExceptionUtil](logging/exception-util.md)  
-4. [🪵 Logger Guide](logging/structured-logging.md)  
-5. [🧪 Testing Patterns](testing/testing-patterns.md)  
-6. [🔁 Feature Comparison](fundamentals/apex-feature-comparison.md)  
+1. [✅ Apex Review Checklist](/docs/apex/fundamentals/apex-review-checklist.md)  
+2. [🧱 Layered Architecture](/docs/apex/fundamentals/layered-architecture.md)  
+3. [🛡️ ExceptionUtil](/docs/apex/logging/exception-util.md)  
+4. [🪵 Logger Guide](/docs/apex/logging/structured-logging.md)  
+5. [🧪 Testing Patterns](/docs/apex/testing/testing-patterns.md)  
+6. [🔁 Feature Comparison](/docs/apex/fundamentals/apex-feature-comparison.md)  
 
 > MambaDev Apex isn’t about writing code.  
 > It’s about **building unbreakable systems.**
