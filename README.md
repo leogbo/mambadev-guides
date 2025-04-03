@@ -54,7 +54,27 @@ If you'd like to contribute, open an issue or propose a guide addition via PR.
 
 ## 📄 License
 
-This project is licensed under the [CC0-1.0 License](LICENSE) — share it, fork it, learn from it.
+MambaDev Documentation and Guides
+Copyright (c) 2025 Leo G. / MambaDev
+
+Licensed under the Creative Commons Attribution 4.0 International License.
+[![License: CC BY 4.0](https://img.shields.io/badge/license-CC%20BY%204.0-blue.svg)](https://creativecommons.org/licenses/by/4.0/)
+You are free to:
+
+- Share — copy and redistribute the material in any medium or format
+- Adapt — remix, transform, and build upon the material
+- For any purpose, even commercially
+
+Under the following terms:
+
+- Attribution — You must give appropriate credit, provide a link to the license,
+  and indicate if changes were made. You may do so in any reasonable manner,
+  but not in any way that suggests the licensor endorses you or your use.
+
+No additional restrictions — You may not apply legal terms or technological
+measures that legally restrict others from doing anything the license permits.
+
+See full legal text at: https://creativecommons.org/licenses/by/4.0/legalcode
 
 ---
 
