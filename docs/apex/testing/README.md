@@ -2,25 +2,61 @@
   <img src="https://raw.githubusercontent.com/leogbo/mambadev-guides/main/static/img/github_banner_mambadev.png" alt="MambaDev Banner" width="100%" />
 </p>
 
-# Testing Guide Folder
+# 🧪 Testing Module – MambaDev
 
-This folder contains guides focused on **unit testing patterns**, **test data management**, and **assertion discipline** within Apex development. These resources define the MambaDev standard for Apex test quality and repeatability.
+This folder contains guides focused on **unit testing patterns**, **test data management**, and **assertion discipline** within Apex development.
 
-## Included Guides
+These resources define the **MambaDev standard** for Apex test quality, repeatability, and long-term resilience.
 
-- [testing-patterns.md](https://mambadev.io/testing-patterns): Defines structure, philosophy, and best practices for Apex tests.
-- [apex-testing-guide.md](https://mambadev.io/apex-testing-guide): Explains how to create isolated, reusable and robust test data factories.
+---
 
-## Purpose
+## 📚 Included Guides
 
-This content ensures every developer:
-- Writes meaningful, stable, and efficient unit tests
-- Validates business logic independently from data
-- Leverages factory methods and utilities for long-term maintainability
+- [Testing Patterns](testing-patterns.md): Structure, philosophy, and anti-patterns to avoid  
+- [Apex Testing Guide](apex-testing-guide.md): Setup of reusable test data, factories, and assertive validations  
+- [TestDataSetup](test-data-setup.md): Central test data builder for mock environments  
+- [TestHelper.cls](../../src/classes/test-helper.cls): Utility for safe IDs, fake emails, CNPJs, and assert contracts
 
-> If it’s not testable, it’s not shippable.
+---
 
-See also:
-- [apex-review-checklist.md](https://mambadev.io/apex-review-checklist)
-- [sandbox-init-guide.md](../sandbox/sandbox-init-guide.md)
+## 🎯 Purpose
 
+This testing module ensures that every developer:
+
+- Writes **meaningful**, **stable**, and **efficient** unit tests  
+- Validates business logic independently from static data  
+- Leverages **factory methods** and utilities for maintainability  
+- Follows a predictable, modular test structure per domain class  
+- Covers edge cases with `@IsTest` + `@TestSetup` strategy
+
+> If it’s not testable, it’s not shippable.  
+> If it’s not asserted, it doesn’t work.
+
+---
+
+## 🔁 Related Docs
+
+- [Apex Review Checklist](../fundamentals/apex-review-checklist.md)  
+- [Sandbox Initialization Guide](../sandbox/sandbox-init-guide.md)  
+- [LoggerMock Utility](../logging/logger-mock.md)  
+- [FlowExecutionLog Logging Schema](../logging/flow-execution-log.md)  
+- [Exception Handling & Guards](../logging/exception-util.md)
+
+---
+
+📎 Testing is more than coverage — it’s architectural proof.  
+This module exists to raise the quality bar on every PR, every class, every change.
+
+**Ship tested. Ship Mamba.**
+```
+
+---
+
+## ✅ Final Result
+
+| Area                     | Result |
+|--------------------------|--------|
+| 🔗 Links                 | All internal, Docsify and GitHub-ready |
+| 📦 Docsify compatibility | ✅ Compliant with sidebar, alias, anchors |
+| 🧠 Structure             | Purposeful, modular, and practical |
+| 🧱 Mamba spirit          | 🔥 Strong, disciplined, documented |
