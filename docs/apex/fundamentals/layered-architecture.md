@@ -2,7 +2,12 @@
   <img src="https://raw.githubusercontent.com/leogbo/mambadev-guides/main/static/img/github_banner_mambadev.png" alt="MambaDev Banner" width="100%" />
 </p>
 
+> 🧱 @status:core | This document defines the official layering model for Apex services in MambaDev.  
+> All modules must comply to ensure testability, observability, and platform safety.
+
 # 🧱 Layered Architecture – MambaDev
+
+📎 [Shortlink: mambadev.io/layered-architecture](https://mambadev.io/layered-architecture)
 
 > A guide for organizing Apex code into **modular, scalable, testable layers**.  
 > Inspired by Domain-Driven Design and Clean Architecture — reinterpreted for Salesforce.
@@ -52,7 +57,7 @@ Examples:
 ### 🔹 2. Services → **Coordinate use cases**
 
 > Orchestrates operations. Owns transactions and logging.  
-> Uses ExceptionUtil and Logger, but avoids business logic.
+> Uses [`ExceptionUtil`](/src/classes/exception-util.cls) and [`Logger`](/src/classes/logger.cls), but avoids business logic.
 
 - Named for behavior (`LeadConversionService`, `BillingService`)
 - Central place to:
@@ -87,7 +92,7 @@ Guidelines:
 Examples:
 - `StringHelper`
 - `DateMath`
-- `ExceptionUtil`
+- [`ExceptionUtil`](/src/classes/exception-util.cls)
 - `ValidationRulesEngine`
 
 Never:
