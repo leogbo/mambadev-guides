@@ -28,7 +28,7 @@ Fundamentals exist to:
 - 🧱 [Apex Core Guide](mamba-apex-core-guide.md)  
 - 🧪 [Testing Guide](../testing/apex-testing-guide.md) • [Testing Patterns](../testing/testing-patterns.md)  
 - 🪵 [Logger Implementation](../logging/logger-implementation.md)  
-- 🔁 [Feature Comparison](../comparison/apex-feature-comparison.md) • [Equivalence Checklist](../comparison/equivalence-checklist.md)  
+- 🔁 [Feature Comparison](apex-feature-comparison.md) • [Equivalence Checklist](equivalence-checklist.md)  
 - 🧩 [Layered Architecture](layered-architecture.md) • [REST API Guide](../integrations/rest-api-guide.md) • [Style Guide](mamba-coding-style.md)
 
 ---
@@ -68,15 +68,3 @@ These documents apply Mamba fundamentals across technical implementation:
 > They are the **infrastructure of excellence** that lets us build without fear.
 
 **Honor the foundation. Evolve with discipline.**
-```
-
----
-
-## ✅ Results After Cleanup
-
-| Area                   | Result |
-|------------------------|--------|
-| External → Internal links | ✅ Converted |
-| Duplicate comparison content | ✅ Removed |
-| Broken relative links       | ✅ Fixed |
-| Docsify-optimized           | ✅ Sidebar + routing compliant |
