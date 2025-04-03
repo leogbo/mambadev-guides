@@ -1,4 +1,4 @@
-<!-- C:\Users\user\MyProjects\mambadev-guides\docs\_sidebar.md -->
+<!-- C:\Users\user\MyProjects\mambadev-guides\_sidebar.md -->
 # 📚 Navigation
 
 - 🧱 Apex
