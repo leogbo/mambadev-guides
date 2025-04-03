@@ -16,7 +16,7 @@ This folder contains all resources related to **structured logging**, **exceptio
 - [ExceptionUtil Helper](/docs/apex/logging/exception-util.md): Fail-fast guards and exception throw helpers  
 - [Config System Reference](/docs/apex/logging/config-system.md): Environment-based logging toggles and flags  
 - [LoggerMock](/docs/apex/logging/logger-mock.md): Mock logger class for unit tests  
-- [`LoggerQueueable.cls`](/src/classes/logger-queueable.cls): Async persistence job for offloading logs
+- [`LoggerQueueable.cls`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/logger-queueable.cls): Async persistence job for offloading logs
 
 ---
 

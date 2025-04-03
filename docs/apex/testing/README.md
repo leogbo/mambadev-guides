@@ -15,7 +15,7 @@ These resources define the **MambaDev standard** for Apex test quality, repeatab
 - [Testing Patterns](/docs/apex/testing/testing-patterns.md): Structure, philosophy, and anti-patterns to avoid  
 - [Apex Testing Guide](/docs/apex/testing/apex-testing-guide.md): Setup of reusable test data, factories, and assertive validations  
 - [TestDataSetup](/docs/apex/testing/test-data-setup.md): Central test data builder for mock environments  
-- [`TestHelper.cls`](/src/classes/test-helper.cls): Utility for safe IDs, fake emails, CNPJs, and assert contracts
+- [`TestHelper.cls`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/test-helper.cls): Utility for safe IDs, fake emails, CNPJs, and assert contracts
 
 ---
 
