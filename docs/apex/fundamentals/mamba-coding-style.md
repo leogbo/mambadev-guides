@@ -8,7 +8,7 @@
 
 # ✍️ MambaDev Apex Coding Style Guide – 2025
 
-📎 Official shortlink: [https://mambadev.io/coding-style](https://mambadev.io/coding-style)
+📎 [Shortlink](https://mambadev.io/coding-style)
 
 > **"Style isn’t vanity — it’s traceability under pressure."** – MambaDev
 
@@ -27,7 +27,7 @@ Every style rule supports **traceability**, **clarity**, and **scalability**.
 
 | Pillar        | Meaning                                                                 |
 |---------------|-------------------------------------------------------------------------|
-| **Traceable** | Logs must be persisted with context using [`Logger.cls`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/logger.cls)                     |
+| **Traceable** | Logs must be persisted with context using [`Logger.cls`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/logger.cls) |
 | **Testable**  | All logic is exposed via `@TestVisible` and covered with unit tests    |
 | **Concise**   | No unnecessary lines or bloated logic                                   |
 | **Defensive** | Null-checks, safe access, and fallback handling are always enforced     |
@@ -79,7 +79,7 @@ new Logger()
   .error('Failed to process payload', ex, JSON.serializePretty(input));
 ```
 
-Use [`LoggerMock`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/logger-mock.cls) in tests to capture logs without DML.
+In tests, use [`LoggerMock`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/logger-mock.cls) to capture logs without DML.
 
 ---
 
@@ -158,7 +158,7 @@ if (![SELECT IsSandbox FROM Organization LIMIT 1].IsSandbox) {
 
 | 🚫 Pattern                   | ✅ Fix                              |
 |-----------------------------|-------------------------------------|
-| `System.debug()`            | Use [`Logger`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/logger.cls)                        |
+| `System.debug()`            | Use [`Logger`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/logger.cls) |
 | `LIMIT 1` without `ORDER BY`| Always sort queries                 |
 | Unsafe map load             | Validate input before mass mapping  |
 | Nested/bloated methods      | Split into private `@TestVisible`   |
@@ -170,10 +170,10 @@ if (![SELECT IsSandbox FROM Organization LIMIT 1].IsSandbox) {
 
 > Every PR must respect all style rules below:
 
-- [ ] Header signature with `@since`, `@author`
+- [ ] Header signature with `@since`, `author`
 - [ ] All logic methods are `@TestVisible`
 - [ ] Logger is used (no `System.debug()`)
-- [ ] Test data uses `TestDataSetup`
+- [ ] Test data uses [`TestDataSetup`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/test-data-setup.cls)
 - [ ] Method length < 30 lines unless DTO
 - [ ] Each `assert` includes message
 - [ ] One test = one behavior
@@ -184,7 +184,7 @@ if (![SELECT IsSandbox FROM Organization LIMIT 1].IsSandbox) {
 
 ## 📄 Quick Reference
 
-→ See the condensed style sheet at [`style-reference.md`](/docs/apex/fundamentals/style-reference.md)
+→ See the condensed cheat sheet in [`style-reference.md`](/docs/apex/fundamentals/style-reference.md)
 
 ---
 
@@ -199,4 +199,3 @@ No guessing. No luck. Just precision.
 **MambaDev**  
 _"Consistency is discipline. And discipline builds elite code."_  
 **#MambaCodingStyle #StyleIsTraceability #NothingLessThanClean**
-
