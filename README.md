@@ -24,7 +24,7 @@ This repository exists to:
 - Share **modular**, **battle-tested**, and **auditable** implementation patterns  
 - Transform codebases into **scalable ecosystems** — and developers into **system thinkers**
 
-> ⚠️ All guides follow [Mamba Public Review Standards](docs/apex/fundamentals/README.md#apex-review-checklist) — no guesswork, only proof.
+> ⚠️ All guides follow the [Apex Review Checklist](docs/apex/fundamentals/apex-review-checklist.md) — no guesswork, only proof.
 
 ---
 
@@ -76,6 +76,22 @@ This guide brings the **Mamba Mentality** to Salesforce Apex development — wit
 - Use each guide as a reference, checklist, or review base  
 - All code is designed to be copied, adapted, and deployed with confidence  
 - Apply patterns progressively — or refactor boldly with public equivalence proof
+
+---
+
+## 📚 Navigation & Sidebar
+
+This documentation uses [Docsify](https://docsify.js.org/).  
+The full navigation structure is defined in [`docs/_sidebar.md`](docs/_sidebar.md)
+
+> The sidebar drives all left-hand navigation at [https://guides.mambadev.io](https://guides.mambadev.io)
+
+---
+
+## 📄 License
+
+This project is licensed under the [CC BY 4.0 License](LICENSE).  
+You are free to use, share, and adapt — with credit.
 
 ---
 
