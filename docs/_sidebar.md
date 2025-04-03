@@ -1,3 +1,4 @@
+<!-- sidebar -->
 # 📚 Navigation
 
 - 🧠 [Table of Contents](/apex/TOC.md)
