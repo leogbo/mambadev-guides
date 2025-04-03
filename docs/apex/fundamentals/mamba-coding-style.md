@@ -42,9 +42,10 @@ Every Apex class must include authorship and origin:
 
 ```apex
 /**
+ * @name: class name or file name
  * @description: ['describe document purpose and main related topics'] 
  * @lastModified 2025-04-01 (current date)
- * @author ['MambaDev' is public] [`Previous Name` if private]
+ * @author ['MambaDev' if public review] [`Previous Author Name` if private content]
  */
 ```
 
