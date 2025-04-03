@@ -15,11 +15,11 @@ Each subfolder represents a specific domain of expertise — from architecture a
 
 | Folder            | Purpose                                                                 |
 |-------------------|-------------------------------------------------------------------------|
-| [`fundamentals/`](fundamentals/) | Core architectural rules, naming conventions, equivalence checklists, and review structure |
-| [`integrations/`](integrations/) | API integration patterns, including REST, callouts, tokens, and webhooks |
-| [`logging/`](logging/)           | Structured logging stack, Logger class, and persistent logs              |
-| [`sandbox/`](sandbox/)           | Post-refresh automation and org initialization                           |
-| [`testing/`](testing/)           | Unit test architecture, factories, mocks, and validation patterns        |
+| [`fundamentals/`](/docs/apex/fundamentals/) | Core architectural rules, naming conventions, equivalence checklists, and review structure |
+| [`integrations/`](/docs/apex/integrations/) | API integration patterns, including REST, callouts, tokens, and webhooks |
+| [`logging/`](/docs/apex/logging/)           | Structured logging stack, Logger class, and persistent logs              |
+| [`sandbox/`](/docs/apex/sandbox/)           | Post-refresh automation and org initialization                           |
+| [`testing/`](/docs/apex/testing/)           | Unit test architecture, factories, mocks, and validation patterns        |
 
 ---
 
