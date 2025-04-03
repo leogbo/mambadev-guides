@@ -82,6 +82,11 @@ public class Logger {
         return this;
     }
 
+    public Logger setUser(Id userId) {
+        this.userId = userId;
+        return this;
+    }    
+
     public void info(String message) {
         info(message, null);
     }
