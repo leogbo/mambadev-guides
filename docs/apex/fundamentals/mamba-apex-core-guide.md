@@ -28,7 +28,7 @@ If it's not auditable, it's not acceptable.
 | Principle                | In Practice                                                                  |
 |--------------------------|-------------------------------------------------------------------------------|
 | SRP – Single Responsibility | Every method does one thing well and is isolated for testing            |
-| Traceability             | [`Logger`](/scr/classes/logger.cls), `@TestVisible`, [`FlowExecutionLog__c`](/docs/apex/logging/flow-execution-log.md) for all logic layers         |
+| Traceability             | [`Logger`](/src/classes/logger.cls), `@TestVisible`, [`FlowExecutionLog__c`](/docs/apex/logging/flow-execution-log.md) for all logic layers         |
 | Testability              | Logic receives primitive values and can be tested without external calls     |
 | Defensive by default     | Validate all inputs: nulls, lists, enums, fallback logic required            |
 | Modular structure        | Methods stay under ~30 lines, delegate clearly, and never nest excessively   |
@@ -36,7 +36,7 @@ If it's not auditable, it's not acceptable.
 ---
 
 ## 🏗️ Standard Class Setup
-[`EnvironmentUtils`](/scr/classes/environment-utils.cls)
+[`EnvironmentUtils`](/src/classes/environment-utils.cls)
 
 ```apex
 @TestVisible public static String  environment     = EnvironmentUtils.getRaw() != null ? EnvironmentUtils.getRaw() : 'sandbox';
@@ -52,7 +52,7 @@ private static final String triggerType = 'Service | Queueable | Trigger';
 
 ## 🪵 Logging (Standard)
 
-Use the [`Logger`](/scr/classes/logger.cls)  class:
+Use the [`Logger`](/src/classes/logger.cls)  class:
 
 ```apex
 new Logger()
@@ -61,12 +61,12 @@ new Logger()
   .error('Unexpected exception', ex, JSON.serializePretty(input));
 ```
 
-In tests, use [`LoggerMock`](/scr/classes/logger-mock.cls).
+In tests, use [`LoggerMock`](/src/classes/logger-mock.cls).
 
 ---
 
 ## 🌐 REST Responses
-[`RestServiceHelper`](/scr/classes/rest-service-helper.cls)
+[`RestServiceHelper`](/src/classes/rest-service-helper.cls)
 
 ```apex
 RestServiceHelper.badRequest('Missing required parameter');
@@ -78,9 +78,9 @@ RestServiceHelper.sendResponse(200, 'Success', returnData);
 ## 🧪 Testing Expectations
 
 - `@TestVisible` for all logic  
-- Setup via [`TestDataSetup.setupCompleteEnvironment()`](/scr/classes/test-data-setup.cls)  
+- Setup via [`TestDataSetup.setupCompleteEnvironment()`](/src/classes/test-data-setup.cls)  
 - Each test must cover one case, with expressive `System.assertEquals(...)`  
-- Use [`LoggerMock`](/scr/classes/logger-mock.cls), not real logging  
+- Use [`LoggerMock`](/src/classes/logger-mock.cls), not real logging  
 - Validate fallbacks, errors, async paths
 
 ---
@@ -120,9 +120,9 @@ System.assertEquals(
 
 | ❌ Wrong                   | ✅ Correct                          |
 |---------------------------|-------------------------------------|
-| `System.debug()`          | Use [`Logger`](/scr/classes/logger.cls)                        |
-| `testData.get(...)`       | Use [`TestDataSetup`](/scr/classes/test-data-setup.cls)                 |
-| `SELECT ... LIMIT 1`      | Use [`RecordHelper.getById(...)`](/scr/classes/rest-service-helper.cls)     |
+| `System.debug()`          | Use [`Logger`](/src/classes/logger.cls)                        |
+| `testData.get(...)`       | Use [`TestDataSetup`](/src/classes/test-data-setup.cls)                 |
+| `SELECT ... LIMIT 1`      | Use [`RecordHelper.getById(...)`](/src/classes/rest-service-helper.cls)     |
 | Multiple `if/try/catch`   | Extract into named, testable methods|
 
 ---
