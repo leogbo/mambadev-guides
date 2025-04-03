@@ -36,7 +36,7 @@ If it's not auditable, it's not acceptable.
 ---
 
 ## 🏗️ Standard Class Setup
-[`Environment Utils`](/scr/classes/environment-utils.cls)
+[`EnvironmentUtils`](/scr/classes/environment-utils.cls)
 
 ```apex
 @TestVisible public static String  environment     = EnvironmentUtils.getRaw() != null ? EnvironmentUtils.getRaw() : 'sandbox';
@@ -61,7 +61,7 @@ new Logger()
   .error('Unexpected exception', ex, JSON.serializePretty(input));
 ```
 
-In tests, use [`Logger Mock`](/scr/classes/logger-mock.cls).
+In tests, use [`LoggerMock`](/scr/classes/logger-mock.cls).
 
 ---
 
