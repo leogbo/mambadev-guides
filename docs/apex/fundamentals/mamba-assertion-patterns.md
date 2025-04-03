@@ -2,7 +2,12 @@
   <img src="https://raw.githubusercontent.com/leogbo/mambadev-guides/main/static/img/github_banner_mambadev.png" alt="MambaDev Banner" width="100%" />
 </p>
 
+> 🧱 @status:core | This document defines the official assertion rules for Apex testing in MambaDev.  
+> All unit tests must follow these patterns to ensure traceability, clarity, and failure context.
+
 # ✅ Mamba Apex – Assertion Patterns
+
+📎 [Assertion Guide](/docs/apex/fundamentals/mamba-assertion-patterns.md)
 
 > All assertions must express **intent**, reveal **expectation**, and provide **traceable failure context**.
 
@@ -55,9 +60,10 @@ System.assert(
 
 ## 📎 See Also
 
-- [Mamba Testing Guide](https://mambadev.io/3YgDDdx)
-- [ExceptionUtil for validations](https://mambadev.io/3QWe8dH)
-- [LoggerMock for log assertions](https://mambadev.io/41WCcDA)
+- [Mamba Testing Guide](/docs/apex/testing/apex-testing-guide.md)  
+- [ExceptionUtil for validations](/src/classes/exception-util.cls)  
+- [LoggerMock for log assertions](/src/classes/logger-mock.cls)  
+- [TestHelper.assertSetupCreated()](/src/classes/test-helper.cls)
 
 ---
 
