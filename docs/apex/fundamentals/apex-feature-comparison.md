@@ -4,7 +4,7 @@
 
 # 🔁 Apex Feature Comparison Guide – v2025 (Mamba Mentality)
 
-📎 **Official Shortlink:** (add mambadev link)
+📎 **Official Shortlink:** [https://mambadev.io/apex-feature-comparison](https://mambadev.io/apex-feature-comparison)
 
 > “No refactor is legit without explicit comparison, formal review, and proven equivalence.” – Mamba Mentality 🧠🔥
 
@@ -14,10 +14,10 @@ This guide defines how to document, review, and validate Apex refactors with saf
 
 ## 📚 Required Related Guides
 
-- 📘 [Master Architecture Guide](add internal link)
-- 🔍 [Review Guide](add internal link)  
-- 🧪 [Testing Guide](add internal link)
-- ✅ [Functional Equivalence Checklist](add internal link)
+- 📘 [Master Architecture Guide](/docs/apex/fundamentals/mamba-apex-core-guide.md)  
+- 🔍 [Review Checklist](/docs/apex/fundamentals/apex-review-checklist.md)  
+- 🧪 [Testing Guide](/docs/apex/testing/apex-testing-guide.md)  
+- ✅ [Functional Equivalence Checklist](/docs/apex/fundamentals/equivalence-checklist.md)
 
 ---
 
@@ -35,11 +35,10 @@ Whenever possible:
 🚨 Mandatory comparison scenarios:
 
 - Changes in `public` or `@TestVisible` methods  
-- `SELECT` replaced by [`RecordHelper`](add internal link to cls), `SOQLBuilder`, or DAO  
+- `SELECT` replaced by [`RecordHelper.getById(...)`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/rest-service-helper.cls)  
 - Fallback logic updated (`null` → `Optional`, etc.)  
-- Logger refactors (`System.debug()` → `Logger.error()`)  
-- Variable renaming that affects interfaces or tests  
-- Exception handling switched to [`ExceptionUtil`](add internal link to cls)
+- Logger refactors (`System.debug()` → [`Logger.error(...)`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/logger.cls))  
+- Exception handling switched to [`ExceptionUtil`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/exception-util.cls)
 
 ---
 
@@ -82,11 +81,11 @@ Account acc = (Account) RecordHelper.getById(Account.SObjectType, id, 'Id');
 ```
 
 ### 🧪 Tests
-- Updated test coverage via `TestDataSetup`
+- Updated test coverage via [`TestDataSetup`](/src/classes/test-data-setup.cls)
 - Added test for null id fallback
 
 ### 🔒 Functional Equivalence Confirmed
-✔️ Validated via [mambadev.io/4jjcWx9](https://mambadev.io/4jjcWx9)
+✔️ Validated via [Equivalence Checklist](/docs/apex/fundamentals/equivalence-checklist.md)
 ```
 
 ---
@@ -111,20 +110,20 @@ Account acc = (Account) RecordHelper.getById(Account.SObjectType, id, 'Id');
 - Use Split View in VS Code or GitHub PR  
 - Compare logs when modifying exception handlers or `Logger` usage  
 - Group code by block type during review:
-  - 🔍 Queries (`SELECT`)
-  - 🧠 Business rules
-  - 🧪 Logger usage
+  - 🔍 Queries (`SELECT`)  
+  - 🧠 Business rules  
+  - 🪵 Logger usage  
   - 🧱 Exception handling
 
 ---
 
 ## 🔗 Useful Integrations
 
-| Guide                                         | Contribution                                  |
-|----------------------------------------------|-----------------------------------------------|
-| [Logger Guide](https://mambadev.io/41WCcDA)   | When replacing `System.debug()`               |
-| [Testing Guide](https://mambadev.io/3YgDDdx)  | When confirming equivalence via test          |
-| [REST API Guide](https://mambadev.io/428yTrz) | When changing public endpoints or handlers    |
+| Guide                                              | Purpose                                      |
+|---------------------------------------------------|----------------------------------------------|
+| [Logger Guide](/docs/apex/logging/logger-implementation.md) | When replacing `System.debug()`              |
+| [Testing Guide](/docs/apex/testing/apex-testing-guide.md)   | When confirming behavior equivalence          |
+| [REST API Guide](/docs/apex/integrations/rest-api-guide.md) | When changing public endpoints or contracts   |
 
 ---
 
