@@ -17,7 +17,7 @@
 ## 🎯 Purpose
 
 This guide enforces consistent, testable, and maintainable Apex syntax and structure across all projects.  
-It complements the [Core Architecture Guide](https://mambadev.io/42iHzvK) and the [Review Checklist](https://mambadev.io/3FScojm).
+It complements the [Core Architecture Guide](/docs/apex/fundamentals/mamba-apex-core-guide.md) and the [Review Checklist](/docs/apex/fundamentals/apex-review-checklist.md).
 
 Every style rule supports **traceability**, **clarity**, and **scalability**.
 
@@ -27,7 +27,7 @@ Every style rule supports **traceability**, **clarity**, and **scalability**.
 
 | Pillar        | Meaning                                                                 |
 |---------------|-------------------------------------------------------------------------|
-| **Traceable** | Logs must be persisted with context using `Logger`                     |
+| **Traceable** | Logs must be persisted with context using [`Logger.cls`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/logger.cls)                     |
 | **Testable**  | All logic is exposed via `@TestVisible` and covered with unit tests    |
 | **Concise**   | No unnecessary lines or bloated logic                                   |
 | **Defensive** | Null-checks, safe access, and fallback handling are always enforced     |
@@ -63,7 +63,7 @@ Every class must declare traceability metadata:
 
 ## 🪵 Logging Example (Fluent)
 
-All logs must use the `Logger` class (never `System.debug()`):
+All logs must use the [`Logger`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/logger.cls) class (never `System.debug()`):
 
 ```apex
 new Logger()
@@ -79,7 +79,7 @@ new Logger()
   .error('Failed to process payload', ex, JSON.serializePretty(input));
 ```
 
-Use `LoggerMock` in tests to capture logs without DML.
+Use [`LoggerMock`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/logger-mock.cls) in tests to capture logs without DML.
 
 ---
 
@@ -158,7 +158,7 @@ if (![SELECT IsSandbox FROM Organization LIMIT 1].IsSandbox) {
 
 | 🚫 Pattern                   | ✅ Fix                              |
 |-----------------------------|-------------------------------------|
-| `System.debug()`            | Use `Logger`                        |
+| `System.debug()`            | Use [`Logger`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/logger.cls)                        |
 | `LIMIT 1` without `ORDER BY`| Always sort queries                 |
 | Unsafe map load             | Validate input before mass mapping  |
 | Nested/bloated methods      | Split into private `@TestVisible`   |
@@ -182,6 +182,12 @@ if (![SELECT IsSandbox FROM Organization LIMIT 1].IsSandbox) {
 
 ---
 
+## 📄 Quick Reference
+
+→ See the condensed style sheet at [`style-reference.md`](/docs/apex/fundamentals/style-reference.md)
+
+---
+
 ## 🚀 Ready to Merge
 
 If everything checks out, the code is ready.  
@@ -193,3 +199,4 @@ No guessing. No luck. Just precision.
 **MambaDev**  
 _"Consistency is discipline. And discipline builds elite code."_  
 **#MambaCodingStyle #StyleIsTraceability #NothingLessThanClean**
+

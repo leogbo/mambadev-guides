@@ -4,7 +4,7 @@
 
 # 🔁 Apex Feature Comparison Guide – v2025 (Mamba Mentality)
 
-📎 **Official Shortlink:** [mambadev.io/41XGoTz](https://mambadev.io/41XGoTz)
+📎 **Official Shortlink:** (add mambadev link)
 
 > “No refactor is legit without explicit comparison, formal review, and proven equivalence.” – Mamba Mentality 🧠🔥
 
@@ -14,10 +14,10 @@ This guide defines how to document, review, and validate Apex refactors with saf
 
 ## 📚 Required Related Guides
 
-- 📘 [Master Architecture Guide](https://mambadev.io/42iHzvK)  
-- 🔍 [Review Guide](https://mambadev.io/3FScojm)  
-- 🧪 [Testing Guide](https://mambadev.io/3YgDDdx)  
-- ✅ [Functional Equivalence Checklist](https://mambadev.io/4jjcWx9)
+- 📘 [Master Architecture Guide](add internal link)
+- 🔍 [Review Guide](add internal link)  
+- 🧪 [Testing Guide](add internal link)
+- ✅ [Functional Equivalence Checklist](add internal link)
 
 ---
 
@@ -35,11 +35,11 @@ Whenever possible:
 🚨 Mandatory comparison scenarios:
 
 - Changes in `public` or `@TestVisible` methods  
-- `SELECT` replaced by `RecordHelper`, `SOQLBuilder`, or DAO  
+- `SELECT` replaced by [`RecordHelper`](add internal link to cls), `SOQLBuilder`, or DAO  
 - Fallback logic updated (`null` → `Optional`, etc.)  
 - Logger refactors (`System.debug()` → `Logger.error()`)  
 - Variable renaming that affects interfaces or tests  
-- Exception handling switched to `ExceptionUtil`
+- Exception handling switched to [`ExceptionUtil`](add internal link to cls)
 
 ---
 
