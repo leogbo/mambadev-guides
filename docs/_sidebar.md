@@ -45,3 +45,30 @@
     - [RecordHelper](/apex/examples/classes/record-helper.cls)
     - [RestServiceHelper](/apex/examples/classes/rest-service-helper.cls)
     - [TestHelper](/apex/examples/classes/test-helper.cls)
+
+
+
+
+- 🧱 Fundamentals
+  - [Coding Style](/apex/fundamentals/mambadev-coding-style.md)
+  - [Style Guide](/apex/fundamentals/apex-style-guide.md)
+  - [Architecture](/apex/fundamentals/architecture-principles.md)
+  - [Review Checklist](/apex/fundamentals/apex-review-checklist.md)
+
+- 🧪 Testing & Validation
+  - [Apex Testing Guide](/apex/testing/apex-testing-guide.md)
+  - [Validation Patterns](/apex/testing/validation-patterns.md)
+  - [Testing Patterns](/apex/testing/testing-patterns.md)
+  - [Test Helper](/apex/testing/test-helper.md)
+
+- 🔁 Logging & Error Handling
+  - [Structured Logging](/apex/logging/structured-logging.md)
+  - [LoggerMock](/apex/logging/logger-mock.md)
+  - [FlowExecutionLog](/apex/logging/flow-execution-log.md)
+  - [Exception Handling](/apex/core/exception-handling.md)
+
+- 🧬 Class Reference
+  - [`Logger.cls`](/apex/examples/classes/logger.cls)
+  - [`LoggerMock.cls`](/apex/examples/classes/logger-mock.cls)
+  - [`RestServiceHelper.cls`](/apex/examples/classes/rest-service-helper.cls)
+  - [`TestHelper.cls`](/apex/examples/classes/test-helper.cls)
