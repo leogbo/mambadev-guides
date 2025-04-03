@@ -74,8 +74,8 @@ Examples:
 - `QuoteApprovalStrategy`
 
 Guidelines:
-- No DML
-- No Logger
+- No DML  
+- No Logger  
 - No platform dependencies
 
 ---
@@ -91,8 +91,8 @@ Examples:
 - `ValidationRulesEngine`
 
 Never:
-- Contain business logic
-- Perform DML
+- Contain business logic  
+- Perform DML  
 - Know about domains
 
 ---
@@ -128,12 +128,12 @@ public class LeadController {
 
 ## ⚠️ Anti-Patterns to Avoid
 
-| Pattern                              | Why it breaks architecture                                         |
-|--------------------------------------|--------------------------------------------------------------------|
-| Logic in Triggers or Flow Actions   | Hard to test, reuse or debug                                       |
-| Services mixing logic and DML       | Violates separation of concerns                                    |
-| Helpers doing DML or logging        | Breaks purity — helpers must be infrastructure-free                |
-| Logger in domain rules              | Domain logic must not depend on side-effects or platform concerns  |
+| Pattern                            | Why it breaks architecture                                         |
+|------------------------------------|--------------------------------------------------------------------|
+| Logic in Triggers or Flow Actions | Hard to test, reuse or debug                                       |
+| Services mixing logic and DML     | Violates separation of concerns                                    |
+| Helpers doing DML or logging      | Breaks purity — helpers must be infrastructure-free                |
+| Logger in domain rules            | Domain logic must not depend on side-effects or platform concerns  |
 
 ---
 
@@ -151,23 +151,18 @@ public class LeadController {
 
 ## 📚 Related Guides
 
-- [Structured Logging](./structured-logging.md)  
-  How logs propagate cleanly from service layer.
-
-- [Validation Patterns](./validation-patterns.md)  
-  Declarative guard logic lives in the service layer.
-
-- [Testing Patterns](./testing-patterns.md)  
-  Isolate and test each layer with confidence.
+- [Structured Logging](/docs/apex/logging/structured-logging.md)  
+- [Validation Patterns](/docs/apex/testing/validation-patterns.md)  
+- [Testing Patterns](/docs/apex/testing/testing-patterns.md)
 
 ---
 
 ## 📎 Aligned Fundamentals
 
-- [`MambaDev Coding Style`](../fundamentals/mambadev-coding-style.md)  
-- [`Apex Style Guide`](../fundamentals/apex-style-guide.md)  
-- [`Architecture Principles`](../fundamentals/architecture-principles.md)  
-- [`Review Checklist`](../fundamentals/apex-review-checklist.md)
+- [MambaDev Coding Style](/docs/apex/fundamentals/mamba-coding-style.md)  
+- [Apex Style Guide](/docs/apex/fundamentals/apex-style-guide.md)  
+- [Architecture Principles](/docs/apex/fundamentals/architecture-principles.md)  
+- [Review Checklist](/docs/apex/fundamentals/apex-review-checklist.md)
 
 ---
 
