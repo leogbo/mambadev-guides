@@ -2,7 +2,9 @@
   <img src="https://raw.githubusercontent.com/leogbo/mambadev-guides/main/static/img/github_banner_mambadev.png" alt="MambaDev Banner" width="100%" />
 </p>
 
-# ConfigSystem__c – Environment Configuration Object
+> 🧱 @status:core | This document defines the structure and behavioral contract of `ConfigSystem__c`, used to manage logging, mocking, test flags, and org-level configuration.
+
+# 🛠️ ConfigSystem__c – Environment Configuration Object
 
 ```apex
 /**
@@ -28,50 +30,54 @@
 
 ## 🎯 Purpose
 
-`ConfigSystem__c` is the **central system configuration layer** for MambaDev architecture.  
-It abstracts critical flags and environment states into a single, queryable Custom Setting — providing the backbone for:
+`ConfigSystem__c` is the **core environment switchboard** for MambaDev architecture.  
+It exposes flags that govern how Apex behaves per org context — including:
 
-- ✅ Dynamic behavior in different orgs (prod/sandbox/scratch)
-- ✅ Toggle-based activation of logs, mocks, and test modes
-- ✅ Unified source for timeouts and debug limits
-- ✅ Performance and operational control at runtime
+- ✅ Production vs sandbox vs scratch logic  
+- ✅ Mock injection in testable layers  
+- ✅ Logging toggles and debug length control  
+- ✅ Flow enablement and bypass options  
+- ✅ Timeout tuning and trace control  
+
+This setting is consumed by [`EnvironmentUtils.cls`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/environment-utils.cls) and accessed via cached read methods.
 
 ---
 
 ## 🧱 Field Reference
 
-| Field API Name            | Label                 | Type      | Description                                                                 |
-|--------------------------|-----------------------|-----------|-----------------------------------------------------------------------------|
-| `Environment__c`         | Environment           | Text      | Logical environment: `production`, `sandbox`, `scratch`, etc.              |
-| `Log_Level__c`           | Log Level             | Text      | Logging level: `info`, `warn`, `error`                                     |
-| `Is_Log_Enabled__c`      | Log Enabled           | Checkbox  | Enables or disables logging globally                                       |
-| `Is_Mock_Enabled__c`     | Mock Mode             | Checkbox  | Activates mocks for testing/integration                                    |
-| `Is_Test_Mode__c`        | Test Mode             | Checkbox  | Declares whether test-specific flows and data should execute               |
-| `Callout_Timeout__c`     | Timeout (Seconds)     | Decimal   | Timeout value in seconds for HTTP callouts                                 |
-| `Max_Debug_Length__c`    | Max Debug Length      | Decimal   | Character length for truncating long debug messages                        |
-| `Disable_Flows__c`       | Disable Flows         | Checkbox  | When true, skips non-critical Flow logic (performance bypass)              |
-
-> Note: Fields may be aliased from legacy names (e.g., `Ambiente__c` → `Environment__c`) for clarity.
+| Field API Name           | Label                | Type     | Description |
+|---------------------------|----------------------|----------|-------------|
+| `Environment__c`         | Environment          | Text     | `production`, `sandbox`, `scratch`, etc. |
+| `Log_Level__c`           | Log Level            | Text     | `info`, `warn`, `error` |
+| `Is_Log_Enabled__c`      | Log Enabled          | Checkbox | Toggles platform logging globally |
+| `Is_Mock_Enabled__c`     | Mock Mode            | Checkbox | Enables `LoggerMock`, fake callouts, stubs |
+| `Is_Test_Mode__c`        | Test Mode            | Checkbox | Flag for asserting test-specific flow behavior |
+| `Callout_Timeout__c`     | Timeout (Seconds)    | Decimal  | Default HTTP timeout duration |
+| `Max_Debug_Length__c`    | Max Debug Length     | Decimal  | Truncates long logs (if needed) |
+| `Disable_Flows__c`       | Disable Flows        | Checkbox | Short-circuits non-critical flow executions |
 
 ---
 
 ## 🔍 Usage Patterns
 
-### ✅ Org-Aware Logic
+### ✅ Org-Aware Execution
+
 ```apex
 if (EnvironmentUtils.isProduction()) {
-    // Run critical workflows or integrations
+    callExternalBillingService();
 }
 ```
 
-### ✅ Mock Behavior Toggle
+### ✅ Mock Toggle Behavior
+
 ```apex
 if (EnvironmentUtils.isMockEnabled()) {
-    response = MockHelper.getFakeResponse();
+    return MockService.getFakeResponse();
 }
 ```
 
-### ✅ Dynamic Timeout
+### ✅ Timeout Configuration
+
 ```apex
 HttpRequest req = new HttpRequest();
 req.setTimeout(EnvironmentUtils.getTimeoutCallout() * 1000);
@@ -79,33 +85,59 @@ req.setTimeout(EnvironmentUtils.getTimeoutCallout() * 1000);
 
 ---
 
-## 🧠 Best Practices
+## ⚠️ Best Practices
 
-- Use **one record** per org (Org-Wide default custom setting)
-- Enforce read access to ensure Apex classes function in all contexts
-- **Never hardcode** environment-specific logic — rely on these fields
-- Apply updates only via `EnvironmentUtils.update*()` methods to persist and refresh cache
-- Ensure integration and Flow logic checks `isTestMode()` or `isMockEnabled()` when applicable
+- ✅ Use one **org-wide default** record only (custom setting)  
+- ✅ Never hardcode environments — always use `EnvironmentUtils`  
+- ✅ Use `EnvironmentUtils.updateX()` in test setup to mutate values safely  
+- ✅ Validate required config fields exist in post-refresh scripts  
+- ✅ Don’t bypass test logic — respect `isTestMode()` checks
 
 ---
 
 ## ⚙️ Related Classes
 
-- [`EnvironmentUtils`](examples/classes/environment-utils.cls) – Apex class that interfaces with this object
-- [`Logger`](./structured-logging.md) – Structured log writer that respects environment log toggles
-- [`FlowExecutionLog__c`](./flowexecutionlog.md) – Diagnostic runtime trace that complements this config
+- [`EnvironmentUtils.cls`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/environment-utils.cls) – Accesses, caches, and exposes `ConfigSystem__c` fields  
+- [`Logger.cls`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/logger.cls) – Honors log level and log enablement  
+- [Structured Logging](/docs/apex/logging/structured-logging.md) – Applies `Log_Level__c` dynamically  
+- [FlowExecutionLog__c](/docs/apex/logging/flow-execution-log.md) – Stores logs from systems governed by this config
+
+---
+
+## 🧪 In Test Classes
+
+You can override config using:
+
+```apex
+EnvironmentUtils.updateEnvironment('sandbox');
+EnvironmentUtils.updateLogAtivo(true);
+EnvironmentUtils.updateHabilitaMock(true);
+EnvironmentUtils.updateDesativarFlows(false);
+```
+
+Make sure your test data includes:
+
+- A `ConfigSystem__c` record in `@TestSetup`  
+- Matching assertions in tests (e.g., mock enabled)
+
+---
+
+## 📚 Related Guides
+
+- [Logger Implementation](/docs/apex/logging/logger-implementation.md)  
+- [Test Data Setup](/docs/apex/testing/test-data-setup.md)  
+- [Review Checklist](/docs/apex/fundamentals/apex-review-checklist.md)
 
 ---
 
 ## 📎 Aligned Fundamentals
 
-- [`MambaDev Coding Style`](../fundamentals/mambadev-coding-style.md)  
-- [`Apex Style Guide`](../fundamentals/apex-style-guide.md)  
-- [`Architecture Principles`](../fundamentals/architecture-principles.md)  
-- [`Review Checklist`](../fundamentals/apex-review-checklist.md)  
+- [MambaDev Coding Style](/docs/apex/fundamentals/mamba-coding-style.md)  
+- [Apex Core Guide](/docs/apex/fundamentals/mamba-apex-core-guide.md)  
+- [Architecture Principles](/docs/apex/fundamentals/architecture-principles.md)
 
 ---
 
 > "Environment behavior is a contract. In MambaDev, the contract is explicit, versioned, and observed."
 
-© MambaDev — The Elite Developer Squad
+**#EnvironmentDriven #NoHardcodedOrgs #TraceabilityStartsWithConfig**
