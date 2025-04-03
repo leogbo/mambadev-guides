@@ -2,51 +2,58 @@
   <img src="https://raw.githubusercontent.com/leogbo/mambadev-guides/main/static/img/github_banner_mambadev.png" alt="MambaDev Banner" width="100%" />
 </p>
 
-# Exception Handling – MambaDev Pattern
+> 🧱 @status:core | This guide defines the official MambaDev strategy for semantic exception handling with full logging and traceability.
 
-> This guide defines the **official MambaDev strategy** for handling exceptions in Apex.  
-> It focuses on **semantic clarity**, **structured logging**, and **testable outcomes**.
+# 🚨 Exception Handling – MambaDev Pattern
+
+📎 [Shortlink: mambadev.io/exception-handling](https://mambadev.io/exception-handling)
+
+> We don’t just catch errors.  
+> **We reveal truth. With structure.** 🧱🔥
 
 ---
 
 ## 🎯 Purpose
 
-In Apex, exceptions are **not control flow tools**.  
-They represent **clear categories of failure** and must trigger **explicit consequences**:  
-logging, user feedback, or controlled halting.
+In MambaDev, exceptions are **contracts** — not just errors.  
+They exist to:
+
+- ✅ Signal invalid state  
+- ✅ Halt untrusted execution  
+- ✅ Expose system configuration failures  
+- ✅ Route diagnostics via logging  
+- ✅ Enforce testable, traceable logic
 
 ---
 
 ## 🧱 Custom Exception Types
 
-All exceptions must extend from `CustomException` — a virtual base for consistent semantic hierarchy.
+All thrown exceptions must extend [`CustomException.cls`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/custom-exception.cls).
 
-### ✅ Standard MambaDev Exceptions
+### ✅ Mamba-Standard Exception Classes
 
-| Class                         | Description                                                 |
-|------------------------------|-------------------------------------------------------------|
-| `CustomException`            | Abstract base for all custom exceptions                    |
-| `AppValidationException`     | Input validation or business rule violation                |
-| `AppIntegrationException`    | System or external callout failure                         |
-| `AppAuthenticationException` | Token or authorization error                               |
-| `AppConfigurationException`  | Missing or invalid configuration                           |
+| Class | Purpose |
+|-------|---------|
+| [`CustomException`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/custom-exception.cls) | Abstract base for all semantic errors |
+| [`AppValidationException`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/app-validation-exception.cls) | Business rule or input validation failure |
+| [`AppIntegrationException`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/app-integration-exception.cls) | External service or API failure |
+| [`AppAuthenticationException`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/app-authentication-exception.cls) | Token or credential invalidity |
+| [`AppConfigurationException`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/app-configuration-exception.cls) | Missing or invalid system setup |
 
-> 🔄 These exceptions are lightweight, expressive, and fully traceable.
+> 🧠 These classes enforce clarity, hierarchy, and recovery rules.
 
 ---
 
-## 🧠 Throwing Semantic Exceptions
-
-### 🔴 **Don’t:**
+## ❌ Bad Exception Usage
 
 ```apex
 throw new Exception('Name is required');
 ```
 
-### ✅ **Do:**
+✅ Preferred:
 
 ```apex
-throw new AppValidationException('Account Name is required.');
+throw new AppValidationException('Name is required');
 ```
 
 ---
@@ -56,77 +63,102 @@ throw new AppValidationException('Account Name is required.');
 ```apex
 try {
     new AccountService().execute(input);
-} 
-catch (AppValidationException ve) {
+
+} catch (AppValidationException ve) {
     new Logger()
         .setClass('AccountService')
         .setMethod('execute')
         .setCategory('Validation')
-        .warn('Validation failed: ' + ve.getMessage(), JSON.serializePretty(input));
-}
-catch (AppIntegrationException ie) {
+        .warn(ve.getMessage(), JSON.serializePretty(input));
+
+} catch (AppIntegrationException ie) {
     new Logger()
         .setClass('AccountService')
-        .error('Integration error occurred', ie, JSON.serializePretty(input));
-}
-catch (Exception ex) {
+        .setMethod('execute')
+        .setCategory('Callout')
+        .error('Integration failure', ie, JSON.serializePretty(input));
+
+} catch (Exception ex) {
     new Logger()
         .setClass('AccountService')
+        .setMethod('execute')
+        .setCategory('System')
         .error('Unexpected error', ex, null);
 }
 ```
 
-> ⚠️ Always log with full context and class/method metadata.
+✅ Always include:
+
+- `.setClass()`  
+- `.setMethod()`  
+- `.setCategory()`  
+- Full exception + optional payload serialization
+
+---
+
+## 📄 Flow Execution Chain
+
+```plaintext
+Trigger / Flow / REST Controller
+         ↓
+     Service Layer
+         ↓
+ AppValidationException / AppIntegrationException
+         ↓
+Logger + FlowExecutionLog__c
+         ↓
+Dashboards / Audit / Alerting
+```
+
+---
+
+## 🧪 Test for Thrown Exception
+
+```apex
+@IsTest
+static void test_should_throw_validation_exception() {
+    try {
+        MyService.execute(null);
+        System.assert(false, 'Expected validation error');
+    } catch (AppValidationException ex) {
+        System.assertEquals('Name required', ex.getMessage());
+    }
+}
+```
 
 ---
 
 ## ✅ Exception Handling Checklist
 
-- [x] Use specific, semantic exception types
-- [x] Never silently swallow exceptions
-- [x] Always log via `Logger.error(...)`, not `System.debug`
-- [x] Use `JSON.serializePretty()` for logs — never truncate
-- [x] Consider enriching the exception before rethrowing
-
----
-
-## 🔐 Flow Execution Map
-
-```plaintext
-[ Trigger / Flow / Controller ]
-            ↓
-     [ Service Layer ]
-            ↓
-     [ throw AppValidationException ]
-            ↓
- [ Logger + FlowExecutionLog__c ]
-            ↓
- [ Monitoring / Debug Dashboards ]
-```
+- [x] Use specific, semantic exception types  
+- [x] Avoid generic `Exception` unless rethrowing  
+- [x] Log all exceptions using `Logger.error(...)`  
+- [x] Use `JSON.serializePretty(...)` in logs  
+- [x] FlowExceptions must include context, not just status  
+- [x] Never silently suppress errors in catch blocks
 
 ---
 
 ## 📚 Related Guides
 
-- [Validation Patterns](./validation-patterns.md)  
-  Use `ExceptionUtil` for guard clauses and expressive fail-fast rules.
-
-- [Structured Logging](./structured-logging.md)  
-  Log every exception via `Logger` with category, method, and context.
-
-- [ExceptionUtil](./exceptionutil.md)  
-  Centralized utility for `throwIfNull`, `require`, and fluent conditions.
+- [Validation Patterns](/docs/apex/testing/validation-patterns.md) – for guard logic  
+- [Structured Logging](/docs/apex/logging/structured-logging.md) – for logging strategy  
+- [ExceptionUtil](/docs/apex/logging/exception-util.md) – declarative validation guard methods  
+- [FlowExecutionLog__c](/docs/apex/logging/flow-execution-log.md) – storage of structured log traces
 
 ---
 
 ## 📎 Aligned Fundamentals
 
-- [`MambaDev Coding Style`](../fundamentals/mambadev-coding-style.md)
-- [`Apex Style Guide`](../fundamentals/apex-style-guide.md)
-- [`Architecture Principles`](../fundamentals/architecture-principles.md)
-- [`Review Checklist`](../fundamentals/apex-review-checklist.md)
+- [MambaDev Coding Style](/docs/apex/fundamentals/mamba-coding-style.md)  
+- [Architecture Principles](/docs/apex/fundamentals/architecture-principles.md)  
+- [Review Checklist](/docs/apex/fundamentals/apex-review-checklist.md)  
+- [Apex Core Guide](/docs/apex/fundamentals/mamba-apex-core-guide.md)
 
 ---
 
-> **MambaDev handles exceptions with clarity.**  
-> We don’t just catch errors — **we reveal truth, with structure.** 🧱🔥
+> Exceptions in MambaDev don’t crash silently.  
+> They speak. They explain. They teach.  
+> **Log with clarity. Throw with purpose. Test with context.**
+
+**#NoRawThrow #SemanticFailure #LoggedAndRethrown** 🧠🔥🧱
