@@ -58,33 +58,41 @@ public class TestDataSetup {
     }
 
     @TestVisible
-    public static ConfigSystem__c setupSystemConfiguration() {
+    public static ConfigSystem__c setupConfiguracaoSistema() {
         try {
             List<ConfigSystem__c> existing = [
-                SELECT Id FROM ConfigSystem__c LIMIT 1
+                SELECT Id 
+                FROM ConfigSystem__c 
+                LIMIT 1
             ];
-
+    
+            ConfigSystem__c config;
+    
             if (existing.isEmpty()) {
-                return new ConfigSystem__c();
+                config = new ConfigSystem__c(
+                    Ambiente__c             = 'sandbox',
+                    Desativar_Flows__c      = false,
+                    Habilita_Log_JSON__c    = true,
+                    Habilita_Mock__c        = true,
+                    Log_Ativo__c            = true,
+                    Log_Level__c            = 'INFO',
+                    Max_Debug_Length__c     = 3000,
+                    Notificar_Erros__c      = false,
+                    Modo_Teste_Ativo__c     = true,
+                    Timeout_Callout__c      = 120000,
+                    Endpoint_GCP__c         = 'https://mock-endpoint.test/api',
+                    SetupOwnerId            = UserInfo.getOrganizationId()
+                );
+                insert config;
+            } else {
+                config = existing[0];
+                config.Desativar_Flows__c = false;
+                update config;
             }
-
-            ConfigSystem__c config = existing[0];
-
-            config.Ambiente__c             = 'sandbox';
-            config.Desativar_Flows__c      = false;
-            config.Habilita_Log_JSON__c    = true;
-            config.Habilita_Mock__c        = true;
-            config.Log_Ativo__c            = true;
-            config.Log_Level__c            = 'INFO';
-            config.Max_Debug_Length__c     = 3000;
-            config.Notificar_Erros__c      = false;
-            config.Modo_Teste_Ativo__c     = false;
-            config.Timeout_Callout__c      = 120000; // Max allowed by platform
-            config.Endpoint_GCP__c         = 'https://mock-endpoint.test/api';
-
-            update config;
+    
+            System.debug('INFO | ConfigSystem__c final: '+JSON.serializePretty(config));
             return config;
-
+    
         } catch (Exception ex) {
             throw ex;
         }
