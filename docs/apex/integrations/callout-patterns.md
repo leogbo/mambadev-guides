@@ -2,18 +2,23 @@
   <img src="https://raw.githubusercontent.com/leogbo/mambadev-guides/main/static/img/github_banner_mambadev.png" alt="MambaDev Banner" width="100%" />
 </p>
 
+> 🧱 @status:core | This document defines secure, testable, and traceable callout architecture for Apex in MambaDev.
+
 # 🔁 Callout Patterns in Apex – MambaDev
 
-This guide defines **reliable**, **testable**, and **secure** callout architecture using Apex. It provides patterns for synchronous and asynchronous HTTP requests, authentication handling, error mapping, and logging.
+📎 [Shortlink: mambadev.io/callouts](https://mambadev.io/callouts)
+
+This guide defines **reliable**, **testable**, and **secure** callout architecture using Apex.  
+It provides patterns for synchronous and asynchronous HTTP requests, authentication handling, error mapping, and structured logging.
 
 ---
 
 ## 📦 Use Cases Covered
 
-- 🔒 Token-based REST authentication
-- 🔁 Retryable callouts with exponential backoff
-- 🚨 Structured error logging via `Logger`
-- 🧪 Mock-friendly callout architecture
+- 🔒 Token-based REST authentication  
+- 🔁 Retryable callouts with exponential backoff  
+- 🚨 Structured error logging via [`Logger`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/logger.cls)  
+- 🧪 Mock-friendly callout architecture  
 - 🧠 Separation of parsing, payloads, and execution
 
 ---
@@ -54,9 +59,10 @@ public class ExternalApiService {
 ## 🔄 Retry Strategy Pattern
 
 Use `Queueable` or `Scheduled` jobs to retry failed callouts with:
-- Backoff timers
-- `Retry_Count__c` tracking fields
-- `FlowExecutionLog__c` entries per attempt
+
+- ⏱ Backoff timers  
+- 🔁 `Retry_Count__c` tracking fields  
+- 🧱 `FlowExecutionLog__c` entries per attempt
 
 ```apex
 public class RetryableCalloutJob implements Queueable {
@@ -75,10 +81,11 @@ public class RetryableCalloutJob implements Queueable {
 
 ## 🧪 Mocking Strategy
 
-Use `HttpCalloutMock` with `Test.setMock()` to:
-- Avoid real HTTP traffic
-- Verify `HttpRequest` content
-- Return static responses based on headers or URLs
+Use `HttpCalloutMock` and `Test.setMock()` to:
+
+- 🚫 Prevent real HTTP traffic  
+- ✅ Inspect headers and payloads  
+- 🔁 Return static responses per scenario
 
 ```apex
 Test.setMock(HttpCalloutMock.class, new MyFakeMock());
@@ -88,14 +95,14 @@ Test.setMock(HttpCalloutMock.class, new MyFakeMock());
 
 ## 🔗 Related Modules
 
-- [Logger Implementation](../logging/logger-implementation.md)
-- [RestServiceHelper](rest-api-guide.md)
-- [TestDataSetup](../testing/test-data-setup.md)
-- [FlowExecutionLog Schema](../logging/flow-execution-log.md)
+- [Logger Implementation](/docs/apex/logging/logger-implementation.md)  
+- [REST API Guide](/docs/apex/integrations/rest-api-guide.md)  
+- [TestDataSetup](/docs/apex/testing/test-data-setup.md)  
+- [FlowExecutionLog Schema](/docs/apex/logging/flow-execution-log.md)
 
 ---
 
-> **Mamba callouts are observable, testable, and fail with clarity.**
+> **Mamba callouts are observable, testable, and fail with clarity.**  
 > No debug. No chaos. Just contracts and evidence.
 
 **#CalloutStrategy #NoGuessworkOnlyProof #TestTheBridge**
