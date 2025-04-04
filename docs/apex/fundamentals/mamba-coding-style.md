@@ -182,7 +182,27 @@ public static List<Output> doSomething(List<Input> inputs) { ... }
 // ❌ Incorrect
 @InvocableMethod(label='My Flow Action', category='Flow Utilities')
 
+
+## 🧱 Avoid Hardcoding – Use Static Metadata or Config
+
+All values that may vary across orgs or environments should be **externalized**:
+
+| ❌ Avoid                            | ✅ Use Instead                            |
+|------------------------------------|-------------------------------------------|
+| `"Converted"`                      | `SELECT MasterLabel FROM LeadStatus ...` |
+| `"Production"` or `"Sandbox"`      | `Label.ENVIRONMENT`                      |
+| Hardcoded numbers like `200`       | `AppSettings__mdt.DefaultBatchSize__c`   |
+| Repeated SOQL filters like `'Status != Converted'` | Use `IsConverted = false` or wrap in config |
+
+### ✅ Recommended Patterns
+
+- Use `Custom Labels` for UX-facing strings.
+- Use `Custom Metadata` for process config.
+- Use `Static Variables` with `@TestVisible` for tunable internals (e.g., `MAX_DEBUG_LENGTH`).
+- Use `Custom Settings` if the org uses hierarchy-based config.
+
 ---
+
 
 ## ✅ Mamba Style Checklist
 
