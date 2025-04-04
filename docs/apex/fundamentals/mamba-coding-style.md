@@ -169,6 +169,19 @@ if (![SELECT IsSandbox FROM Organization LIMIT 1].IsSandbox) {
 | Nested/bloated methods      | Split into private `@TestVisible`   |
 | `assertEquals(true, ...)`   | Always include a message            |
 
+
+## 🧩 Invocable Method Syntax
+
+Always use **Flow-safe syntax** in `@InvocableMethod` declarations. Commas between parameters in the annotation are not allowed.
+
+```apex
+// ✅ Correct
+@InvocableMethod(label='My Flow Action' category='Flow Utilities')
+public static List<Output> doSomething(List<Input> inputs) { ... }
+
+// ❌ Incorrect
+@InvocableMethod(label='My Flow Action', category='Flow Utilities')
+
 ---
 
 ## ✅ Mamba Style Checklist
