@@ -81,6 +81,20 @@ try {
 
 ---
 
+## 🚫 Logging Restrictions by Context
+
+| Context               | Logger Usage                   |
+|-----------------------|---------------------------------|
+| Flow / REST methods   | ❌ Only log on `catch` or `success()` |
+| Utility classes       | ❌ Never log internally         |
+| Callouts (HTTP APIs)  | ❌ Use `System.debug()` only   |
+| Trigger `before/after`| ✅ Only post-validation/catch  |
+| Queueable & Batch     | ✅ Use Logger safely or in `.finish()` |
+
+✅ Logger should never interrupt a flow, callout, or LWC-exposed method. Use `System.debug()` or `throw` inside core runtime logic.
+
+---
+
 ## 🧪 Testing with `LoggerMock`
 
 ```apex
@@ -185,4 +199,5 @@ new Logger().info('Test setup').save(); // 🚫 No
 > **In MambaDev, if it’s not logged, it didn’t happen.**  
 > Logs are the contract of execution — and the root of trust.
 
-**#LogWithStructure #NoDebugOnlyLogger #LoggerMockOrBust**
+**#LogWithStructure #LoggerOnCatch #NoNoiseOnlySignal**
+
