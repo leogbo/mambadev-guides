@@ -21,13 +21,24 @@ Every critical process — Triggers, REST, Flows, Batches, Callouts — **must**
 
 ## ✅ Mamba Logger Principles
 
-- ❌ Never use `System.debug()` outside test-only setup classes  
+- ❌ Never use `System.debug()` outside test-only setup classes
 - ✅ Always log:
   - Class, method, category, and execution type
   - Serialized input/output (via `serializePretty()`)
   - Record ID or user context (if applicable)
   - Exceptions and stack traces
   - Persisted logs via `FlowExecutionLog__c`
+
+### ❗ Exception: Controlled Logger Use
+
+| Context              | Logger Use        |
+|----------------------|-------------------|
+| REST / Flow Methods  | ❌ Only log on catch or post-success |
+| Utility Functions    | ❌ Never log inside reusable utils   |
+| External API Callouts | ❌ Use `System.debug()` or throw only |
+| Batch `start/execute`| ✅ Safe with `.info()` / `.error()` |
+| Batch `finish()`     | ✅ Ideal logging point              |
+| Queueable + Async    | ✅ Use `LoggerQueueable` only if safe |
 
 ---
 
