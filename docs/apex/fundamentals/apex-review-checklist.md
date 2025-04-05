@@ -22,6 +22,7 @@
 - 🧱 [Test Data Setup](/docs/apex/testing/test-data-setup.md)  
 - 🔁 [Feature Comparison Guide](/docs/apex/fundamentals/apex-feature-comparison.md)  
 - ✅ [Equivalence Checklist](/docs/apex/fundamentals/equivalence-checklist.md)
+- 📘 [Apex Syntax Reminders](https://guides.mambadev.io/docs/apex/fundamentals/apex-syntax-reminders.md)
 
 ---
 
@@ -37,6 +38,7 @@
 ## 🧾 Mamba Review Checklist
 
 ### 🔒 Architecture & Structure
+- [ ] Syntax follows [Apex Syntax Reminders](https://guides.mambadev.io/docs/apex/fundamentals/apex-syntax-reminders.md)
 - [ ] Includes classification tags - [Apex Classification Tags](https://guides.mambadev.io/docs/apex/fundamentals/mamba-apex-classification-tags.md)
 - [ ] Uses [`RecordHelper.getById(...)`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/rest-service-helper.cls) instead of raw `SELECT LIMIT 1`
 - [ ] Logs critical paths to `FlowExecutionLog__c` when applicable

@@ -129,7 +129,7 @@ static void test_should_throw_validation_exception() {
 ---
 
 ## ✅ Exception Handling Checklist
-
+- [x] Syntax follows [Apex Syntax Reminders](https://guides.mambadev.io/docs/apex/fundamentals/apex-syntax-reminders.md)
 - [x] Use specific, semantic exception types  
 - [x] Avoid generic `Exception` unless rethrowing  
 - [x] Log all exceptions using `Logger.error(...)`  
@@ -149,7 +149,7 @@ static void test_should_throw_validation_exception() {
 ---
 
 ## 📎 Aligned Fundamentals
-
+- [Apex Syntax Reminders](https://guides.mambadev.io/docs/apex/fundamentals/apex-syntax-reminders.md)
 - [MambaDev Coding Style](/docs/apex/fundamentals/mamba-coding-style.md)  
 - [Architecture Principles](/docs/apex/fundamentals/architecture-principles.md)  
 - [Review Checklist](/docs/apex/fundamentals/apex-review-checklist.md)  

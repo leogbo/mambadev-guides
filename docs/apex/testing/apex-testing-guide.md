@@ -25,7 +25,7 @@ Ensure every test:
 ---
 
 ## 🔗 See Also
-
+- [Apex Syntax Reminders](https://guides.mambadev.io/docs/apex/fundamentals/apex-syntax-reminders.md)
 - [Mamba Layered Architecture](/docs/apex/fundamentals/layered-architecture.md)  
 - [Testing Patterns](/docs/apex/testing/testing-patterns.md)  
 - [LoggerMock](/docs/apex/logging/logger-mock.md)  
@@ -172,6 +172,7 @@ private class LeadConversionService_Should_Convert_When_Valid_Test {}
 
 ## ✅ Mamba Test Checklist
 
+- [x] Syntax follows [Apex Syntax Reminders](https://guides.mambadev.io/docs/apex/fundamentals/apex-syntax-reminders.md)
 - [x] Uses `@IsTest` and `@TestSetup`  
 - [x] Covers happy, error, and edge cases  
 - [x] Uses `LoggerMock`, never real logs  

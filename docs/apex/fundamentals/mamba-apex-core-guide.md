@@ -12,6 +12,7 @@ Changes must be approved by architecture leadership.
 
 ## 📘 Reference Shortlink
 
+[Apex Syntax Reminders](https://guides.mambadev.io/docs/apex/fundamentals/apex-syntax-reminders.md)
 [Mamba Coding Style](/docs/apex/fundamentals/mamba-coding-style.md)
 
 ---
