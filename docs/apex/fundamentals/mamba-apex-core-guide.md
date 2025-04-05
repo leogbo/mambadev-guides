@@ -37,15 +37,15 @@ If it's not auditable, it's not acceptable.
 
 ## 🏗️ Standard Class Setup
 [`EnvironmentUtils`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/environment-utils.cls)
-
+[Classification Tags](https://guides.mambadev.io/docs/apex/fundamentals/mamba-apex-classification-tags.md)
 ```apex
+headers: @name, @classification, @layer, @category, @description, @lastModified, @author
 @TestVisible public static String  environment     = EnvironmentUtils.getRaw() != null ? EnvironmentUtils.getRaw() : 'sandbox';
 @TestVisible public static String  logLevelDefault = EnvironmentUtils.getLogLevel() != null ? EnvironmentUtils.getLogLevel() : 'INFO';
 @TestVisible public static Integer maxDebugLength  = EnvironmentUtils.getMaxDebugLength() != null ? (Integer) EnvironmentUtils.getMaxDebugLength() : 3000;
-
 @TestVisible private static final String className   = 'MyClass';
 @TestVisible private static final String logCategory = 'Domain';
-private static final String triggerType = 'Service | Queueable | Trigger';
+@TestVisible private static final String triggerType = 'Service | Queueable | Trigger';
 ```
 
 ---

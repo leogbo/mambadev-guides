@@ -12,6 +12,9 @@
 > A guide for organizing Apex code into **modular, scalable, testable layers**.  
 > Inspired by Domain-Driven Design and Clean Architecture — reinterpreted for Salesforce.
 
+> **Tip:** All classes should explicitly declare their layer using the `@layer` tag in the class header.  
+> See: [Apex Classification Tags](https://guides.mambadev.io/docs/apex/fundamentals/mamba-apex-classification-tags.md)
+
 ---
 
 ## 🎯 Purpose
@@ -166,6 +169,7 @@ public class LeadController {
 
 - [MambaDev Coding Style](/docs/apex/fundamentals/mamba-coding-style.md)  
 - [Apex Style Guide](/docs/apex/fundamentals/apex-style-guide.md)  
+- [Apex Classification Tags](https://guides.mambadev.io/docs/apex/fundamentals/mamba-apex-classification-tags.md)
 - [Architecture Principles](/docs/apex/fundamentals/architecture-principles.md)  
 - [Review Checklist](/docs/apex/fundamentals/apex-review-checklist.md)
 

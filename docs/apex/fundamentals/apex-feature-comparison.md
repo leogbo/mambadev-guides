@@ -34,6 +34,7 @@ Whenever possible:
 
 🚨 Mandatory comparison scenarios:
 
+- Changes in classification tags [Apex Classification Tags](https://guides.mambadev.io/docs/apex/fundamentals/mamba-apex-classification-tags.md)
 - Changes in `public` or `@TestVisible` methods  
 - `SELECT` replaced by [`RecordHelper.getById(...)`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/rest-service-helper.cls)  
 - Fallback logic updated (`null` → `Optional`, etc.)  

@@ -46,7 +46,3 @@
 - [ ] Class includes `@classification`, `@layer`, and `@category` tags in the header  
       [Reference guide](https://guides.mambadev.io/docs/apex/fundamentals/mamba-apex-classification-tags.md)
 ```
-
----
-
-Would you like me to apply these changes to each document directly? I can do that next.

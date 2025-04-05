@@ -26,6 +26,10 @@ In MambaDev, names must:
 - ✅ Avoid ambiguity  
 - ✅ Survive refactors
 
+> Consider aligning your class name with the `@category` tag used in its header.  
+> Example: a class named `LeadValidationService.cls` might have `@category: lead` in its metadata.  
+> See: [Classification Tags Guide](https://guides.mambadev.io/docs/apex/fundamentals/mamba-apex-classification-tags.md)
+
 ---
 
 ## 🧱 General Naming Rules
@@ -132,6 +136,7 @@ private class LeadConversionServiceTest {
 
 - [MambaDev Coding Style](/docs/apex/fundamentals/mamba-coding-style.md)  
 - [Apex Style Guide](/docs/apex/fundamentals/apex-style-guide.md)  
+- [Apex Classification Tags](https://guides.mambadev.io/docs/apex/fundamentals/mamba-apex-classification-tags.md)
 - [Architecture Principles](/docs/apex/fundamentals/architecture-principles.md)  
 - [Review Checklist](/docs/apex/fundamentals/apex-review-checklist.md)
 

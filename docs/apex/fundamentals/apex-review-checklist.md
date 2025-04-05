@@ -37,8 +37,7 @@
 ## 🧾 Mamba Review Checklist
 
 ### 🔒 Architecture & Structure
-
-- [ ] Class includes `@TestVisible`, `className`, `logCategory`, `triggerType`
+- [ ] Includes classification tags - [Apex Classification Tags](https://guides.mambadev.io/docs/apex/fundamentals/mamba-apex-classification-tags.md)
 - [ ] Uses [`RecordHelper.getById(...)`](https://github.com/leogbo/mambadev-guides/blob/main/src/classes/rest-service-helper.cls) instead of raw `SELECT LIMIT 1`
 - [ ] Logs critical paths to `FlowExecutionLog__c` when applicable
 - [ ] No use of `System.debug()` outside of test factories
