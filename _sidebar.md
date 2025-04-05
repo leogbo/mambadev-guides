@@ -7,8 +7,10 @@
 ---
 
 - 🧱 Fundamentals
-  - [MambaDev Coding Style](/docs/apex/fundamentals/mamba-coding-style.md)
-  - [Apex Style Guide](/docs/apex/fundamentals/mamba-apex-core-guide.md)
+  - [Apex Core Guide](/docs/apex/fundamentals/mamba-apex-core-guide.md)
+  - [Coding Style](/docs/apex/fundamentals/mamba-coding-style.md)
+  - [Apex Syntax Reminders](https://guides.mambadev.io/docs/apex/fundamentals/apex-syntax-reminders.md)
+  - [Classification Tags Guide](https://guides.mambadev.io/docs/apex/fundamentals/mamba-apex-classification-tags.md)
   - [Architecture Principles](/docs/apex/fundamentals/layered-architecture.md)
   - [Naming Standards](/docs/apex/fundamentals/naming-standards.md)
   - [Apex Review Checklist](/docs/apex/fundamentals/apex-review-checklist.md)
