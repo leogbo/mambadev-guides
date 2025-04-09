@@ -2,6 +2,68 @@
   <img src="https://raw.githubusercontent.com/leogbo/mambadev-guides/main/static/img/github_banner_mambadev.png" alt="MambaDev Banner" width="100%" />
 </p>
 
+# >>>> START OF NEW INPUT TO INTEGRATE IN REFACTORING <<<<
+
+🐍 **Mamba Lessons Recap – Apex Syntax & Style (So Far)**
+
+Over this refactor chain, we uncovered several **critical Apex syntax rules and best practices** that separate Apex from JS/Java hybrids. Below is your **Mamba Digest** 🧠 of what to always watch for:
+
+---
+
+## ⚠️ Apex Syntax Rules You Can’t Break
+
+| ❌ Mistake | ✅ Correct | 📚 Explanation |
+|-----------|------------|----------------|
+| `new Class { prop = val }` | Instantiate, then assign | Apex doesn't support **object literals** |
+| `List<Foo> list = new List<Foo>{ new Foo { ... } }` | Declare `Foo` first, then add | Nested inline initializers are illegal |
+| `desc` as var name | Use `desconto`, `descricao`, etc. | `desc` is a **reserved word** (ORDER BY DESC) |
+| `return new Class { ... };` | Create `Class x = new Class();`, assign, return `x` | Inline `return` with fields is invalid |
+| Casts like `(Object) x` when incompatible | Ensure both are compatible types | Apex casting is strict and static |
+| Mixing commas in assignments | One assignment per line | Commas in field-level assignments are invalid |
+| Using non-existent fields (ex: `wrapper.dados.etapa`) | Must explicitly cast `wrapper.dados` | Apex won't infer polymorphic structures |
+
+---
+
+## ✅ Apex Structuring Wins
+
+| Principle | Example | Result |
+|----------|---------|--------|
+| 🧱 **Build your wrapper classes flat, then compose** | `buildDadoBoleto()`, `buildPagador()` | Easier to test, extend, and read |
+| 🧠 **Avoid premature casting** | Let wrapper fields remain as typed | Prevents compilation issues |
+| 🔄 **Split by HTTP method** | `buildPostWrapper()`, `buildPatchWrapper()` | Clean contracts per use case |
+| 🚫 **Avoid over-nesting** | Don’t chain `new Class { new SubClass { ... } }` | Apex is not JS. Break it down |
+| 📦 **Use `Object` for flexible payloads** | `public Object dados` | Supports PATCH/POST/GET without tight coupling |
+
+---
+
+## 🔄 Refactor Patterns Now in Use
+
+| Pattern | Where We Used |
+|--------|----------------|
+| 🔨 Builder Pattern | `buildPatchWrapper`, `buildPostWrapper` |
+| 🎯 Type-safe Casting | `(DadosPost) wrapper.dados` |
+| 🔁 Flattened Composition | `buildDadoBoleto()`, `buildPagador()` |
+| 🧪 Mamba Testing | Validates contract equivalence and fallback behavior |
+
+---
+
+## ✨ Bonus: Naming Best Practices
+
+| Concept | Old | Mamba Style |
+|--------|-----|-------------|
+| Avoid reserved names | `desc` | `desconto` |
+| Use intent-specific methods | `getData()` | `buildPostWrapper()` |
+| Centralize logic | duplicate inline objects | reusable `buildPagador()` |
+
+---
+
+## 🐍 Final Lesson:
+
+> **"If it’s nested, inline, or clever — break it apart.  
+> If it’s readable, reusable, and strict — that’s Mamba."**
+
+# >>>> END OF NEW INPUT TO INTEGRATE <<<<
+
 # 🧱 MambaDev Apex Syntax Reminders
 
 > 🔒 Reference: Last updated 2025-04 by MambaDev reviewers & real-world architecture lessons.
