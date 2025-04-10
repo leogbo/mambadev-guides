@@ -4,7 +4,7 @@
 
 # 🔒 MambaDev Apex Syntax Standards
 
-_Last updated: 2025-04-10_  
+_last update 10/04/2025_ 
 Curated from real-world Apex reviews and enforced across all Mamba Strict Mode pipelines.
 
 ---

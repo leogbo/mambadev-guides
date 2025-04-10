@@ -2,6 +2,7 @@
   <img src="https://raw.githubusercontent.com/leogbo/mambadev-guides/main/static/img/github_banner_mambadev.png" alt="MambaDev Banner" width="100%" />
 </p>
 
+_last update 10/04/2025_
 > 🧱 @status:core | This document defines official MambaDev Apex review standards.  
 > All changes must be versioned and approved by architecture leads.  
 > Consumer guides (e.g., `/apex/`) may extend this foundation for specific use cases.

@@ -2,6 +2,7 @@
   <img src="https://raw.githubusercontent.com/leogbo/mambadev-guides/main/static/img/github_banner_mambadev.png" alt="MambaDev Banner" width="100%" />
 </p>
 
+_last update 10/04/2025_
 # 🧱 MambaDev Apex Core Guide – 2025
 
 @status:core | This document defines non-negotiable coding principles for Apex.  
@@ -21,6 +22,24 @@ Changes must be approved by architecture leadership.
 
 Guarantee **traceability, clarity, modularity, and testability** in all Apex code.  
 If it's not auditable, it's not acceptable.
+
+---
+
+---
+
+## 🔀 Mamba Execution Modes
+
+All reviews and refactors must operate under a clear mode of execution:
+
+| Mode Trigger             | Behavior                                                              |
+|--------------------------|-----------------------------------------------------------------------|
+| `Mamba Strict Mode`      | 🔒 Safe for production. No public contract changes. Logs/tests required. |
+| `Mamba Review Mode`      | 🔓 Refactor with freedom. New abstractions encouraged. Full validation enforced. |
+| `Mamba Sandbox Mode`     | 🧪 Draft/refactor zone. Logs and tests optional for experiments. |
+| `Mamba Reorg Mode`       | 🧹 Structural cleanup only. No logic or signature changes allowed. |
+
+Each mode affects expectations in testing, logging, validation, and refactor scope.  
+See [`README.md`](./README.md) or [Review Checklist](/docs/apex/fundamentals/apex-review-checklist.md) for mode-specific validations.
 
 ---
 

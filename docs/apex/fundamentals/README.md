@@ -2,6 +2,7 @@
   <img src="https://raw.githubusercontent.com/leogbo/mambadev-guides/main/static/img/github_banner_mambadev.png" alt="MambaDev Banner" width="100%" />
 </p>
 
+_last update 10/04/2025_
 # 🧱 MambaDev Fundamentals
 
 > This folder contains the **official foundations** of MambaDev engineering discipline.  
@@ -23,12 +24,30 @@ Fundamentals exist to:
 
 ---
 
+---
+
+## 🔀 Mamba Execution Modes
+
+All reviews and refactors should be initiated using one of the following modes:
+
+| Mode Trigger             | Behavior                                                              |
+|--------------------------|-----------------------------------------------------------------------|
+| `Mamba Strict Mode`      | 🔒 Production-safe refactor. Public contracts locked.                 |
+| `Mamba Review Mode`      | 🔓 Full redesign allowed. Test/log rules enforced.                   |
+| `Mamba Sandbox Mode`     | 🧪 Architecture exploration. Tests/logs optional.                     |
+| `Mamba Reorg Mode`       | 🧹 Formatting-only cleanup. No logic changes.                         |
+
+See: [Core Guide → Modes](/docs/apex/fundamentals/mamba-apex-core-guide.md)
+
+---
+
 ## 📚 Core Documents
 
 - 🧱 [Apex Core Guide](/docs/apex/fundamentals/mamba-apex-core-guide.md)  
 - 🧪 [Testing Guide](/docs/apex/testing/apex-testing-guide.md) • [Testing Patterns](/docs/apex/testing/testing-patterns.md)  
 - 🪵 [Logger Implementation](/docs/apex/logging/logger-implementation.md)  
-- 🔁 [Feature Comparison](/docs/apex/fundamentals/apex-feature-comparison.md) • [Equivalence Checklist](/docs/apex/fundamentals/equivalence-checklist.md)  
+- 🔁 [Feature Comparison](/docs/apex/fundamentals/apex-feature-comparison.md) • [Equivalence Checklist](/docs/apex/fundamentals/equivalence-checklist.md)
+- ✅ [Assertion Patterns](/docs/apex/fundamentals/mamba-assertion-patterns.md)  
 - 🧩 [Layered Architecture](/docs/apex/fundamentals/layered-architecture.md) • [REST API Guide](/docs/apex/integrations/rest-api-guide.md) • [Style Guide](/docs/apex/fundamentals/mamba-coding-style.md)
 
 ---
@@ -61,10 +80,14 @@ These documents apply Mamba fundamentals across technical implementation:
 - [Naming Standards](/docs/apex/fundamentals/naming-standards.md)  
 - [Layered Architecture](/docs/apex/fundamentals/layered-architecture.md)  
 - [Apex Review Checklist](/docs/apex/fundamentals/apex-review-checklist.md)
+- [Classification Tags](/docs/apex/fundamentals/mamba-apex-classification-tags.md)
+- [Syntax Reminders](/docs/apex/fundamentals/apex-syntax-reminders.md)
 
 ---
 
 > **MambaDev Fundamentals are not rules for rules’ sake.**  
 > They are the **infrastructure of excellence** that lets us build without fear.
 
-**Honor the foundation. Evolve with discipline.**
+**Every `.md` is a contract. Every contract ensures traceability, consistency, and safety in scale.
+
+Honor the foundation. Evolve with discipline.**

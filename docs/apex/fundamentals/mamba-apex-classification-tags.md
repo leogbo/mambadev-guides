@@ -2,6 +2,7 @@
   <img src="https://raw.githubusercontent.com/leogbo/mambadev-guides/main/static/img/github_banner_mambadev.png" alt="MambaDev Banner" width="100%" />
 </p>
 
+_last update 10/04/2025_
 > 🧱 @status:core | This document defines the official classification tags model for Apex services in MambaDev.  
 > All modules must comply to ensure testability, observability, and platform safety.
 
