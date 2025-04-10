@@ -1,6 +1,6 @@
 /**
  * @name        LoggerMock
- * @since       2025-04-01
+ * @since       2025-04-10
  * @author      MambaDev
  * @description
  *  Mock implementation of ILogger used in unit tests.
@@ -9,70 +9,68 @@
  */
 public class LoggerMock implements ILogger {
 
-    public List<String> capturedMessages = new List<String>();
+    // -- Constants --
+
+    @TestVisible public static String  environment     = (EnvironmentUtils.getRaw() != null) ? EnvironmentUtils.getRaw() : 'sandbox';
+    @TestVisible public static String  logLevelDefault = (EnvironmentUtils.getLogLevel() != null) ? EnvironmentUtils.getLogLevel() : 'INFO';
+    @TestVisible public static Integer maxDebugLength  = (EnvironmentUtils.getMaxDebugLength() != null ) ? (Integer)EnvironmentUtils.getMaxDebugLength() : 3000;
+
+    // -- Fields --
+
+    private List<String> capturedMessages = new List<String>();
     private Map<String, Object> context = new Map<String, Object>();
 
-    @TestVisible public ILogger withMethod(String methodName) {
-        context.put('method', methodName);
-        return this;
+    // -- Fluent Configuration --
+
+    public ILogger withMethod(String methodName)       { context.put('method', methodName); return this; }
+    public ILogger withRecordId(String recordId)       { context.put('recordId', recordId); return this; }
+    public ILogger withCategory(String category)       { context.put('category', category); return this; }
+    public ILogger withTriggerType(String triggerType) { context.put('triggerType', triggerType); return this; }
+    public ILogger withEnvironment(String environment) { context.put('environment', environment); return this; }
+    public ILogger withClass(String className)         { context.put('class', className); return this; }
+    public ILogger withAsync(Boolean value)            { context.put('async', value); return this; }
+
+    // -- Logging Methods --
+
+    public void success(String message, String serializedData) {
+        capturedMessages.add('[SUCCESS] ' + safe(message) + ' | ' + safe(serializedData));
     }
 
-    @TestVisible public ILogger withRecordId(String recordId) {
-        context.put('recordId', recordId);
-        return this;
+    public void info(String message, String serializedData) {
+        capturedMessages.add('[INFO] ' + safe(message) + ' | ' + safe(serializedData));
     }
 
-    @TestVisible public ILogger withCategory(String category) {
-        context.put('category', category);
-        return this;
+    public void warn(String message, String serializedData) {
+        capturedMessages.add('[WARN] ' + safe(message) + ' | ' + safe(serializedData));
     }
 
-    @TestVisible public ILogger withTriggerType(String triggerType) {
-        context.put('triggerType', triggerType);
-        return this;
+    public void error(String message, Exception ex, String serializedData) {
+        String msg = safe(message) + (ex != null ? ' | ' + ex.getMessage() : '');
+        capturedMessages.add('[ERROR] ' + msg + ' | ' + safe(serializedData));
     }
 
-    @TestVisible public ILogger withEnvironment(String environment) {
-        context.put('environment', environment);
-        return this;
+    public void logRaw(String message) {
+        capturedMessages.add('[RAW] ' + safe(message));
     }
 
-    @TestVisible public ILogger withClass(String className) {
-        context.put('class', className);
-        return this;
-    }
+    // -- Test/Debug Helpers --
 
-    @TestVisible public ILogger withAsync(Boolean value) {
-        context.put('async', value);
-        return this;
-    }
-
-    @TestVisible public void success(String message, String data) {
-        capturedMessages.add('[SUCCESS] ' + message + ' | ' + data);
-    }
-
-    @TestVisible public void info(String message, String data) {
-        capturedMessages.add('[INFO] ' + message + ' | ' + data);
-    }
-
-    @TestVisible public void warn(String message, String data) {
-        capturedMessages.add('[WARN] ' + message + ' | ' + data);
-    }
-
-    @TestVisible public void error(String message, Exception ex, String data) {
-        String msg = message + (ex != null ? ' | ' + ex.getMessage() : '');
-        capturedMessages.add('[ERROR] ' + msg + ' | ' + data);
-    }
-
-    @TestVisible public void logRaw(String message) {
-        capturedMessages.add('[RAW] ' + message);
-    }
-
-    @TestVisible public Map<String, Object> debugSnapshot() {
+    public Map<String, Object> debugSnapshot() {
         return context.clone();
     }
 
-    @TestVisible public List<String> getCaptured() {
-        return capturedMessages;
+    public List<String> getCaptured() {
+        return capturedMessages.clone();
+    }
+
+    public void clear() {
+        capturedMessages.clear();
+        context.clear();
+    }
+
+    // -- Internal Utility --
+
+    private String safe(String val) {
+        return (val != null) ? val : '[null]';
     }
 }

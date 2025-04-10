@@ -2,165 +2,82 @@
   <img src="https://raw.githubusercontent.com/leogbo/mambadev-guides/main/static/img/github_banner_mambadev.png" alt="MambaDev Banner" width="100%" />
 </p>
 
-# >>>> START OF NEW INPUT TO INTEGRATE IN REFACTORING <<<<
+# 🔒 MambaDev Apex Syntax Standards
 
-🐍 **Mamba Lessons Recap – Apex Syntax & Style (So Far)**
+_Last updated: 2025-04-10_  
+Curated from real-world Apex reviews and enforced across all Mamba Strict Mode pipelines.
 
-Over this refactor chain, we uncovered several **critical Apex syntax rules and best practices** that separate Apex from JS/Java hybrids. Below is your **Mamba Digest** 🧠 of what to always watch for:
+---
+
+## ✅ Structuring Wins
+
+| Principle              | Pattern                               | Benefit                        |
+|------------------------|----------------------------------------|--------------------------------|
+| 🧱 Flatten composition | `buildPagador()` → no nested `new`     | Readable, reusable             |
+| 🔁 Split by method     | `buildPostWrapper()`, `buildPatchWrapper()` | Isolated contracts per verb |
+| 📦 Flexible payloads   | `public Object dados`                  | Supports PATCH/POST/GET       |
+| 🧠 Avoid over-nesting  | Never chain `new Foo { bar = new Bar }` | Apex doesn’t support this     |
+| 🎯 Avoid premature casting | Keep `Object` until needed         | Avoids casting errors          |
 
 ---
 
 ## ⚠️ Apex Syntax Rules You Can’t Break
 
-| ❌ Mistake | ✅ Correct | 📚 Explanation |
-|-----------|------------|----------------|
-| `new Class { prop = val }` | Instantiate, then assign | Apex doesn't support **object literals** |
-| `List<Foo> list = new List<Foo>{ new Foo { ... } }` | Declare `Foo` first, then add | Nested inline initializers are illegal |
-| `desc` as var name | Use `desconto`, `descricao`, etc. | `desc` is a **reserved word** (ORDER BY DESC) |
-| `return new Class { ... };` | Create `Class x = new Class();`, assign, return `x` | Inline `return` with fields is invalid |
-| Casts like `(Object) x` when incompatible | Ensure both are compatible types | Apex casting is strict and static |
-| Mixing commas in assignments | One assignment per line | Commas in field-level assignments are invalid |
-| Using non-existent fields (ex: `wrapper.dados.etapa`) | Must explicitly cast `wrapper.dados` | Apex won't infer polymorphic structures |
+| ❌ Anti-pattern                  | ✅ Correct Alternative                     | Why                                     |
+|----------------------------------|-------------------------------------------|------------------------------------------|
+| `new Foo { bar = val }`         | Instantiate + assign                      | Apex doesn’t allow object literals       |
+| `List<Foo> = new List<Foo>{ new Foo { ... } }` | Declare first, assign in loop     | No nested literals allowed               |
+| `desc` as a variable            | Use `descricao`, `desconto`               | `DESC` is a SOQL keyword                 |
+| `(Object) somePrimitive`        | Use safe casting                          | Apex is statically typed                 |
+| Field access on `Object`       | Cast to concrete type before dot access   | Apex doesn’t support inferred polymorphs |
 
 ---
 
-## ✅ Apex Structuring Wins
-
-| Principle | Example | Result |
-|----------|---------|--------|
-| 🧱 **Build your wrapper classes flat, then compose** | `buildDadoBoleto()`, `buildPagador()` | Easier to test, extend, and read |
-| 🧠 **Avoid premature casting** | Let wrapper fields remain as typed | Prevents compilation issues |
-| 🔄 **Split by HTTP method** | `buildPostWrapper()`, `buildPatchWrapper()` | Clean contracts per use case |
-| 🚫 **Avoid over-nesting** | Don’t chain `new Class { new SubClass { ... } }` | Apex is not JS. Break it down |
-| 📦 **Use `Object` for flexible payloads** | `public Object dados` | Supports PATCH/POST/GET without tight coupling |
-
----
-
-## 🔄 Refactor Patterns Now in Use
-
-| Pattern | Where We Used |
-|--------|----------------|
-| 🔨 Builder Pattern | `buildPatchWrapper`, `buildPostWrapper` |
-| 🎯 Type-safe Casting | `(DadosPost) wrapper.dados` |
-| 🔁 Flattened Composition | `buildDadoBoleto()`, `buildPagador()` |
-| 🧪 Mamba Testing | Validates contract equivalence and fallback behavior |
-
----
-
-## ✨ Bonus: Naming Best Practices
-
-| Concept | Old | Mamba Style |
-|--------|-----|-------------|
-| Avoid reserved names | `desc` | `desconto` |
-| Use intent-specific methods | `getData()` | `buildPostWrapper()` |
-| Centralize logic | duplicate inline objects | reusable `buildPagador()` |
-
----
-
-## 🐍 Final Lesson:
-
-> **"If it’s nested, inline, or clever — break it apart.  
-> If it’s readable, reusable, and strict — that’s Mamba."**
-
-# >>>> END OF NEW INPUT TO INTEGRATE <<<<
-
-# 🧱 MambaDev Apex Syntax Reminders
-
-> 🔒 Reference: Last updated 2025-04 by MambaDev reviewers & real-world architecture lessons.
-
----
-
-## 🧩 Invocable Method Syntax
-
-Always use **Flow-safe syntax** in `@InvocableMethod` declarations. Commas between parameters in the annotation are not allowed.
+## 🔁 Logger Usage Pattern
 
 ```apex
-// ✅ Correct
-@InvocableMethod(label='My Flow Action' category='Flow Utilities')
-public static List<Output> doSomething(List<Input> inputs) { ... }
+Logger log = new Logger()
+    .setClass('MyQueueable')
+    .setMethod('execute')
+    .setTriggerType('Queueable')
+    .setCategory('Integration')
+    .setEnvironment('sandbox');
 
-// ❌ Incorrect
-@InvocableMethod(label='My Flow Action', category='Flow Utilities')
+log.route(response, null, 'Context message', payload);
+```
+
+### Log Field Contracts
+
+| Field                | Source                     |
+|----------------------|----------------------------|
+| `Error_Message__c`   | Only on `.error()`         |
+| `Stack_Trace__c`     | `.error()` with exception  |
+| `Debug_Information__c` | `response.getBody()` and status |
+| `Serialized_Data__c` | `.json()` or `.info(...)` with payload |
+
+---
+
+## 🔧 Logger Test Assertion Example
+
+```apex
+List<FlowExecutionLog__c> logs = [...];
+
+Boolean hasPayload = false;
+Boolean hasStatus = false;
+
+for (FlowExecutionLog__c log : logs) {
+    if (log.Serialized_Data__c?.contains('"req":"payload"')) hasPayload = true;
+    if (log.Debug_Information__c?.contains('HTTP Status=200')) hasStatus = true;
+}
+
+System.assert(hasPayload, 'Should contain payload in Serialized_Data__c');
+System.assert(hasStatus, 'Should contain status in Debug_Information__c');
 ```
 
 ---
 
-## 🧠 New Contributions for Apex Syntax Reminders
+## 🧱 Safe Constants Template
 
-### ✅ Section: “Automation Safety”
-> **Do not act on uploaded Apex classes unless explicitly referenced by the user.**  
-> Refactors and reviews must always be user-initiated. Uploaded files are *not* implicit signals of action.
-
----
-
-### 🔁 Section: “Triggering Refactors”
-> **“Be prepared” ≠ “start refactor.”**  
-> Always wait for a class name or refactor command. Preparing context ≠ acting on content.
-
----
-
-### 💬 Section: “Chat Intent Recognition”
-> 🧠 **Avoid assumptions about intent.**  
-> Phrases like “next content” must be grounded in **explicit class reference** before processing.
-
----
-
-### 🧾 Section: “Author Handling”
-> If no author is defined in the class header, default to:  
-> `@author Leo Garcia`  
-> _Only apply this rule **after** the class has been explicitly selected for review._
-
----
-
-### 🚫 Section: “Auto-Execution Rules”
-> ❌ Never assume the first uploaded file is the target of the next action.  
-> ✅ All execution must follow a direct, user-issued instruction.
-
----
-
-## 🔒 MambaDev Syntax Practices
-
-### ✅ Logger Usage
-```apex
-Logger logger = new Logger()
-    .setClass(className)
-    .setMethod('methodName')
-    .setCategory(logCategory)
-    .setTriggerType(triggerType)
-    .setEnvironment(environment);
-
-logger.info('Process started', JSON.serializePretty(context));
-```
-- ❌ Avoid `System.debug()` — replace with structured logging.
-- ✅ Always wrap logs with telemetry metadata.
-
----
-
-### 🔁 Async Patterns
-- Use `Test.startTest()` / `Test.stopTest()` to test `Queueable`, `Future`, `Batch`.
-- Assert job creation with `Test.getQueueableJobs()` when applicable.
-- Always log inside `execute()` with `.info(...)`
-
----
-
-### 🧪 TestData Setup
-- ✅ Always use:
-  ```apex
-  @TestSetup with TestDataSetup.setupCompleteEnvironment()
-  ```
-- ❌ Do not use `testData.get(...)` inside test methods. Instead use SELECT [...] or RecordHelper.getById(...);;
----
-
-### 🔄 Record Fetch Pattern
-- ❌ `SELECT Id FROM Object WHERE Id = :id LIMIT 1`
-- ✅ Use:
-  ```apex
-  Account acc = (Account) RecordHelper.getById(Account.SObjectType, id, 'Id');
-  ```
-
----
-
-### 🧱 Safe Constants Template
 ```apex
 @TestVisible public static String  environment       = (EnvironmentUtils.getRaw() != null) ? EnvironmentUtils.getRaw() : 'sandbox';
 @TestVisible public static String  logLevelDefault   = (EnvironmentUtils.getLogLevel() != null) ? EnvironmentUtils.getLogLevel() : 'INFO';
@@ -172,58 +89,47 @@ logger.info('Process started', JSON.serializePretty(context));
 
 ---
 
-### 📈 Assertions
-- ✅ Always provide messages in `System.assert(...)`
-  ```apex
-  System.assertEquals(true, condition, 'Condition should be true');
-  ```
+## ☑️ Invocable Syntax
 
-- ✅ Normalize strings before asserting:
-  ```apex
-  System.assertEquals(expected.toUpperCase(), actual.toUpperCase());
-  ```
+```apex
+@InvocableMethod(label='My Flow Action' category='Utilities')
+public static List<Output> run(List<Input> inputs) { ... }
 
----
+public class Input {
+    @InvocableVariable(label='Record Id') public Id recordId;
+}
+```
 
-### 🧹 Test Guardrails
-- Always insert records that match filters (e.g., `WHERE Ativo__c = true AND PF__c = true`)
-- Always mock HTTP callouts:
-  ```apex
-  Test.setMock(HttpCalloutMock.class, new CustomHttpMock());
-  ```
+- ✅ No commas in `@InvocableMethod(...)` annotations
+- ✅ Use wrapper classes — not `List<Id>`
+- ✅ Label and describe every `@InvocableVariable`
 
 ---
 
-## ☑️ Invocable Guidelines
+## 🧪 Test Structure Standards
 
-- ✅ No commas inside annotation params:
-  ```apex
-  @InvocableMethod(label='Label here' category='CategoryName')
-  ```
-
-- ✅ Wrap input in class, not primitive `List<Id>`
-- ✅ Use `@InvocableVariable` with clear labels
-- ❌ Avoid logic-heavy flows unless wrapped in guards
+| Pattern                  | Best Practice                           |
+|--------------------------|------------------------------------------|
+| Test log assertions      | Use `LoggerMock` or `FlowExecutionLog__c` |
+| `@TestSetup`             | Always call `TestDataSetup.setupCompleteEnvironment()` |
+| Async logging in tests   | Use `.setAsync(false)` or `Test.stopTest()` |
+| Callout mocking          | Always `Test.setMock(...)`               |
+| Avoid `testData.get(...)` | Use `SELECT` or `RecordHelper.getById(...)` |
 
 ---
 
-## 🔐 Public Method Contracts
+## 📈 Assertion Rules
 
-> In `Mamba Strict Mode`, **never mutate** public/global method contracts.
-
-You may:
-- ✅ Add `@TestVisible` helpers
-- ✅ Add new private methods
-- ✅ Add logs
-
-You may **not**:
-- ❌ Rename public methods
-- ❌ Change input/output types
-- ❌ Remove exceptions
+```apex
+System.assertEquals(true, condition, 'Expected condition to be true');
+System.assertEquals('ABC', actualValue, 'Expected value mismatch');
+System.assertNotEquals(null, result, 'Result should not be null');
+```
 
 ---
 
 ## 🏗️ Looping Hygiene
+
 ```apex
 for (Integer i = 0; i < ids.size(); i += BATCH_SIZE) {
     List<Id> chunk = ids.subList(i, Math.min(i + BATCH_SIZE, ids.size()));
@@ -233,33 +139,19 @@ for (Integer i = 0; i < ids.size(); i += BATCH_SIZE) {
 
 ---
 
-## 🧪 Test Design Principles
+## 🔐 Public Method Contracts
 
-- One method = one behavior
-- Use `LoggerMock` to assert `.info()`, `.error()`, `.warn()` logs
-- Include edge and null inputs
+> In **Mamba Strict Mode**:
 
----
-
-## 🧠 GPT Usage Tag
-
-If this class was assisted by `Apex MambaDev`, include:
-
-```text
-#MambaReview #StrictRefactor #OnlyProofNoGuess
-```
+| You may…                   | You may not…                         |
+|----------------------------|--------------------------------------|
+| ✅ Add private helpers     | ❌ Rename public methods             |
+| ✅ Add `.log()` calls      | ❌ Change public input/output types  |
+| ✅ Add `@TestVisible` utils| ❌ Remove declared exceptions         |
 
 ---
 
-## 📌 Suggested Section in Syntax Guide
+## 🧠 Mamba Final Lesson
 
-```md
-## 🔒 MambaDev-Specific Syntax Standards
-```
-
-Include this block **after** "General Best Practices" in [`apex-syntax-reminders.md`](https://guides.mambadev.io/docs/apex/fundamentals/apex-syntax-reminders.md).
-
----
-
-Let me know if you’d like this exported or versioned for GitHub inclusion (`mambadev-guides`)!
-```
+> **"If it’s nested, inline, or clever — break it apart.  
+If it’s readable, reusable, and strict — that’s Mamba."**

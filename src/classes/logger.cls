@@ -1,149 +1,183 @@
 /**
- * -----------------------------------------------------------------------------------------
- * Class Name..........: Logger
- * Date................: 2025-04-01
- * Author..............: MambaDev
- * 
- * Description:
- *     Utility class responsible for capturing execution logs, error traces, and audit data 
- *     with full traceability. It offers runtime control over whether logs should be stored 
- *     in production or testing environments. It also provides static helper methods 
- *     for simplified logging without requiring class instantiation.
- * 
- * Notes:
- *     - Supports log levels: INFO, WARN, ERROR, and SUCCESS.
- *     - Can log records synchronously (INSERT) or asynchronously (QUEUEABLE).
- *     - Logs are stored in FlowExecutionLog__c (can be changed if needed).
- *     - Provides both static and instance-based methods for flexible usage.
- * 
- * -----------------------------------------------------------------------------------------
+ * @name              Logger
+ * @classification    utility
+ * @layer             core
+ * @category          logging
+ * @description       Centraliza o registro de logs com níveis semânticos (INFO, WARN, ERROR, SUCCESS), stack trace e debug info.
+ * @lastModified      2025-04-10
+ * @author            MambaDev
  */
 public class Logger {
 
+    // -----------------------------
+    // :: Static Constants ::
+    // -----------------------------
+
     public enum LogLevel { INFO, WARN, ERROR, SUCCESS }
 
-    @TestVisible public static String  environment     = EnvironmentUtils.getRaw() != null ? EnvironmentUtils.getRaw() : 'sandbox';
-    @TestVisible public static String  defaultLogLevel = EnvironmentUtils.getLogLevel() != null ? EnvironmentUtils.getLogLevel() : 'INFO';
-    @TestVisible public static Integer maxDebugLength  = EnvironmentUtils.getMaxDebugLength() != null ? (Integer)EnvironmentUtils.getMaxDebugLength() : 3000;
-    @TestVisible public static String  globalClassName;
-    @TestVisible public static String  globalTriggerType;
-    @TestVisible public static String  globalLogCategory;
+    @TestVisible public static String  environment     = (EnvironmentUtils.getRaw() != null) ? EnvironmentUtils.getRaw() : 'sandbox';
+    @TestVisible public static String  logLevelDefault = (EnvironmentUtils.getLogLevel() != null) ? EnvironmentUtils.getLogLevel() : 'INFO';
+    @TestVisible public static Integer maxDebugLength  = (EnvironmentUtils.getMaxDebugLength() != null) ? (Integer)EnvironmentUtils.getMaxDebugLength() : 3000;
+    @TestVisible public static String  className;
+    @TestVisible public static String  triggerType;
+    @TestVisible public static String  logCategory;
     @TestVisible public static Boolean isEnabled = true;
 
-    private String methodName;
-    private String recordId;
-    private String stackTrace;
-    private String serializedData;
-    private String contextEnvironment;
-    private String contextClassName;
-    private String contextTriggerType;
-    private String contextLogCategory;
-    private Boolean isAsync = false;
+    // -----------------------------
+    // :: Instance Config Fields ::
+    // -----------------------------
+
+    private String  methodName;
+    private String  triggerRecordId;
+    private String  instanceEnvironment;
+    private String  instanceClassName;
+    private String  instanceTriggerType;
+    private String  instanceLogCategory;
+    private Boolean async = false;
+
+    // -----------------------------
+    // :: Constructor & Setters ::
+    // -----------------------------
 
     public Logger() {
-        this.contextClassName   = String.isBlank(globalClassName)     ? 'Logger'      : globalClassName;
-        this.contextTriggerType = String.isBlank(globalTriggerType)   ? 'TestContext' : globalTriggerType;
-        this.contextLogCategory = String.isBlank(globalLogCategory)   ? 'General'     : globalLogCategory;
-        this.contextEnvironment = String.isBlank(environment)         ? 'Sandbox'     : environment;
+        this.instanceClassName   = String.isBlank(Logger.className)   ? 'Logger'      : Logger.className;
+        this.instanceTriggerType = String.isBlank(Logger.triggerType) ? 'TestContext' : Logger.triggerType;
+        this.instanceLogCategory = String.isBlank(Logger.logCategory) ? 'General'     : Logger.logCategory;
+        this.instanceEnvironment = String.isBlank(Logger.environment) ? 'Sandbox'     : Logger.environment;
     }
 
-    public Logger setMethod(String methodName) {
-        this.methodName = methodName;
-        return this;
-    }
+    @TestVisible public Logger setMethod(String val)        { this.methodName = val; return this; }
+    @TestVisible public Logger setRecordId(String val)      { this.triggerRecordId = val; return this; }
+    @TestVisible public Logger setCategory(String val)      { this.instanceLogCategory = val; return this; }
+    @TestVisible public Logger setTriggerType(String val)   { this.instanceTriggerType = val; return this; }
+    @TestVisible public Logger setEnvironment(String val)   { this.instanceEnvironment = val; return this; }
+    @TestVisible public Logger setClass(String val)         { this.instanceClassName = val; return this; }
+    @TestVisible public Logger setAsync(Boolean val)        { this.async = val; return this; }
 
-    public Logger setRecordId(String recordId) {
-        this.recordId = recordId;
-        return this;
-    }
+    // -----------------------------
+    // :: Public Logging Shortcuts ::
+    // -----------------------------
 
-    public Logger setCategory(String category) {
-        this.contextLogCategory = category;
-        return this;
-    }
+    public void info(String msg)                           { info(msg, null); }
+    public void info(String msg, String data)              { logInternal(LogLevel.INFO, null, null, data); }
 
-    public Logger setTriggerType(String triggerType) {
-        this.contextTriggerType = triggerType;
-        return this;
-    }
+    public void warn(String msg)                           { warn(msg, null); }
+    public void warn(String msg, String data)              { logInternal(LogLevel.WARN, null, null, data); }
 
-    public Logger setEnvironment(String environment) {
-        this.contextEnvironment = environment;
-        return this;
-    }
+    public void success(String msg)                        { success(msg, null); }
+    public void success(String msg, String data)           { logInternal(LogLevel.SUCCESS, null, null, data); }
 
-    public Logger setClass(String className) {
-        this.contextClassName = className;
-        return this;
-    }
-
-    public Logger setAsync(Boolean async) {
-        this.isAsync = async;
-        return this;
-    }
-
-    public Logger setUser(Id userId) {
-        this.userId = userId;
-        return this;
-    }    
-
-    public void info(String message) {
-        info(message, null);
-    }
-
-    public void info(String message, String data) {
-        logInternal(LogLevel.INFO, message, null, data);
-    }
-
-    public void warn(String message) {
-        warn(message, null);
-    }
-
-    public void warn(String message, String data) {
-        logInternal(LogLevel.WARN, message, null, data);
-    }
-
-    public void error(String message) {
-        error(message, null, null);
-    }
-
-    public void error(String message, Exception ex) {
-        error(message, ex, null);
-    }
-
-    public void error(String message, Exception ex, String data) {
+    public void error(String msg)                          { error(msg, null, null); }
+    public void error(String msg, Exception ex)            { error(msg, ex, null); }
+    public void error(String msg, Exception ex, String data) {
         String stack = (ex != null) ? ex.getStackTraceString() : null;
-        logInternal(LogLevel.ERROR, message, stack, data);
+        logInternal(LogLevel.ERROR, msg, stack, data);
     }
 
-    public void success(String message) {
-        success(message, null);
+    public void json(String title, Object payload) {
+        String json = (payload != null) ? JSON.serializePretty(payload) : 'null';
+    
+        if (this.methodName == null) {
+            this.setMethod('payload');
+        }
+    
+        if (this.instanceLogCategory == null) {
+            this.setCategory('JSON');
+        }
+    
+        this.info(title, json);
+    }
+    
+
+    // -----------------------------
+    // :: Public HTTP Wrappers ::
+    // -----------------------------
+
+    public void logHttpInfo(String msg, HttpResponse res, String ctx) {
+        logWithPayload(LogLevel.INFO, null, null, res, ctx, null);
     }
 
-    public void success(String message, String data) {
-        logInternal(LogLevel.SUCCESS, message, null, data);
+    public void logHttpInfo(String msg, HttpResponse res, String ctx, String reqBody) {
+        logWithPayload(LogLevel.INFO, null, null, res, ctx, reqBody);
+    }
+
+    public void logHttpWarning(String msg, HttpResponse res, String ctx) {
+        logWithPayload(LogLevel.WARN, null, null, res, ctx, null);
+    }
+
+    public void logHttpWarning(String msg, HttpResponse res, String ctx, String reqBody) {
+        logWithPayload(LogLevel.WARN, null, null, res, ctx, reqBody);
+    }
+
+    public void logHttpError(String msg, Exception ex, HttpResponse res, String ctx) {
+        logWithPayload(LogLevel.ERROR, msg, ex, res, ctx, null);
+    }
+
+    public void logHttpError(String msg, Exception ex, HttpResponse res, String ctx, String reqBody) {
+        logWithPayload(LogLevel.ERROR, msg, ex, res, ctx, reqBody);
+    }
+
+    // -----------------------------
+    // :: HTTP Smart Routing ::
+    // -----------------------------
+
+    public void route(HttpResponse response, Exception ex, String context, String requestPayload) {
+        httpRoute(response, ex, context, requestPayload);
     }
 
     @TestVisible
-    private void logInternal(LogLevel level, String message, String stack, String data) {
+    public void httpRoute(HttpResponse response, Exception ex, String context, String requestPayload) {
+        Integer status = (response != null) ? response.getStatusCode() : 0;
+
+        if (String.isNotBlank(requestPayload)) {
+            this.json('Payload enviado', requestPayload);
+        }
+
+        if (response == null && ex != null) {
+            this.logHttpError('Erro inesperado sem resposta HTTP.', ex, null, context, requestPayload);
+        } else if (status >= 500 || ex != null) {
+            this.logHttpError('Erro HTTP ' + status, ex, response, context, requestPayload);
+        } else if (status >= 400) {
+            this.logHttpError('Erro HTTP esperado ' + status, null, response, context, requestPayload);
+        } else if (status >= 300) {
+            this.logHttpWarning('Redirecionamento HTTP ' + status, response, context, requestPayload);
+        } else {
+            this.logHttpInfo('Callout finalizado com sucesso. Status ' + status, response, context, requestPayload);
+        }
+    }
+
+    // -----------------------------
+    // :: Internal Logging Engine ::
+    // -----------------------------
+
+    @TestVisible
+    private void logWithPayload(LogLevel level, String err, Exception ex, HttpResponse res, String ctx, String reqBody) {
+        if (String.isNotBlank(reqBody)) this.json('Payload enviado', reqBody);
+        String stack = (ex != null && level == LogLevel.ERROR) ? ex.getStackTraceString() : null;
+        String debug = buildHttpContext(res, ctx);
+        logInternal(level, err, stack, debug);
+    }
+
+    @TestVisible
+    private void logInternal(LogLevel level, String errorMessage, String stack, String debugOrPayload) {
         if (!isEnabled && !Test.isRunningTest()) return;
 
         FlowExecutionLog__c logEntry = new FlowExecutionLog__c(
             Log_Level__c           = level.name(),
-            Class__c               = safeLeft(contextClassName, 255),
+            Class__c               = safeLeft(instanceClassName, 255),
             Origin_Method__c       = safeLeft(methodName, 255),
-            Trigger_Record_ID__c   = recordId,
-            Error_Message__c       = safeLeft(message, 255),
-            Debug_Information__c   = safeLeft(data, maxDebugLength),
-            Stack_Trace__c         = safeLeft(stack, 30000),
-            Serialized_Data__c     = safeLeft(data, 30000),
-            Trigger_Type__c        = contextTriggerType,
-            Log_Category__c        = contextLogCategory,
-            Environment__c         = contextEnvironment,
+            Trigger_Record_ID__c   = triggerRecordId,
+            Error_Message__c       = (level == LogLevel.ERROR) ? safeLeft(errorMessage, 255) : null,
+            Debug_Information__c   = safeLeft(debugOrPayload, maxDebugLength),
+            Stack_Trace__c         = (level == LogLevel.ERROR) ? safeLeft(stack, 30000) : null,
+            Serialized_Data__c     = (level == LogLevel.INFO || level == LogLevel.SUCCESS) ? safeLeft(debugOrPayload, 30000) : null,
+            Trigger_Type__c        = instanceTriggerType,
+            Log_Category__c        = instanceLogCategory,
+            Environment__c         = instanceEnvironment,
             Execution_Timestamp__c = System.now()
         );
 
-        if (isAsync) {
+        if (async) {
             System.enqueueJob(new LoggerQueueable(logEntry));
         } else {
             insert logEntry;
@@ -151,9 +185,25 @@ public class Logger {
     }
 
     @TestVisible
-    private static String safeLeft(String value, Integer max) {
-        return value == null ? null : value.left(max);
+    private static String buildHttpContext(HttpResponse response, String context) {
+        String debug = (context != null) ? context : '';
+        if (response != null) {
+            debug += ' | HTTP Status=' + response.getStatusCode();
+            if (response.getBody() != null) {
+                debug += ' | ResponseBody=' + response.getBody();
+            }
+        }
+        return debug;
     }
+
+    @TestVisible
+    private static String safeLeft(String val, Integer max) {
+        return (val == null) ? null : val.left(max);
+    }
+
+    // -----------------------------
+    // :: Trigger Context Helper ::
+    // -----------------------------
 
     public static Logger fromTrigger(SObject record) {
         Logger logger = new Logger();
