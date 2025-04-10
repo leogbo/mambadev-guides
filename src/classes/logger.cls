@@ -177,11 +177,15 @@ public class Logger {
             Execution_Timestamp__c = System.now()
         );
 
-        if (async) {
-            System.enqueueJob(new LoggerQueueable(logEntry));
-        } else {
-            insert logEntry;
-        }
+        try {
+            if (async) {
+                System.enqueueJob(new LoggerQueueable(logEntry));
+            } else {
+                insert logEntry;
+            }
+        } catch (Exception e) {
+            System.debug('[Logger FAIL] ' + e.getMessage());
+        }        
     }
 
     @TestVisible
